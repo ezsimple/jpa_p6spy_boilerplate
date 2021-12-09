@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
 
-    private final String basePackage = "com.snaps.oround";
+    private final String basePackage = "app";
     private final List<String> filterStrings = Arrays.asList(new String[]{"<generated>", "doFilterInternal"});
 
     @Override

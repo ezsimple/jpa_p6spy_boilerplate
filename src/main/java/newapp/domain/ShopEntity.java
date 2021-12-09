@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @Table(name = "T_SHOP")
-public class Shop {
+public class ShopEntity {
 
   @Id
   @GeneratedValue

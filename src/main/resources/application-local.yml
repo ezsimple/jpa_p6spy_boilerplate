@@ -10,7 +10,7 @@ spring:
       path: /h2-console
   datasource:
     hikari:
-      jdbc-url: jdbc:log4jdbc:h2:../hsqldb/testdb
+      jdbc-url: jdbc:log4jdbc:h2:../hsqldb/testdb;DB_CLOSE_DELAY=-1
       username: sa
       password:
       driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

@@ -85,6 +85,8 @@ dependencies {
   implementation('com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1')
 
   compileOnly 'com.h2database:h2' // 서버모드로 사용하기 위해서는 runtimeOnly 를 compile 로 변경해야 합니다.
+  implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
+
 }
 
 test {

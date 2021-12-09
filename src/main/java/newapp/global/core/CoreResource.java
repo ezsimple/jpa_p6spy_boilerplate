@@ -1,4 +1,4 @@
-package app.global.core;
+package newapp.global.core;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;

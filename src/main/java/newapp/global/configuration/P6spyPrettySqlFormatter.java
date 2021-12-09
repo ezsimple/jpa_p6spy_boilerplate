@@ -1,4 +1,4 @@
-package app.global.configuration;
+package newapp.global.configuration;
 
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
 
-    private final String basePackage = "app";
+    private final String basePackage = "newapp";
     private final List<String> filterStrings = Arrays.asList(new String[]{"<generated>", "doFilterInternal"});
 
     @Override

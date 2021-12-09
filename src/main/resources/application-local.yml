@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    hikari:
+      jdbc-url: jdbc:log4jdbc:h2:../hsqldb/mydb
+      username: sa
+      password:
+      driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        show_sql: false
+        format_sql: false
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            logging: info

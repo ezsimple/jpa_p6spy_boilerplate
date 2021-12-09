@@ -84,7 +84,7 @@ dependencies {
   implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.12'
   implementation('com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1')
 
-  runtimeOnly 'com.h2database:h2' // 서버모드로 사용하기 위해서는 runtimeOnly 를 compile 로 변경해야 합니다.
+  compileOnly 'com.h2database:h2' // 서버모드로 사용하기 위해서는 runtimeOnly 를 compile 로 변경해야 합니다.
 }
 
 test {

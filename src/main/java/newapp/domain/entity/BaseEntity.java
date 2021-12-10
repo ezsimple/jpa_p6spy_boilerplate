@@ -28,17 +28,15 @@ public class BaseEntity implements Serializable {
   // @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
 
   @NotNull
-  @ColumnDefault("Y")
-  @Column(name = "F_USE_YN", length = 1)
+  @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
   private String useYn; // 사용여부
 
   @NotNull
-  @ColumnDefault("N")
-  @Column(name = "F_DEL_YN", length = 1)
+  @Column(name = "F_DEL_YN", length = 1, columnDefinition = "char(1) default 'N'")
   private String delYn; // 삭제여부
 
   @CreatedBy
-  @Column(name = "F_REG_ID", updatable = false)
+  @Column(name = "F_REG_ID", updatable = false, columnDefinition = "default 'system'")
   private String regId;       // 등록자ID
 
   @LastModifiedBy
@@ -47,8 +45,6 @@ public class BaseEntity implements Serializable {
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
   @CreatedDate
-  // @Temporal(value = TemporalType.TIMESTAMP)
-  @ColumnDefault(value = "CURRENT_TIMESTAMP")
   @Column(name = "F_REG_DT", updatable = false)
   private LocalDateTime regDt;    // 등록 일시
 

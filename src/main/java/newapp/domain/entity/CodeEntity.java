@@ -1,5 +1,6 @@
 package newapp.domain.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import newapp.domain.entity.pk.CodeEntityPk;
@@ -22,10 +23,12 @@ public class CodeEntity extends BaseEntity {
   @Column(name = "F_CID", length = 3)
   private String cid; // codeId(3)
 
-  @Column(name = "F_CNAME", nullable = false)
+  @NotNull
+  @Column(name = "F_CNAME")
   private String cname; // codeName
 
-  @Column(name = "F_ORDER", nullable = false)
+  @NotNull
+  @Column(name = "F_ORDER")
   @ColumnDefault("0")
   private int order;    // 정렬순서
 

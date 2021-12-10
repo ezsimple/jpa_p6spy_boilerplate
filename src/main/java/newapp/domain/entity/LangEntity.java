@@ -1,5 +1,6 @@
 package newapp.domain.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -19,10 +20,12 @@ public class LangEntity extends BaseEntity {
   @Column(name = "F_ID", length = 6)
   private String id; // Id(6 = gid+cid)
 
-  @Column(name = "F_NAME", nullable = false)
+  @NotNull
+  @Column(name = "F_NAME")
   private String name; // codeName
 
-  @Column(name = "F_LANG", nullable = false)
+  @NotNull
+  @Column(name = "F_LANG")
   @ColumnDefault("KO")
   private String lang; // lang Code
 

@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @RequiredArgsConstructor
+@Entity
 @Table(name = "T_SHOP")
 public class ShopEntity {
 

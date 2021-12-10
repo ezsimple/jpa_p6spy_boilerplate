@@ -36,7 +36,7 @@ public class BaseEntity implements Serializable {
   private String delYn; // 삭제여부
 
   @CreatedBy
-  @Column(name = "F_REG_ID", updatable = false, columnDefinition = "default 'system'")
+  @Column(name = "F_REG_ID", updatable = false, columnDefinition = "varchar(255) default 'system'")
   private String regId;       // 등록자ID
 
   @LastModifiedBy

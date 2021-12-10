@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,6 +15,7 @@ public class LangEntity extends BaseEntity {
 
   @Id
   @Column(name = "F_ID", length = 6)
+  @GeneratedValue
   private String id; // Id(6 = t_code.gid + t_code.cid)
 
   @NotNull
@@ -25,8 +23,7 @@ public class LangEntity extends BaseEntity {
   private String name; // codeName
 
   @NotNull
-  @Column(name = "F_LANG")
-  @ColumnDefault("KO")
+  @Column(name = "F_LANG", columnDefinition = "char(2) default 'KO'")
   private String lang; // lang Code
 
 }

@@ -1,10 +1,11 @@
-package newapp.domain.repository;
+package newapp.domain.dao;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.QShopEntity;
 import newapp.domain.entity.ShopEntity;
+import newapp.domain.repository.ShopRepository;
 import newapp.global.support.QueryDslSupport;
 import org.springframework.stereotype.Repository;
 

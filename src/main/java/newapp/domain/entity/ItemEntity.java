@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -20,6 +21,6 @@ public class ItemEntity extends BaseEntity {
   private String name;
 
   @Column(name = "F_PRICE")
-  private long price;
+  private BigDecimal price;
 
 }

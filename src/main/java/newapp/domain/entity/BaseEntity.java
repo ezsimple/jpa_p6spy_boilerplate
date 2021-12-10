@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,20 +19,22 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
+@DynamicInsert
 @EntityListeners(value = { AuditingEntityListener.class })
 public class BaseEntity implements Serializable {
 
   // @Column 대신 검증 어노테이션을 쓰려고 한다면, @NotNull 외의 다른 것을 쓰지 않도록 주의!!
   // nullable = false 보다, @NotNull을 추천
+  // @ColumnDefault("Y") -> auto-ddl 시에만 동작하는 어노테이션입니다.
+  // @DynamicInsert : insert 시 null 인 필드 제외
+  // @DynamicUpdate : update 시 null 인 필드 제외
 
   @NotNull
-  @Column(name = "F_USE_YN", length = 1)
-  @ColumnDefault("Y")
+  @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
   private String useYn; // 사용여부
 
   @NotNull
-  @Column(name = "F_DEL_YN", length = 1)
-  @ColumnDefault("N")
+  @Column(name = "F_DEL_YN", length = 1, columnDefinition = "char(1) default 'N'")
   private String delYn; // 삭제여부
 
   @NotNull

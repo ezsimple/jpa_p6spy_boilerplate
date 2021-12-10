@@ -7,9 +7,11 @@ import newapp.domain.entity.QShopEntity;
 import newapp.domain.entity.ShopEntity;
 import newapp.domain.repository.ShopRepository;
 import newapp.global.support.QueryDslSupport;
+import newapp.global.util.ParamUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,9 +25,9 @@ public class ShopDao extends QueryDslSupport {
     return shopRepository.findByName(name);
   }
 
-  public JPAQuery<ShopEntity> selectByName(HashMap<String, Object> param) {
+  public JPAQuery<ShopEntity> selectByName(Map<String, Object> param) {
 
-    String name = String.valueOf(param.get("name"));
+    String name = ParamUtil.getParam(param, "name");
 
     JPAQuery<ShopEntity> query = jpaQuery.select(
         Projections.bean(
@@ -35,7 +37,8 @@ public class ShopDao extends QueryDslSupport {
           , qShopEntity.address
         )
       ).from(qShopEntity)
-      .where(likeOpt(qShopEntity.name, name));
+      // .where(likeOpt(qShopEntity.name, name))
+      ;
 
     return query;
   }

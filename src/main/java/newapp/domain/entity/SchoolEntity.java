@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "T_SCHOOL")
-public class SchoolEntity {
+public class SchoolEntity extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;

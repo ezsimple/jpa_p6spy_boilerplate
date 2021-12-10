@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @Table(name = "T_ITEM")
-public class ItemEntity {
+public class ItemEntity extends BaseEntity {
 
   @Id
   @GeneratedValue

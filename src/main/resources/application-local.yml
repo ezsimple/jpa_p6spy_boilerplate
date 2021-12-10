@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  config.activate.on-profile: local
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            logging: info

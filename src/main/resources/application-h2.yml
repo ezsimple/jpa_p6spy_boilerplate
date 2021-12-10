@@ -1,10 +1,5 @@
-server:
-  port: 8080
-
 spring:
   config.activate.on-profile: h2
-  main:
-    allow-bean-definition-overriding: true
   h2:
     console:
       enabled: true
@@ -26,12 +21,3 @@ spring:
         default_batch_fetch_size: 1000
         show_sql: false
         format_sql: false
-
-logging:
-  config: classpath:log4j2.xml
-  level:
-    org:
-      springframework:
-        boot:
-          autoconfigure:
-            logging: info

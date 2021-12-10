@@ -37,7 +37,7 @@ public class ShopDao extends QueryDslSupport {
           , qShopEntity.address
         )
       ).from(qShopEntity)
-      // .where(likeOpt(qShopEntity.name, name))
+      .where(likeOpt(qShopEntity.name, name))
       ;
 
     return query;

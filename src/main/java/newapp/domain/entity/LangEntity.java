@@ -18,7 +18,7 @@ public class LangEntity extends BaseEntity {
 
   @Id
   @Column(name = "F_ID", length = 6)
-  private String id; // Id(6 = gid+cid)
+  private String id; // Id(6 = t_code.gid + t_code.cid)
 
   @NotNull
   @Column(name = "F_NAME")

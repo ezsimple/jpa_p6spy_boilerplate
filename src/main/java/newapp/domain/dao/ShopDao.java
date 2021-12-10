@@ -29,15 +29,9 @@ public class ShopDao extends QueryDslSupport {
 
     String name = ParamUtil.getParam(param, "name");
 
-    JPAQuery<ShopEntity> query = jpaQuery.select(
-        Projections.bean(
-          ShopEntity.class
-          , qShopEntity.id
-          , qShopEntity.name
-          , qShopEntity.address
-        )
-      ).from(qShopEntity)
-      .where(likeOpt(qShopEntity.name, name))
+    JPAQuery<ShopEntity> query = jpaQuery
+      .selectFrom(qShopEntity)
+      // .where(likeOpt(qShopEntity.name, name))
       ;
 
     return query;

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
-@DynamicInsert
+// @DynamicInsert
 @EntityListeners(value = { AuditingEntityListener.class })
 public class BaseEntity implements Serializable {
 

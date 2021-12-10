@@ -5,6 +5,10 @@ spring:
   config.activate.on-profile: local
   main:
     allow-bean-definition-overriding: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent_output: true
 
 logging:
   config: classpath:log4j2.xml

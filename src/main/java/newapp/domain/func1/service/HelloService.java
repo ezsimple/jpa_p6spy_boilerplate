@@ -29,7 +29,7 @@ public class HelloService {
     ShopEntity shop = new ShopEntity();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
     String now = LocalDateTime.now().format(formatter);
-    shop.setName("가게_"+now);
+    shop.setName("가계_"+now);
     shop.setAddress("서울_"+now);
 
     shopRepository.save(shop);

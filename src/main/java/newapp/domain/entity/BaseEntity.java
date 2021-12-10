@@ -1,4 +1,4 @@
-package newapp.domain;
+package newapp.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

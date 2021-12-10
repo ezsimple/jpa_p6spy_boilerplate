@@ -1,4 +1,4 @@
-package newapp.domain.pk;
+package newapp.domain.entity.pk;
 
 import lombok.Data;
 

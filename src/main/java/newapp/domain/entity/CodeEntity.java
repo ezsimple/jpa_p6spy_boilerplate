@@ -1,8 +1,8 @@
-package newapp.domain;
+package newapp.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import newapp.domain.pk.CodeEntityPk;
+import newapp.domain.entity.pk.CodeEntityPk;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;

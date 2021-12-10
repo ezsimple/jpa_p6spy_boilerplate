@@ -1,4 +1,4 @@
-package newapp.domain;
+package newapp.domain.entity;
 
 import lombok.*;
 import javax.persistence.*;

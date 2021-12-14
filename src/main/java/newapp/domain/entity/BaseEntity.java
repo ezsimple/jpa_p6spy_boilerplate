@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 // @EntityListeners(value = {AuditingEntityListener.class})
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
   // @Column 대신 검증 어노테이션을 쓰려고 한다면, @NotNull 외의 다른 것을 쓰지 않도록 주의!!
   // nullable = false 보다, @NotNull을 추천

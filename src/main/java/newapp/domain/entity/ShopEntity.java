@@ -3,6 +3,7 @@ package newapp.domain.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@ToString(callSuper = true)
 @Entity
 @Table(name = "T_SHOP")
 public class ShopEntity extends BaseEntity {

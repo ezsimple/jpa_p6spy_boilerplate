@@ -3,7 +3,6 @@ package newapp.domain.func1.controller;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.ShopEntity;
 import newapp.domain.func1.service.HelloService;
-import newapp.global.util.ParamUtil;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +30,7 @@ public class HelloController {
   }
 
   @GetMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String add(HttpServletRequest req) {
+  public String add(HttpServletRequest req) throws Exception {
 
     ShopEntity out = helloService.addShop();
 

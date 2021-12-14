@@ -24,7 +24,7 @@ public class HelloService {
   }
 
   @Transactional
-  public ShopEntity addShop() {
+  public ShopEntity addShop() throws Exception {
 
     ShopEntity shop = new ShopEntity();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");

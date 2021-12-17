@@ -24,7 +24,7 @@ public class HelloService {
   }
 
   @Transactional
-  public void addShop() {
+  public ShopEntity addShop() throws Exception {
 
     ShopEntity shop = new ShopEntity();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
@@ -32,6 +32,20 @@ public class HelloService {
     shop.setName("가계_"+now);
     shop.setAddress("서울_"+now);
 
-    shopRepository.save(shop);
+    return shopRepository.save(shop);
+  }
+
+  @Transactional
+  public ShopEntity modShop() throws Exception {
+
+    long id = shopRepository.count();
+    ShopEntity shop = shopRepository.findById(id).orElseThrow(()-> new Exception("데이터 없음"));
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+    String now = LocalDateTime.now().format(formatter);
+    shop.setName("가계_"+now);
+    shop.setAddress("서울_"+now);
+
+    return shopRepository.save(shop);
   }
 }

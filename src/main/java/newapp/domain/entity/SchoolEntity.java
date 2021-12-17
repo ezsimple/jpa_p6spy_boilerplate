@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 @Setter
 @Getter
+@ToString(callSuper = true)
 @Entity
 @Table(name = "T_SCHOOL")
 public class SchoolEntity extends BaseEntity {

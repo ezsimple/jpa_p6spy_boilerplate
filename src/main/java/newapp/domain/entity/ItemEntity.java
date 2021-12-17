@@ -2,13 +2,15 @@ package newapp.domain.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @RequiredArgsConstructor
+@ToString(callSuper = true)
+@Entity
 @Table(name = "T_ITEM")
 public class ItemEntity extends BaseEntity {
 

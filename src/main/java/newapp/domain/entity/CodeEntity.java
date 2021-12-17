@@ -3,6 +3,7 @@ package newapp.domain.entity;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import newapp.domain.entity.pk.CodeEntityPk;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@ToString(callSuper = true)
 @Table(name = "T_CODE")
 @IdClass(CodeEntityPk.class)
 public class CodeEntity extends BaseEntity {

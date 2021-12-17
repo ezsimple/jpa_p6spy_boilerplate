@@ -3,7 +3,6 @@ package newapp.domain.func1.controller;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.ShopEntity;
 import newapp.domain.func1.service.HelloService;
-import newapp.global.util.ParamUtil;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ public class HelloController {
 
   private final HelloService helloService;
 
-  @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = {"/", "/list"}, produces = MediaType.APPLICATION_JSON_VALUE)
   public List<ShopEntity> hello(HttpServletRequest req) {
     String name = req.getParameter("name");
 
@@ -31,14 +30,23 @@ public class HelloController {
   }
 
   @GetMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String add(HttpServletRequest req) {
+  public String add(HttpServletRequest req) throws Exception {
 
-    helloService.addShop();
+    ShopEntity out = helloService.addShop();
 
     JSONObject res = new JSONObject();
-    res.put("result", "OK");
+    res.put("result", out);
     return res.toString();
   }
 
+  @GetMapping(value = "/mod", produces = MediaType.APPLICATION_JSON_VALUE)
+  public String mod(HttpServletRequest req) throws Exception {
+
+    ShopEntity out = helloService.modShop();
+
+    JSONObject res = new JSONObject();
+    res.put("result", out);
+    return res.toString();
+  }
 
 }

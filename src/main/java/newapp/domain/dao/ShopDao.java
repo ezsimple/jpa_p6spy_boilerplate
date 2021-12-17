@@ -32,6 +32,7 @@ public class ShopDao extends QueryDslSupport {
     JPAQuery<ShopEntity> query = jpaQuery
       .selectFrom(qShopEntity)
       // .where(likeOpt(qShopEntity.name, name))
+      .orderBy(qShopEntity.id.desc())
       ;
 
     return query;

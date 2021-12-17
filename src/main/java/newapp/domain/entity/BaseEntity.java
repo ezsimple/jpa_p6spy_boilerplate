@@ -32,28 +32,28 @@ public abstract class BaseEntity implements Serializable {
 
   @NotNull
   @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
-  private String useYn; // 사용여부
+  private String useYn;        // 사용여부
 
   @NotNull
   @Column(name = "F_DEL_YN", length = 1, columnDefinition = "char(1) default 'N'")
-  private String delYn; // 삭제여부
+  private String delYn;        // 삭제여부
 
   /** Audit 기능과 함께 연동합니다. */
   @CreatedBy
   @Column(name = "F_REG_ID", columnDefinition = "varchar(255) default 'system'")
-  private String regId;       // 등록자ID
+  private String regId;        // 등록자ID
 
   /** Audit 기능과 함께 연동합니다. */
   @LastModifiedBy
   @Column(name = "F_MOD_ID", columnDefinition = "varchar(255) default 'system'")
-  private String modId;       // 수정자ID
+  private String modId;        // 수정자ID
 
   @CreationTimestamp
   @Column(name = "F_REG_DT", columnDefinition = "datetime default current_timestamp")
-  private LocalDateTime regDt;    // 등록 일시
+  private LocalDateTime regDt; // 등록 일시
 
   @UpdateTimestamp
   @Column(name = "F_MOD_DT", columnDefinition = "datetime default current_timestamp on update current_timestamp")
-  private LocalDateTime modDt;    // 수정 일시
+  private LocalDateTime modDt; // 수정 일시
 
 }

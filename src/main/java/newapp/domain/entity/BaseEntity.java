@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @DynamicInsert
 @DynamicUpdate
+/** Audit 기능과 연동 합니다. */
 // @EntityListeners(value = {AuditingEntityListener.class})
 public abstract class BaseEntity implements Serializable {
 
@@ -37,11 +38,13 @@ public abstract class BaseEntity implements Serializable {
   @Column(name = "F_DEL_YN", length = 1, columnDefinition = "char(1) default 'N'")
   private String delYn; // 삭제여부
 
+  /** Audit 기능과 함께 연동합니다. */
   @CreatedBy
   @Column(name = "F_REG_ID", columnDefinition = "varchar(255) default 'system'")
   private String regId;       // 등록자ID
 
-  @LastModifiedBy // Audit 기능과 함께 연동합니다.
+  /** Audit 기능과 함께 연동합니다. */
+  @LastModifiedBy
   @Column(name = "F_MOD_ID", columnDefinition = "varchar(255) default 'system'")
   private String modId;       // 수정자ID
 

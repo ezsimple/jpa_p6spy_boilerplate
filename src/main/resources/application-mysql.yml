@@ -3,9 +3,9 @@ spring:
   datasource:
     hikari:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/mhlee?characterEncoding=UTF-8&allowPublicKeyRetrieval=true&validationQuery="select 1"
-      username: mhlee
-      password: xxxx
+      jdbc-url: jdbc:log4jdbc:mysql://centos.mkeasy.kro.kr:3306/mhlee?characterEncoding=UTF-8&allowPublicKeyRetrieval=true&validationQuery="select 1"
+      username:
+      password:
       auto-commit: false
   jpa:
     database: mysql

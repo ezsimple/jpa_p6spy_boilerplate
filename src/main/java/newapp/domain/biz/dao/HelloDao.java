@@ -1,4 +1,4 @@
-package newapp.domain.func1.dao;
+package newapp.domain.biz.dao;
 
 import lombok.RequiredArgsConstructor;
 import newapp.domain.dao.ShopDao;

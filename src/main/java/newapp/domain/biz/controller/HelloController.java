@@ -1,8 +1,8 @@
-package newapp.domain.func1.controller;
+package newapp.domain.biz.controller;
 
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.ShopEntity;
-import newapp.domain.func1.service.HelloService;
+import newapp.domain.biz.service.HelloService;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,3 +1,30 @@
 spring:
   profiles:
-    active: local, mysql, mino
+    group:
+      local: local,mysql,mino,property-local
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+---
+spring:
+  profiles:
+    group:
+      dev: dev,property-dev
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+---
+spring:
+  profiles:
+    group:
+      prod: prod,property-prod
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+---
+spring:
+  profiles:
+    active: local

@@ -33,6 +33,7 @@ mybatis:
   mapper-locations: /WEB-INF/sql/mybatis/**/*Mapper.xml
 
 Globals.DbType: mysql
+upload.dir: /tmp/UPLOAD
 
 logging:
   config: classpath:log4j2.xml

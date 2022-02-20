@@ -3,8 +3,8 @@ package newapp.global.configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.mkeasy.utils.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
+import newapp.global.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class RESTfulConfiguration {
 
 	@Autowired
-    PropertiesUtil propertiesUtil;
+	PropertiesUtil propertiesUtil;
 
 	@Bean
 	public ObjectMapper objectMapper() {

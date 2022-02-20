@@ -16,7 +16,6 @@ public class CustomerReqEntity extends BaseEntity {
     // 고객요청사항
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_NO")
     Long no;                       // 요청번호
 

@@ -1,5 +1,6 @@
 package newapp.domain.entity;
 
+import com.sun.istack.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,11 +12,10 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "T_USER")
-public class UserEntity extends BaseEntity {
+public class UserEntity {
 
     // 시스템 사용자 정보
 
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "F_USER_ID")
     String userId; // 사용자ID
@@ -28,5 +28,9 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "F_USER_EMAIL")
     String userEmail;  // 이메일
+
+    @NotNull
+    @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
+    private String useYn;        // 사용여부
 
 }

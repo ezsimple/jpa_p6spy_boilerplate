@@ -11,16 +11,15 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "T_ROLE")
-public class RoleEntity extends BaseEntity {
+public class RoleEntity {
 
     // 권한정보
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "F_KIND_NO")
+    @Column(name = "F_ROLE_NO")
     Long roleNo; // 권한번호
 
-    @Column(name = "F_KIND_NM")
+    @Column(name = "F_ROLE_NM")
     String roleNm; // 권한명
 
     @ManyToOne

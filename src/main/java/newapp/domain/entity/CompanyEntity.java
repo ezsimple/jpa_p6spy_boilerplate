@@ -1,5 +1,6 @@
 package newapp.domain.entity;
 
+import com.sun.istack.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +12,11 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "T_COMPANY")
-public class CompanyEntity extends BaseEntity {
+public class CompanyEntity {
 
     // 회사정보
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_NO")
     Long no;        // 회사번호
 
@@ -25,5 +25,9 @@ public class CompanyEntity extends BaseEntity {
 
     @Column(name = "F_MEMO")
     String memo;    // 설명
+
+    @NotNull
+    @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
+    private String useYn;        // 사용여부
 
 }

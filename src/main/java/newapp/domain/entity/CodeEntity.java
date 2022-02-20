@@ -15,7 +15,7 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @Table(name = "T_CODE")
 @IdClass(CodeEntityPk.class)
-public class CodeEntity extends BaseEntity {
+public class CodeEntity {
 
   @Id
   @Column(name = "F_GID", length = 3)
@@ -32,6 +32,10 @@ public class CodeEntity extends BaseEntity {
   @NotNull
   @Column(name = "F_ORDER")
   @ColumnDefault("0")
-  private int order;    // 정렬순서
+  private Long orderNo;    // 정렬순서
+
+  @NotNull
+  @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
+  private String useYn;        // 사용여부
 
 }

@@ -1,14 +1,38 @@
 server:
   port: 8080
+  error.whitelabel.enabled: false
+  error.include-stacktrace: always
 
 spring:
   config.activate.on-profile: local
-  main:
-    allow-bean-definition-overriding: true
+  main.allow-bean-definition-overriding: true
+  cache.type: NONE
+  mvc:
+    view.prefix: /WEB-INF/jsp/
+    view.suffix: .jsp
+    static-path-pattern: /static/**
   jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+    time-zone: Asia/Seoul
     serialization:
       write-dates-as-timestamps: false
       indent_output: true
+  devtools:
+    restart.exclude: resources/**,static/**,public/**,WEB-INF/jsp/**
+    livereload.enabled: true
+    restart.enabled: false
+
+servlet:
+  multipart:
+    maxFileSize: 100MB
+    maxRequestSize: 100MB
+
+# MyBatis configurations
+mybatis:
+  config-location: /WEB-INF/config/mybatis-config.xml
+  mapper-locations: /WEB-INF/sql/mybatis/**/*Mapper.xml
+
+Globals.DbType: mysql
 
 logging:
   config: classpath:log4j2.xml

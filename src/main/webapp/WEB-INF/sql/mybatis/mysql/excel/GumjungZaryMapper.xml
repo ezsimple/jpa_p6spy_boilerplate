@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  
+*******************************************************************************
+  요청 정보 : 다비육종 - 검정 imf값 업로드 요청
+    다비육종 - 업체코드 : 14
+    대덕종돈 농가코드 : 726
+*******************************************************************************/
+-->
+<!-- 1. 작업용 테이블 생성 
+CREATE TABLE TEMP (	
+    G1 VARCHAR2(400), G2 VARCHAR2(400), G3 VARCHAR2(400), G4 VARCHAR2(400), G5 VARCHAR2(400), G6 VARCHAR2(400), G7 VARCHAR2(400), G8 VARCHAR2(400), G9 VARCHAR2(400), G10 VARCHAR2(400), 
+    G11 VARCHAR2(400), G12 VARCHAR2(400), G13 VARCHAR2(400), G14 VARCHAR2(400), G15 VARCHAR2(400), G16 VARCHAR2(400), G17 VARCHAR2(400), G18 VARCHAR2(400), G19 VARCHAR2(400), G20 VARCHAR2(400), 
+    G21 VARCHAR2(400), G22 VARCHAR2(400), G23 VARCHAR2(400), G24 VARCHAR2(400), G25 VARCHAR2(400), G26 VARCHAR2(400), G27 VARCHAR2(400), G28 VARCHAR2(400), G29 VARCHAR2(400), G30 VARCHAR2(400), 
+    G31 VARCHAR2(400), G32 VARCHAR2(400), G33 VARCHAR2(400), G34 VARCHAR2(400), G35 VARCHAR2(400), G36 VARCHAR2(400), G37 VARCHAR2(400), G38 VARCHAR2(400), G39 VARCHAR2(400), G40 VARCHAR2(400), 
+    G41 VARCHAR2(400), G42 VARCHAR2(400), G43 VARCHAR2(400), G44 VARCHAR2(400), G45 VARCHAR2(400), G46 VARCHAR2(400), G47 VARCHAR2(400), G48 VARCHAR2(400), G49 VARCHAR2(400), G50 VARCHAR2(400)
+);
+-->
+<mapper namespace="oldegg.excel">
+
+    <update id="updateSuGumJung" parameterType="egovMap" >
+		{call declare begin
+
+    	/*
+         *	1. imf를 입력하기 위해서는 s_pig_no컬럼이 필요하기 때문에 
+         *	su_bun_jadon테이블과 temp테이블을 조인하여 
+         *	temp테이블에 s_pig_no 데이터를 추가해 준다. 
+         */
+        UPDATE TEMP A
+           SET A.G26 = (SELECT T1.S_PIG_NO
+                     	FROM SU_BUN_JADON T1
+                      WHERE 
+                      	T1.FARM_NO = #{farmNo}
+                    	AND T1.S_BIRTHDAY = A.G24 
+                    	AND T1.INSIK_NO = A.G2
+                    );
+
+        /*
+         *  2. 실제 업데이트 되어야하는 테이블은 su_gumjung테이블 이다.
+         *  su_gumjung테이블의 s_pig_no값과 temp테이블의 g26컬럼값을 비교한 후 업데이트 해준다. 
+         *  imf는 ms컬럼에 업데이트 해주는데 ms컬럼에 데이터가 없는것을 확인해야 한다. 
+         */
+        UPDATE SU_GUMJUNG A
+           SET A.MS = (SELECT G25
+                     FROM TEMP
+                    WHERE G26 = A.S_PIG_NO)
+        WHERE 
+        	A.FARM_NO = #{farmNo} 
+        	AND A.S_PIG_NO IN (SELECT G26 FROM TEMP);
+
+         end }
+
+    </update>
+
+    <select id="selectSuGumJung" parameterType="egovMap" resultType="egovMap">
+       SELECT * 
+       FROM SU_GUMJUNG
+       WHERE
+         FARM_NO = #{farmNo}
+         AND S_PIG_NO IN (SELECT G26 FROM TEMP)
+    </select>
+      
+</mapper>

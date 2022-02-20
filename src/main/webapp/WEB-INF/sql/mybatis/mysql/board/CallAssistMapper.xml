@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  
+*******************************************************************************
+  고객응대 : 피그플랜 v3.0
+*******************************************************************************/
+-->
+<mapper namespace="oldegg.board">
+
+    <update id="deleteTblCallAssist" parameterType="egovMap" >
+    	UPDATE TBL_CALL_ASSIST 
+    	SET USE_YN = 'N'
+    	WHERE NO = #{no}
+    </update>
+
+    <update id="updateTblCallAssist" parameterType="egovMap" >
+		UPDATE TBL_CALL_ASSIST
+		SET NO=#{no}
+			<if test="farmNo != null and farmNo != ''">
+			,FARM_NO= #{farmNo} 
+			</if>
+			,FARM_NM= #{farmNm}
+			,FARM_PHONE_NO= #{farmPhoneNo} 
+			,FARM_USER= #{farmUser} 
+			<if test="reqDate != null and reqDate != ''">
+			,REQ_DATE= TO_DATE(#{reqDate}, 'YYYY-MM-DD') 
+			</if>
+			,REQ_KIND= #{reqKind} 
+			,REQ_USER= #{reqUser} 
+			,REQ_CONTENT= #{reqContent} 
+			<if test="resDate != null and resDate != ''">
+			,RES_DATE= TO_DATE(#{resDate}, 'YYYY-MM-DD') 
+			</if>
+			,RES_CONTENT= #{resContent} 
+			,DONE_STS= #{doneSts} 
+		WHERE 
+			NO = #{no}
+			AND USE_YN = 'Y'
+    </update>
+
+    <insert id="insertTblCallAssist" parameterType="egovMap" >
+      <selectKey keyProperty="no" resultType="int" order="BEFORE">
+      	SELECT MAX(NO)+1 FROM TBL_CALL_ASSIST
+      </selectKey>
+      INSERT INTO TBL_CALL_ASSIST (
+      	NO 
+       	<if test="farmNo != null and farmNo != ''">
+      	,FARM_NO
+      	</if>
+      	,FARM_NM
+      	,FARM_PHONE_NO
+      	,FARM_USER
+       	<if test="reqDate != null and reqDate != ''">
+      	,REQ_DATE
+      	</if>
+      	,REQ_KIND
+      	,REQ_USER 
+      	,REQ_CONTENT
+       	<if test="resDate != null and resDate != ''">
+      	,RES_DATE
+      	</if>
+      	,RES_CONTENT 
+      	,DONE_STS
+      	,USE_YN
+      ) 
+      VALUES 
+	  ( 
+      	#{no} 
+       	<if test="farmNo != null and farmNo != ''">
+      	,#{farmNo}
+      	</if>
+      	,#{farmNm} 
+      	,#{farmPhoneNo}
+      	,#{farmUser} 
+       	<if test="reqDate != null and reqDate != ''">
+      	,TO_DATE(#{reqDate}, 'YYYY-MM-DD')
+      	</if>
+      	,#{reqKind}
+      	,#{reqUser}
+      	,#{reqContent} 
+       	<if test="resDate != null and resDate != ''">
+      	,TO_DATE(#{resDate}, 'YYYY-MM-DD')
+      	</if>
+      	,#{resContent}
+      	,#{doneSts}
+      	,'Y'
+	  )
+    </insert>
+
+    <select id="selectTblCallAssist" parameterType="egovMap" resultType="egovMap">
+       SELECT 
+       	 NO
+       	 <if test="no != null and no != ''">
+       	 ,(SELECT MIN(NO) FROM TBL_CALL_ASSIST WHERE NO <![CDATA[>]]> #{no} AND USE_YN = 'Y') AS NEXT_NO
+         ,(SELECT MAX(NO) FROM TBL_CALL_ASSIST WHERE NO <![CDATA[<]]> #{no} AND USE_YN = 'Y') AS PREV_NO
+       	 </if>
+       	 , FARM_NO, FARM_NM, FARM_PHONE_NO, FARM_USER, TO_CHAR(REQ_DATE, 'YYYY-MM-DD') AS REQ_DATE
+       	 , REQ_KIND, REQ_USER, REQ_CONTENT, TO_CHAR(RES_DATE, 'YYYY-MM-DD') AS RES_DATE, RES_CONTENT, DONE_STS 
+       FROM TBL_CALL_ASSIST
+       WHERE 1=1
+       	 <if test="no != null and no != ''">
+         AND NO = #{no}
+       	 </if>
+       	 AND USE_YN = 'Y'
+       ORDER BY NO DESC
+	</select>
+
+    <select id="searchTblCallAssist" parameterType="egovMap" resultType="egovMap">
+       SELECT 
+       	   NO, FARM_NO, FARM_NM, FARM_PHONE_NO, FARM_USER, TO_CHAR(REQ_DATE, 'YYYY-MM-DD') AS REQ_DATE, REQ_KIND, REQ_USER, REQ_CONTENT, TO_CHAR(RES_DATE, 'YYYY-MM-DD') AS RES_DATE, RES_CONTENT, DONE_STS 
+       FROM TBL_CALL_ASSIST
+       WHERE 1=0
+       	 <if test="searchWord != null and searchWord != ''">
+         OR FARM_NM = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR FARM_USER = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR REQ_CONTENT = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR REQ_CONTENT = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR REQ_KIND = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR DONE_STS = #{searchWord}
+       	 </if>
+       	 <if test="searchWord != null and searchWord != ''">
+         OR RES_CONTENT = #{searchWord}
+       	 </if>
+       	 <if test="startDt != null and startDt != ''">
+       	 OR REQ_DATE BETWEEN TO_DATE(#{startDt},'YYYY-MM-DD') AND TO_DATE(#{endDt}, 'YYYY-MM-DD')
+       	 </if>
+       	 AND USE_YN = 'Y'
+       ORDER BY NO DESC
+    </select>
+
+    <select id="statTblCallAssist" parameterType="egovMap" resultType="egovMap">
+		SELECT TOTAL
+			  ,DONE_STS1_TODAY AS COUNT_DONE_STS1_TODAY
+			  ,TOTAL_DONE_STS1_TODAY
+			  ,DONE_STS1 AS COUNT_DONE_STS1
+			  ,DONE_STS2 AS COUNT_DONE_STS2
+			  ,DONE_STS3 AS COUNT_DONE_STS3
+			  ,ROUND(DONE_STS1/TOTAL*100, 1) AS PERCENT_DONE_STS1
+			  ,ROUND(DONE_STS2/TOTAL*100, 1) AS PERCENT_DONE_STS2
+			  ,ROUND(KIND1/TOTAL*100, 1) AS PERCENT_KIND1
+			  ,ROUND(KIND2/TOTAL*100, 1) AS PERCENT_KIND2
+			  ,ROUND(KIND3/TOTAL*100, 1) AS PERCENT_KIND3
+			  ,ROUND(KIND4/TOTAL*100, 1) AS PERCENT_KIND4
+			  ,ROUND(KIND5/TOTAL*100, 1) AS PERCENT_KIND5
+			  ,ROUND(KIND6/TOTAL*100, 1) AS PERCENT_KIND6
+			  ,ROUND(KIND7/TOTAL*100, 1) AS PERCENT_KIND7
+		FROM (
+			SELECT 
+				 (SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y') TOTAL
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND DONE_STS IN ('완료','보류','기각') AND TO_CHAR(REQ_DATE,'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')) DONE_STS1_TODAY -- 당일완료건수
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND TO_CHAR(REQ_DATE,'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')) TOTAL_DONE_STS1_TODAY -- 당일요청 건수 
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND DONE_STS = '접수') DONE_STS1
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND DONE_STS = '완료') DONE_STS2
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND TO_CHAR(REQ_DATE,'YYYY-MM-DD') <![CDATA[<]]>  TO_CHAR(SYSDATE, 'YYYY-MM-DD') AND DONE_STS = '접수') DONE_STS3 -- 처리지연
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('기능오류 및 요청')) KIND1
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('문의')) KIND2
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('데이터이관')) KIND3
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('보고서')) KIND4
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('신규가입')) KIND5
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('견적서')) KIND6
+				,(SELECT COUNT(*) FROM TBL_CALL_ASSIST WHERE USE_YN = 'Y' AND REQ_KIND IN ('기타')) KIND7
+			FROM DUAL
+		)
+    </select>
+      
+</mapper>

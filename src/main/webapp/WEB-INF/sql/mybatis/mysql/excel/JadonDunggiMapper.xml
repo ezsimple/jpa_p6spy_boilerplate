@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="oldegg.excel">
+    <select id="selectSuJadonPrint4Dabi" parameterType="EgovMap" resultType="EgovMap">
+    <![CDATA[ 
+    SELECT (SELECT FARMNAME FROM SU_FARM WHERE FARM_NO = A.FARM_NO) AS FARM_NM,SF_GET_M_PUM (A.PUMJONG_CODE) AS PUM_NAME,
+             A.M_BUN_DATE,
+             A.U_HYUL_NO AS B_HYULTONG_NO,
+             A.U_PIG_NO,
+             A.M_HYUL_NO AS M_HYULTONG_NO,
+             A.M_PIG_NO,
+             C.IGAK_NO,
+             D.G_GUBUN,
+             A.M_SANCHA,
+             D.CHONGSAN,
+             D.B_AM,
+             D.B_SU,
+             NVL (D.B_AM, 0) + NVL (D.B_SU, 0) AS AMSU,
+             D.SASAN,
+             D.GIHYUNG,
+             D.CHEMI,
+             D.MILA,
+             D.EUDUSU,
+             A.S_SAENGSI_KG,
+             D.EU_KG,
+             D.GYOBAE_DT,
+             D.EU_DT,
+             A.INSIK_NO,
+             A.HYULTONG_NO,
+             DECODE (A.SEX_GUBUN, '1', '암', '수') AS SEX_NAME,
+             TEAT_LEFT,
+             TEAT_RIGHT,
+             F.JONGGAE_NO,
+             DECODE (A.E_DATE, '9999-12-31', NULL, A.E_DATE) AS E_DATE,
+             (SELECT CNAME
+                FROM SU_CODE_JOHAP
+               WHERE CODE = A.OUT_CODE)
+                AS OUT_REASON,
+             (SELECT CNAME
+                FROM SU_CODE_JOHAP
+               WHERE CODE = A.FAMILY_LINE)
+                AS FAMILY_NAME
+        FROM SU_BUN_JADON A,
+             SU_MODON C,
+             (SELECT A.FARM_NO,
+                     A.PIG_NO,
+                     A.WK_DT,
+                     A.SANCHA,
+                     NVL (B.SILSAN, 0) + NVL (B.MILA, 0) + NVL (SASAN, 0)
+                        AS CHONGSAN,
+                     B.B_AM,
+                     B.B_SU,
+                     NVL (SASAN, 0) AS SASAN,
+                     NVL (B.MILA, 0) AS MILA,
+                     NVL (B.SAENGSI_KG, 0) AS S_SAENGSI_KG,
+                     CASE D.METHOD_1 WHEN 'A' THEN 1 ELSE 0 END AS G_GUBUN,
+                     D.WK_DT AS GYOBAE_DT,
+                     NVL (
+                        (SELECT SUM (NVL (DUSU, 0) + NVL (DUSU_SU, 0))
+                           FROM SU_MODON_JADON_TRANS
+                          WHERE     FARM_NO = A.FARM_NO
+                                AND PIG_NO = A.PIG_NO
+                                AND SANCHA = A.SANCHA
+                                AND GUBUN = '160001'
+                                AND SUB_GUBUN = '032004'),
+                        0)
+                        AS GIHYUNG,
+                     NVL (
+                        (SELECT SUM (NVL (DUSU, 0) + NVL (DUSU_SU, 0))
+                           FROM SU_MODON_JADON_TRANS
+                          WHERE     FARM_NO = A.FARM_NO
+                                AND PIG_NO = A.PIG_NO
+                                AND SANCHA = A.SANCHA
+                                AND GUBUN = '160001'
+                                AND SUB_GUBUN = '032012'),
+                        0)
+                        AS CHEMI,
+                     NVL (F.DUSU, 0) + NVL (F.DUSU_SU, 0) AS EUDUSU,
+                     F.WK_DT AS EU_DT,
+                     ROUND (
+                        CASE
+                           WHEN NVL (TOTAL_KG, 0) > 0
+                           THEN
+                                NVL (TOTAL_KG, 0)
+                              / (NVL (F.DUSU, 0) + NVL (F.DUSU_SU, 0))
+                           ELSE
+                              0
+                        END,
+                        2)
+                        AS EU_KG
+                FROM SU_MODON_WK A,
+                     SU_BUNMAN B,
+                     SU_MODON_WK C,
+                     SU_GYOBAE D,
+                     SU_MODON_WK E,
+                     SU_EU F
+               WHERE     A.FARM_NO = #{farmNo} 
+                     AND A.WK_DT BETWEEN #{startDate} AND #{endDate}
+                     AND A.FARM_NO = B.FARM_NO
+                     AND A.PIG_NO = B.PIG_NO
+                     AND A.WK_DT = B.WK_DT
+                     AND A.WK_GUBUN = B.WK_GUBUN
+                     AND A.FARM_NO = C.FARM_NO
+                     AND A.PIG_NO = C.PIG_NO
+                     AND A.SEQ = C.SEQ + 1
+                     AND C.FARM_NO = D.FARM_NO
+                     AND C.PIG_NO = D.PIG_NO
+                     AND C.WK_DT = D.WK_DT
+                     AND C.WK_GUBUN = D.WK_GUBUN
+                     AND A.FARM_NO = E.FARM_NO(+)
+                     AND A.PIG_NO = E.PIG_NO(+)
+                     AND A.SEQ = E.SEQ(+) - 1
+                     AND E.FARM_NO = F.FARM_NO(+)
+                     AND E.PIG_NO = F.PIG_NO(+)
+                     AND E.WK_DT = F.WK_DT(+)
+                     AND E.WK_GUBUN = F.WK_GUBUN(+)) D,
+             SU_FARM E,
+             SU_JONG_FARM F
+       WHERE     A.FARM_NO = #{farmNo} 
+             AND S_BIRTHDAY BETWEEN #{startDate} AND #{endDate}
+             AND A.FARM_NO = C.FARM_NO
+             AND A.MP_PIG_NO = C.PIG_NO
+             AND A.FARM_NO = D.FARM_NO
+             AND A.MP_PIG_NO = D.PIG_NO
+             AND A.M_BUN_DATE = D.WK_DT
+             AND A.M_SANCHA = D.SANCHA
+             AND A.FARM_NO = E.FARM_NO
+             AND E.JONG_CODE = F.JONG_CODE
+    ORDER BY FARM_NM,A.M_BUN_DATE, TO_NUMBER (A.S_PIG_NO)
+    ]]>
+    </select>
+
+    <select id="selectSuJadonPrint4Normal" parameterType="EgovMap" resultType="EgovMap">
+    <![CDATA[ 
+    SELECT (SELECT FARMNAME FROM SU_FARM WHERE FARM_NO = A.FARM_NO) AS FARM_NM, SF_GET_M_PUM(A.PUMJONG_CODE) AS PUM_NAME, M_BUN_DATE
+           , A.U_HYUL_NO AS B_HYULTONG_NO, A.U_PIG_NO
+          , A.M_HYUL_NO AS M_HYULTONG_NO, A.M_PIG_NO
+          , D.G_GUBUN
+          , A.M_SANCHA, D.CHONGSAN, D.B_AM, D.B_SU, NVL(D.B_AM,0)+NVL(D.B_SU,0) AS AMSU
+          , D.SASAN, D.GIHYUNG, D.CHEMI, D.MILA, D.EUDUSU
+          , A.S_SAENGSI_KG, D.EU_KG
+          , D.GYOBAE_DT, D.EU_DT
+          , A.INSIK_NO, A.HYULTONG_NO
+          , DECODE(A.SEX_GUBUN,'1','암', '수') AS SEX_NAME
+          , TEAT_LEFT, TEAT_RIGHT
+          , F.JONGGAE_NO
+          , DECODE(A.E_DATE,'9999-12-31',NULL,A.E_DATE) AS E_DATE
+          , (SELECT CNAME FROM SU_CODE_JOHAP WHERE CODE=A.OUT_CODE) AS OUT_REASON
+          , (SELECT CNAME FROM SU_CODE_JOHAP WHERE CODE=A.FAMILY_LINE) AS FAMILY_NAME
+          FROM SU_BUN_JADON A,  SU_MODON C, (SELECT A.FARM_NO, A.PIG_NO, A.WK_DT
+                                                  , A.SANCHA, NVL(B.SILSAN,0)+NVL(B.MILA,0)+NVL(SASAN,0) AS CHONGSAN
+                                                  , B.B_AM, B.B_SU, NVL(SASAN,0) AS SASAN, NVL(B.MILA,0) AS MILA
+                                                  , NVL(B.SAENGSI_KG,0) AS S_SAENGSI_KG
+                                                  , CASE D.METHOD_1 WHEN 'A' THEN 1 ELSE 0  END AS G_GUBUN
+                                                  , D.WK_DT AS GYOBAE_DT
+                                                  , NVL((SELECT sum(NVL(DUSU,0)+NVL(DUSU_SU,0)) FROM SU_MODON_JADON_TRANS WHERE FARM_NO=A.FARM_NO AND PIG_NO=A.PIG_NO AND SANCHA=A.SANCHA AND GUBUN='160001' AND SUB_GUBUN='032004'),0) AS GIHYUNG
+                                                  , NVL((SELECT sum(NVL(DUSU,0)+NVL(DUSU_SU,0)) FROM SU_MODON_JADON_TRANS WHERE FARM_NO=A.FARM_NO AND PIG_NO=A.PIG_NO AND SANCHA=A.SANCHA AND GUBUN='160001' AND SUB_GUBUN='032012'),0) AS CHEMI
+                                                  , NVL(F.DUSU,0)+NVL(F.DUSU_SU,0) AS EUDUSU, F.WK_DT AS EU_DT
+                                                  , ROUND(CASE WHEN NVL(TOTAL_KG,0)>0 THEN NVL(TOTAL_KG,0)/(NVL(F.DUSU,0)+NVL(F.DUSU_SU,0)) ELSE 0 END,2) AS EU_KG
+                                                FROM SU_MODON_WK A, SU_BUNMAN B, SU_MODON_WK C, SU_GYOBAE D, SU_MODON_WK E, SU_EU F
+                                               WHERE A.FARM_NO = #{farmNo}
+                                                    AND A.WK_DT BETWEEN #{startDate} AND #{endDate}
+                                                    AND A.FARM_NO=B.FARM_NO
+                                                    AND A.PIG_NO=B.PIG_NO
+                                                    AND A.WK_DT=B.WK_DT
+                                                    AND A.WK_GUBUN=B.WK_GUBUN
+                                                    AND A.FARM_NO=C.FARM_NO
+                                                    AND A.PIG_NO=C.PIG_NO
+                                                    AND A.SEQ=C.SEQ+1
+                                                    AND C.FARM_NO=D.FARM_NO
+                                                    AND C.PIG_NO=D.PIG_NO
+                                                    AND C.WK_DT=D.WK_DT
+                                                    AND C.WK_GUBUN=D.WK_GUBUN
+                                                    AND A.FARM_NO=E.FARM_NO(+)
+                                                    AND A.PIG_NO=E.PIG_NO(+)
+                                                    AND A.SEQ=E.SEQ(+)-1
+                                                    AND E.FARM_NO=F.FARM_NO(+)
+                                                    AND E.PIG_NO=F.PIG_NO(+)
+                                                    AND E.WK_DT=F.WK_DT(+)
+                                                    AND E.WK_GUBUN=F.WK_GUBUN(+)
+                                            ) D, SU_FARM E, SU_JONG_FARM F
+         WHERE A.FARM_NO = #{farmNo}
+              AND S_BIRTHDAY BETWEEN #{startDate} AND #{endDate}
+              AND A.FARM_NO=C.FARM_NO
+              AND A.MP_PIG_NO=C.PIG_NO
+              AND A.FARM_NO=D.FARM_NO
+              AND A.MP_PIG_NO=D.PIG_NO
+              AND A.M_BUN_DATE=D.WK_DT
+              AND A.M_SANCHA=D.SANCHA
+              AND A.FARM_NO=E.FARM_NO
+              AND E.JONG_CODE=F.JONG_CODE                  
+         ORDER BY FARM_NM, A.M_BUN_DATE, TO_NUMBER(A.S_PIG_NO)
+    ]]>
+    </select>
+</mapper>

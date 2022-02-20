@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  
+*******************************************************************************
+  요청 정보 : 월요일 육종가 업로드 
+*******************************************************************************/
+-->
+<!-- 
+  1. 작업용 테이블 생성 
+  2. 현재 작업중인 사용자에겐 데이터가 유지된다.
+CREATE TABLE TEMP3 (	
+    G1 VARCHAR2(400),  G2 VARCHAR2(400),  G3 VARCHAR2(400),  G4 VARCHAR2(400), G5 VARCHAR2(400), G6 VARCHAR2(400), G7 VARCHAR2(400), G8 VARCHAR2(400), G9 VARCHAR2(400), G10 VARCHAR2(400), 
+    G11 VARCHAR2(400), G12 VARCHAR2(400), G13 VARCHAR2(400), G14 VARCHAR2(400), G15 VARCHAR2(400), G16 VARCHAR2(400), G17 VARCHAR2(400), G18 VARCHAR2(400), G19 VARCHAR2(400), G20 VARCHAR2(400), 
+    G21 VARCHAR2(400), G22 VARCHAR2(400), G23 VARCHAR2(400), G24 VARCHAR2(400), G25 VARCHAR2(400), G26 VARCHAR2(400), G27 VARCHAR2(400), G28 VARCHAR2(400), G29 VARCHAR2(400), G30 VARCHAR2(400), 
+    G31 VARCHAR2(400), G32 VARCHAR2(400), G33 VARCHAR2(400), G34 VARCHAR2(400), G35 VARCHAR2(400), G36 VARCHAR2(400), G37 VARCHAR2(400), G38 VARCHAR2(400), G39 VARCHAR2(400), G40 VARCHAR2(400), 
+    G41 VARCHAR2(400), G42 VARCHAR2(400), G43 VARCHAR2(400), G44 VARCHAR2(400), G45 VARCHAR2(400), G46 VARCHAR2(400), G47 VARCHAR2(400), G48 VARCHAR2(400), G49 VARCHAR2(400), G50 VARCHAR2(400),
+    G51 VARCHAR2(400), G52 VARCHAR2(400), G53 VARCHAR2(400), G54 VARCHAR2(400), G55 VARCHAR2(400), G56 VARCHAR2(400), G57 VARCHAR2(400), G58 VARCHAR2(400), G59 VARCHAR2(400), G60 VARCHAR2(400),
+    G61 VARCHAR2(400), G62 VARCHAR2(400), G63 VARCHAR2(400), G64 VARCHAR2(400), G65 VARCHAR2(400), G66 VARCHAR2(400), G67 VARCHAR2(400), G68 VARCHAR2(400), G69 VARCHAR2(400), G70 VARCHAR2(400),
+    G71 VARCHAR2(400), G72 VARCHAR2(400), G73 VARCHAR2(400), G74 VARCHAR2(400), G75 VARCHAR2(400), G76 VARCHAR2(400), G77 VARCHAR2(400), G78 VARCHAR2(400), G79 VARCHAR2(400), G80 VARCHAR2(400),
+    G81 VARCHAR2(400), G82 VARCHAR2(400), G83 VARCHAR2(400), G84 VARCHAR2(400), G85 VARCHAR2(400), G86 VARCHAR2(400), G87 VARCHAR2(400), G88 VARCHAR2(400), G89 VARCHAR2(400), G90 VARCHAR2(400),
+    G91 VARCHAR2(400), G92 VARCHAR2(400), G93 VARCHAR2(400), G94 VARCHAR2(400), G95 VARCHAR2(400), G96 VARCHAR2(400), G97 VARCHAR2(400), G98 VARCHAR2(400), G99 VARCHAR2(400),G100 VARCHAR2(400)
+);
+-->
+<mapper namespace="oldegg.excel">
+
+    <select id="selectMaxWeekDates" parameterType="egovMap" resultType="egovMap">
+    	SELECT MAX(WEEK) AS MAX_WEEK
+        FROM SU_BREED_RAISE
+        WHERE 
+        	FARM_NO IN ('2156', '2157', '2158', '2159', '2160', '2161','1037','3974','1290','2660')
+   		AND UNGDON_IDX IS NULL
+    </select>
+
+    <delete id="truncateTemp3" parameterType="egovMap" >
+        TRUNCATE TABLE TEMP3
+    </delete>
+
+    <insert id="insertTemp3" parameterType="java.util.List" >
+        INSERT /*+ append */
+        INTO TEMP3 (
+			G1,  G2,  G3,  G4,  G5,  G6,  G7,  G8,  G9,  G10,
+			G11, G12, G13, G14, G15, G16, G17, G18, G19, G20,
+			G21, G22, G23, G24, G25, G26, G27, G28, G29, G30,
+			G31, G32, G33, G34, G35, G36, G37, G38, G39, G40,
+			G41, G42, G43, G44, G45, G46, G47, G48, G49, G50,
+			G51, G52, G53, G54, G55, G56, G57, G58, G59, G60,
+			G61, G62, G63, G64, G65, G66, G67, G68, G69, G70,
+			G71, G72, G73, G74, G75, G76, G77, G78, G79, G80,
+			G81, G82, G83, G84, G85, G86
+		) 
+		VALUES 
+		(
+			#{g1}  ,#{g2}  ,#{g3}  ,#{g4}  ,#{g5}  ,#{g6}  ,#{g7}  ,#{g8}  ,#{g9}  ,#{g10},
+			#{g11} ,#{g12} ,#{g13} ,#{g14} ,#{g15} ,#{g16} ,#{g17} ,#{g18} ,#{g19} ,#{g20},
+			#{g21} ,#{g22} ,#{g23} ,#{g24} ,#{g25} ,#{g26} ,#{g27} ,#{g28} ,#{g29} ,#{g30},
+			#{g31} ,#{g32} ,#{g33} ,#{g34} ,#{g35} ,#{g36} ,#{g37} ,#{g38} ,#{g39} ,#{g40},
+			#{g41} ,#{g42} ,#{g43} ,#{g44} ,#{g45} ,#{g46} ,#{g47} ,#{g48} ,#{g49} ,#{g50},
+			#{g51} ,#{g52} ,#{g53} ,#{g54} ,#{g55} ,#{g56} ,#{g57} ,#{g58} ,#{g59} ,#{g60},
+			#{g61} ,#{g62} ,#{g63} ,#{g64} ,#{g65} ,#{g66} ,#{g67} ,#{g68} ,#{g69} ,#{g70},
+			#{g71} ,#{g72} ,#{g73} ,#{g74} ,#{g75} ,#{g76} ,#{g77} ,#{g78} ,#{g79} ,#{g80},
+			#{g81} ,#{g82} ,#{g83} ,#{g84} ,#{g85} ,#{g86} 
+		)
+    </insert>
+
+    <delete id="truncateTempBreed4" parameterType="egovMap" >
+        TRUNCATE TABLE TEMP_BREED4
+    </delete>
+
+    <update id="updateTempBreed4" parameterType="egovMap" statementType="CALLABLE" >
+	{call declare begin
+
+        INSERT INTO TEMP_BREED4
+        SELECT 
+            G1,  G2,  G3,  G4,  G5,  G6,  G7,  G8,  G9,  G10, 
+            G11, G12, G13, G14, G15, G16, G17, G18, G19, G20, 
+            G21, G22, G23, G24, G25, G26, G27, G28, G29, G30, 
+            G31, G32, G33, G34, G35, G36, G37, G38, G39, G40, 
+            G41, G42, G43, G44, G45, G46, G47, G48, G49, G50, 
+            G51, G52, G53, G54, G55, G56, G57, G58, G59, G60, 
+            G61, G62, G63, G64, G65, G66, G67, G68, G69, G70, 
+            G71, G72, G73, G74, G75, G76, G77, G78, G79, G80, 
+            G81, G82, G83, G84, G85, G86
+        FROM TEMP3
+        WHERE G4 <![CDATA[ <> ]]>'sex'
+        ;
+        
+        SP_BREED7('2156', #{weekDates}, 'acodics'); /* 프로시져에 오류 있음 */
+
+	end }
+    </update>
+      
+</mapper>

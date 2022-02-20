@@ -8,8 +8,10 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,8 +20,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @DynamicInsert
 @DynamicUpdate
-/** Audit 기능과 연동 합니다. */
-// @EntityListeners(value = {AuditingEntityListener.class})
+@EntityListeners(value = {AuditingEntityListener.class})
 public abstract class BaseEntity implements Serializable {
 
   // @Column 대신 검증 어노테이션을 쓰려고 한다면, @NotNull 외의 다른 것을 쓰지 않도록 주의!!

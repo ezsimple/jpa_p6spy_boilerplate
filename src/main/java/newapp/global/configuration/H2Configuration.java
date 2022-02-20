@@ -1,6 +1,7 @@
 package newapp.global.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.store.fs.FilePath;
 import org.h2.tools.Server;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 @Slf4j
 @Configuration
 @Profile("local")
+@RequiredArgsConstructor
 public class H2Configuration {
 
 //  @Bean

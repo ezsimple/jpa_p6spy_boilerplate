@@ -4,10 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -31,4 +28,5 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "F_USER_EMAIL")
     String userEmail;  // 이메일
+
 }

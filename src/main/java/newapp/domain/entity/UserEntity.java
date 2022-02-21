@@ -18,16 +18,16 @@ public class UserEntity {
 
     @Id
     @Column(name = "F_USER_ID")
-    String userId; // 사용자ID
+    private String userId; // 사용자ID
 
     @Column(name = "F_USER_PW")
-    String userPw; // 암호
+    private String userPw; // 암호
 
     @Column(name = "F_USER_NM")
-    String userNm;   // 사용자명
+    private String userNm;   // 사용자명
 
     @Column(name = "F_USER_EMAIL")
-    String userEmail;  // 이메일
+    private String userEmail;  // 이메일
 
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")

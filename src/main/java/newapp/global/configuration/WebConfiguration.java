@@ -5,6 +5,7 @@ import io.mkeasy.utils.AESUtil;
 import io.mkeasy.utils.WebUtil;
 import io.mkeasy.webapp.processor.ExcelFactory;
 import io.mkeasy.webapp.processor.FileFactory;
+import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import newapp.global.common.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,11 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Value("${upload.dir}")
 	private String UPLOAD_DIR;
+
+	@Bean
+	public QueryFactory queryFactory() {
+		return new QueryFactory();
+	}
 
 	@Bean
 	public FileFactory fileFactory() {

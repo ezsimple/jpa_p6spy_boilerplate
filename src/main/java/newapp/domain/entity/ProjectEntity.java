@@ -18,13 +18,14 @@ public class ProjectEntity {
 
     @Id
     @Column(name = "F_PROJ_NO")
-    Long projNo;   // 프로젝트 번호
+    private Long projNo;   // 프로젝트 번호
 
     @Column(name = "F_PROJ_NM")
-    String projNm; // 프로젝트 명
+    private String projNm; // 프로젝트 명
 
     @ManyToOne
-    UserEntity userEntity; // 프로젝트원
+    @JoinColumn(name = "F_USER_ID")
+    private UserEntity userEntity; // 프로젝트원
 
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")

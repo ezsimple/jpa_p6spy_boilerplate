@@ -16,5 +16,5 @@ spring:
         default_batch_fetch_size: 1000
         show_sql: false
         format_sql: false
-  sql.init.mode: always
+  sql.init.mode: never
 

@@ -17,18 +17,20 @@ public class CustomerReqEntity extends BaseEntity {
 
     @Id
     @Column(name = "F_NO")
-    Long no;                       // 요청번호
+    private Long no;                       // 요청번호
+
+    @Column(name = "F_KIND_CD", length = 6)
+    private String kindCd;                 // 문제점분류
 
     @ManyToOne
-    KindEntity kindEntity;         // 문제점분류
+    @JoinColumn(name = "F_CUSTOMER_NO")
+    private CustomerEntity customerEntity; // 고객정보
+
+    @Column(name = "F_PROGRESS_CD", length = 6)
+    private String progressCd;             // 진행정보
 
     @ManyToOne
-    CustomerEntity customerEntity; // 고객정보
-
-    @ManyToOne
-    ProgressEntity progressEntity; // 진행정보
-
-    @ManyToOne
-    UserEntity userEntity;         // 접수자정보
+    @JoinColumn(name = "F_USER_ID")
+    private UserEntity userEntity;         // 접수자정보
 
 }

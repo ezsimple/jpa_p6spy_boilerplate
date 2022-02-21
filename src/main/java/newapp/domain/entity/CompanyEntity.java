@@ -18,13 +18,13 @@ public class CompanyEntity {
 
     @Id
     @Column(name = "F_NO")
-    Long no;        // 회사번호
+    private Long no;        // 회사번호
 
     @Column(name = "F_NAME")
-    String name;    // 회사명
+    private String name;    // 회사명
 
     @Column(name = "F_MEMO")
-    String memo;    // 설명
+    private String memo;    // 설명
 
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")

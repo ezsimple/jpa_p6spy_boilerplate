@@ -17,12 +17,13 @@ public class RoleEntity {
 
     @Id
     @Column(name = "F_ROLE_NO")
-    Long roleNo; // 권한번호
+    private Long roleNo; // 권한번호
 
     @Column(name = "F_ROLE_NM")
-    String roleNm; // 권한명
+    private String roleNm; // 권한명
 
     @ManyToOne
-    UserEntity userEntity;
+    @JoinColumn(name = "F_UESR_ID")
+    private UserEntity userEntity;
 
 }

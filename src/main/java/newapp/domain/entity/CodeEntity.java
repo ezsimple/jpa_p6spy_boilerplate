@@ -21,6 +21,10 @@ public class CodeEntity {
   @Column(name = "F_GID", length = 3)
   private String gid; // groupId(3)
 
+  @NotNull
+  @Column(name = "F_GNAME")
+  private String gname; // groupName
+
   @Id
   @Column(name = "F_CID", length = 3)
   private String cid; // codeId(3)
@@ -30,7 +34,11 @@ public class CodeEntity {
   private String cname; // codeName
 
   @NotNull
-  @Column(name = "F_ORDER")
+  @Column(name = "F_CODE6", length = 6)
+  private String code6; // gid(3) || cid(3)
+
+  @NotNull
+  @Column(name = "F_ORDER_NO")
   @ColumnDefault("0")
   private Long orderNo;    // 정렬순서
 

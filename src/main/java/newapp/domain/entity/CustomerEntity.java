@@ -18,19 +18,20 @@ public class CustomerEntity {
 
     @Id
     @Column(name = "F_NO")
-    Long no;        // 고객번호
+    private Long no;        // 고객번호
 
     @Column(name = "F_NAME")
-    String name;    // 고객명
+    private String name;    // 고객명
 
     @Column(name = "F_EMAIL")
-    String email;   // 이메일
+    private String email;   // 이메일
 
     @Column(name = "F_PHONE_NO")
-    String phoneNo; // 전화번호
+    private String phoneNo; // 전화번호
 
     @ManyToOne
-    CompanyEntity componyEntity; // 소속회사
+    @JoinColumn(name = "F_COMPANY_NO")
+    private CompanyEntity componyEntity; // 소속회사
 
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")

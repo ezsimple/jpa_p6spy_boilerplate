@@ -170,8 +170,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	const licenseKey = 'CompanyName=ezfarm,LicensedGroup=ezfarm_LEE,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=0,AssetReference=AG-007912,ExpiryDate=28_April_2021_[v2]_MTYxOTU2NDQwMDAwMA==014c20ffa01926a32d384e6d8998af73';
-	agGrid.LicenseManager.setLicenseKey(licenseKey);
 	// LicenseModuleManager.setLicenseKey(licenseKey);
 
     // specify the columns

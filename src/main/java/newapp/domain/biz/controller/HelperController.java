@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.RequiredArgsConstructor;
 import newapp.domain.biz.service.HelperService;
 import newapp.global.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 class HelperController {
 	
 	@Resource 
 	ApplicationContext ctx;
 	
-	@Autowired
-	PropertiesUtil propertiesUtil;
-	
-	@Autowired
-	HelperService helperService;
-	
-	
+	private final PropertiesUtil propertiesUtil;
+	private final HelperService helperService;
+
 	final String VIEW_YUKJONGGA = "excel/yukjongga";
 	final String VIEW_SISAE = "excel/sisae";
 	final String VIEW_FARM_MIGRATION ="excel/farm_migration";

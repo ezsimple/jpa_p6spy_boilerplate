@@ -1,11 +1,14 @@
 package newapp.domain.biz.controller;
 
+import io.mkeasy.resolver.CommandMap;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.ShopEntity;
 import newapp.domain.biz.service.HelloService;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +22,13 @@ public class HelloController {
 
   private final HelloService helloService;
 
-  @GetMapping(value = {"/", "/list"}, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value= {"/"})
+  public String index(ModelMap model, CommandMap commandMap) throws Exception {
+    commandMap.debugParams();
+    return "index";
+  }
+
+  @GetMapping(value = { "/list"}, produces = MediaType.APPLICATION_JSON_VALUE)
   public List<ShopEntity> hello(HttpServletRequest req) {
     String name = req.getParameter("name");
 

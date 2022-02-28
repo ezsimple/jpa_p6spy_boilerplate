@@ -110,8 +110,10 @@ dependencies {
   implementation 'commons-collections:commons-collections:3.2.2'
   // implementation 'com.fasterxml.jackson.core:jackson-annotations:2.6.7'
   // implementation 'com.fasterxml.jackson.core:jackson-core:2.6.7'
-  implementation 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
+  // implementation 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
+  implementation 'javax.servlet:jstl:1.2'
   implementation 'taglibs:standard:1.1.2'
+  implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
   implementation 'org.webjars:AdminLTE:3.0.5'
   implementation 'org.webjars:font-awesome:5.0.6'
 

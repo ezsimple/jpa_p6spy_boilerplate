@@ -2,24 +2,27 @@ package newapp.global.common.service;
 
 import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.webapp.processor.ExcelFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ExcelService extends AbstractService {
 	
-    @Autowired
-    ExcelFactory excelFactory;
+    private final ExcelFactory excelFactory;
     
     public Map<String, String> getHeader(String filePath, int headerRowNo) throws Exception {
     	return excelFactory.getHeader(filePath, headerRowNo);
@@ -27,6 +30,11 @@ public class ExcelService extends AbstractService {
 
 	public List<Map<String, String>> upload(String filePath, ModelMap model, CommandMap commandMap, int readRowNo) throws Exception {
 		return excelFactory.upload(filePath, model, commandMap, readRowNo);
+	}
+
+	public List<Map<String, String>> upload(MultipartFile excelFile, ModelMap model, CommandMap commandMap) throws Exception {
+		String uploadFilePath = checkValidExcelFormat(excelFile, commandMap);
+		return excelFactory.upload(uploadFilePath, model, commandMap, 1);
 	}
 
 	public void download(HttpServletRequest request, HttpServletResponse response
@@ -58,5 +66,5 @@ public class ExcelService extends AbstractService {
 		//   throw new Exception("지정된 형식의 엑셀이 아닙니다");
     	
     }
-	
+
 }

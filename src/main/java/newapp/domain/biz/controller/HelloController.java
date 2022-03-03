@@ -1,14 +1,12 @@
 package newapp.domain.biz.controller;
 
 import io.mkeasy.resolver.CommandMap;
-import io.mkeasy.utils.EgovMap;
 import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.entity.CustomerReqEntity;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionManager;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +20,7 @@ public class HelloController {
 
     private final SqlSession sqlSession;
     private final QueryFactory queryFactory;
+    private final CustomerReqDao customerReqDao;
 
     private String getStatement(String ns, String nsId) {
         return ns + "." + nsId;
@@ -52,6 +51,10 @@ public class HelloController {
         result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
         log.debug("{}", result);
 
+        CustomerReqEntity param = new CustomerReqEntity();
+        List<CustomerReqEntity> result2 = customerReqDao.selectTblCallAssist(param).fetch();
+        log.debug("{}", result2);
+
 //        try {
 //            nsId = "delete";
 //            int r = sqlSession.delete(getStatement(ns, nsId), commandMap.getQueryMap());
@@ -59,10 +62,6 @@ public class HelloController {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-//        CustomerReqEntity param = new CustomerReqEntity();
-//        List<CustomerReqEntity> result2 = dao.selectTblCallAssist(param).fetch();
-//        log.debug("{}", result2);
 
 
         return "이거왜이래";

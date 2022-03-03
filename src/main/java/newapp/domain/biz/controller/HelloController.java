@@ -28,6 +28,13 @@ public class HelloController {
         return ns + "." + nsId;
     }
 
+    /**
+     * Test : bash$  data=$(shuf -i 60-99 -n 1); curl -XGET "http://localhost:8000/?no=3&data=$data"
+     * @param model
+     * @param commandMap
+     * @return
+     * @throws Exception
+     */
     @GetMapping(value = {"/"})
     public String index(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
@@ -61,7 +68,7 @@ public class HelloController {
         log.debug("{}", map);
 
         nsId = "delete";
-        CaseInsensitiveMap params = new CaseInsensitiveMap();
+        CaseInsensitiveMap params = new CaseInsensitiveMap(commandMap.getQueryMap());
         params.put("no", map.get("maxNo"));
         result = queryFactory.execute(ns, nsId, params);
         result = queryFactory.getResult(ns, nsId, result);

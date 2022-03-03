@@ -1,6 +1,5 @@
 package newapp.global.common.interceptor;
 
-import io.mkeasy.utils.NetUtil;
 import lombok.extern.slf4j.Slf4j;
 import newapp.global.util.PropertiesUtil;
 import org.apache.commons.lang.StringUtils;
@@ -64,20 +63,20 @@ public class LoginInterceptor extends HandlerInterceptorAdapter
     }
 
     private boolean isIpAllowed() {
-        String clientIp = NetUtil.getClientIP();
-        String env = getProfile();
-
-        if (StringUtils.equals(env, "local"))
-            return true;
-
-        // 사무실에서만 접근 가능
-        if (!(StringUtils.startsWith(clientIp, "192.168.3")     	// 3층
-                || StringUtils.startsWith(clientIp, "192.168.4")   	// 4층
-                || StringUtils.startsWith(clientIp, "210.92.91.133")   	// 회사 공인 IP
-                )) {
-            log.warn("clientIp : {} is rejected", clientIp);
-            return false;
-        }
+//        String clientIp = NetUtil.getClientIP();
+//        String env = getProfile();
+//
+//        if (StringUtils.equals(env, "local"))
+//            return true;
+//
+//        // 사무실에서만 접근 가능
+//        if (!(StringUtils.startsWith(clientIp, "192.168.3")     	// 3층
+//                || StringUtils.startsWith(clientIp, "192.168.4")   	// 4층
+//                || StringUtils.startsWith(clientIp, "210.92.91.133")   	// 회사 공인 IP
+//                )) {
+//            log.warn("clientIp : {} is rejected", clientIp);
+//            return false;
+//        }
         return true;
     }
 

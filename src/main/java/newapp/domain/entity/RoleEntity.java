@@ -23,7 +23,7 @@ public class RoleEntity {
     private String roleNm; // 권한명
 
     @ManyToOne
-    @JoinColumn(name = "F_UESR_ID")
+    @JoinColumn(name = "F_USER_ID")
     private UserEntity userEntity;
 
 }

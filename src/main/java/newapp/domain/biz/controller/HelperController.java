@@ -45,7 +45,7 @@ class HelperController {
 	public String excel1(@RequestParam(value="file") MultipartFile file
 			, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel1(file, model, commandMap);
+		// helperService.excel1(file, model, commandMap);
 		return VIEW_YUKJONGGA;
 	} 
 	// 월요일 육종가
@@ -60,7 +60,7 @@ class HelperController {
 	@RequestMapping(value= {"/excel/sisae.do"}, method=RequestMethod.POST)
 	public String excel2(@RequestParam(value="file") MultipartFile file, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel2(file, model, commandMap);
+		// helperService.excel2(file, model, commandMap);
 		return VIEW_SISAE;
 	} 
 	// 매달 시세
@@ -76,7 +76,7 @@ class HelperController {
 	@RequestMapping(value= {"/excel/farm_migration.do"}, method=RequestMethod.POST)
 	public String excel3(@RequestParam(value="file") MultipartFile file, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel3(file, model, commandMap);
+		// helperService.excel3(file, model, commandMap);
 		return VIEW_FARM_MIGRATION;
 	} 
 	// 농장데이터 이관
@@ -92,7 +92,7 @@ class HelperController {
 	@RequestMapping(value= {"/excel/dabi_seangsi_chejung.do"}, method=RequestMethod.POST)
 	public String excel4(@RequestParam(value="file") MultipartFile file, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel4(file, model, commandMap);
+		// helperService.excel4(file, model, commandMap);
 		return VIEW_DABI_SEANGSI_CHEJUNG;
 	} 
 	// 다비육종 생시체중
@@ -108,7 +108,7 @@ class HelperController {
 	@RequestMapping(value= {"/excel/jumjungzaryu_imf.do"}, method=RequestMethod.POST)
 	public String excel5(@RequestParam(value="file") MultipartFile file, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel5(file, model, commandMap);
+		// helperService.excel5(file, model, commandMap);
 		return VIEW_JUMJUNGZARYU_IMF;
 	} 
 	// 검정자료 IMF값
@@ -124,7 +124,7 @@ class HelperController {
 	@RequestMapping(value= {"/excel/dodram_update.do"}, method=RequestMethod.POST)
 	public String excel6(@RequestParam(value="file") MultipartFile file, ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		helperService.excel6(file, model, commandMap);
+		// helperService.excel6(file, model, commandMap);
 		return VIEW_DODRAM_UPDATE;
 	} 
 	// 도드람농가 업데이트
@@ -142,7 +142,8 @@ class HelperController {
 	public String excel7(HttpServletRequest request, HttpServletResponse response
 			,ModelMap model, CommandMap commandMap) throws Exception {
 		commandMap.debugParams();
-		return helperService.excel7(request, response, model, commandMap);
+		// return helperService.excel7(request, response, model, commandMap);
+		return "aaa";
 	}
 	@RequestMapping(value= {"/excel/jadondunggi_print.do"}, method=RequestMethod.GET)
 	public String excel7(CommandMap commandMap) throws Exception {

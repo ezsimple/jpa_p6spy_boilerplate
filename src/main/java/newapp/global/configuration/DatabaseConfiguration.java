@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,43 +24,48 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @RequiredArgsConstructor
 public class DatabaseConfiguration {
-	
-	private final Environment env;
-	private final DataSource dataSource;
-    
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ApplicationContext applicationContext) throws Exception {
-		final String DbType = env.getProperty("Globals.DbType");
-		Resource configLocation = applicationContext.getResource(env.getProperty("mybatis.config-location"));
-		Resource[] mapperLocations = applicationContext.getResources(env.getProperty("mybatis.mapper-locations"));
-		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setDataSource(dataSource);
-		sqlSessionFactoryBean.setConfigLocation(configLocation);
-		sqlSessionFactoryBean.setMapperLocations(mapperLocations);
-		return sqlSessionFactoryBean.getObject();
-	}
-	
-	@Bean
-	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-		return new SqlSessionTemplate(sqlSessionFactory);
-	}
-	
+
+    private final Environment env;
+    private final DataSource dataSource;
+    private final ApplicationContext applicationContext;
+
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        Resource configLocation = applicationContext.getResource(env.getProperty("mybatis.config-location"));
+        Resource[] mapperLocations = applicationContext.getResources(env.getProperty("mybatis.mapper-locations"));
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource);
+        sqlSessionFactoryBean.setConfigLocation(configLocation);
+        sqlSessionFactoryBean.setMapperLocations(mapperLocations);
+        return sqlSessionFactoryBean.getObject();
+    }
+
+    @Bean
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    @Bean
+    public SqlSessionTemplate sqlSession() throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory(dataSource));
+    }
+
     @Bean
     public PlatformTransactionManager transactionManager() {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         transactionManager.setGlobalRollbackOnParticipationFailure(false);
         return transactionManager;
     }
-	
-	@Bean
-	public MyBatisProcessor myBatisProcessor() {
-		return new MyBatisProcessor();
-	}
 
-	@Bean
-	public ProcessorServiceFactory processorServiceFactory() {
-		return new ProcessorServiceFactory();
-	}
+    @Bean
+    public MyBatisProcessor myBatisProcessor() {
+        return new MyBatisProcessor();
+    }
+
+    @Bean
+    public ProcessorServiceFactory processorServiceFactory() {
+        return new ProcessorServiceFactory();
+    }
 
 	@Bean
 	public QueryFactory queryFactory() {

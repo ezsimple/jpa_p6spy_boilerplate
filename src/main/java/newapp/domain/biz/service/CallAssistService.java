@@ -1,42 +1,40 @@
 package newapp.domain.biz.service;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import io.mkeasy.resolver.CommandMap;
+import io.mkeasy.utils.MapUtil;
+import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import newapp.global.common.service.AbstractService;
 import newapp.global.util.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import io.mkeasy.resolver.CommandMap;
-import io.mkeasy.utils.MapUtil;
-import io.mkeasy.webapp.processor.QueryFactory;
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CallAssistService extends AbstractService {
 	
-	@Resource 
+	@Resource
 	ApplicationContext ctx;
-	
+
 	private final PropertiesUtil propertiesUtil;
-	
+	private final QueryFactory queryFactory;
+
 	// 조회 및 검색 하기
 	public Map searchCallAssist(ModelMap model, CommandMap commandMap) throws Exception {
 		String ns = "oldegg.board";
 		String nsId = "selectTblCallAssist";
 
-		// 날짜검색을 요청한 경우 
+		// 날짜검색을 요청한 경우
 		String searchWord = commandMap.getParam("searchWord");
 		String dates = commandMap.getParam("dates");
 		if(!StringUtils.isEmpty(dates)) {
@@ -51,15 +49,15 @@ public class CallAssistService extends AbstractService {
 		}
 
 		Map map = MapUtil.newMap();
-		Object result = QueryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = QueryFactory.getResult(ns, nsId, result);
-		List list = QueryFactory.toList(result);
+		Object result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
+		result = queryFactory.getResult(ns, nsId, result);
+		List list = queryFactory.toList(result);
 		map.put("rows", list);
 
 		nsId = "statTblCallAssist";
-		result = QueryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = QueryFactory.getResult(ns, nsId, result);
-		list = QueryFactory.toList(result);
+		result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
+		result = queryFactory.getResult(ns, nsId, result);
+		list = queryFactory.toList(result);
 		map.put("stat", list);
 
 		return map;
@@ -69,7 +67,7 @@ public class CallAssistService extends AbstractService {
 		String ns = "oldegg.board";
 		String nsId = "selectTblCallAssist";
 		String no = commandMap.getParam("no");
-		
+
 		// 신규등록 페이지 보기
 		if(StringUtils.isEmpty(no)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,19 +78,19 @@ public class CallAssistService extends AbstractService {
 			model.addAttribute("view", view);
 			return "board/call_assist_view";
 		}
-		
+
 		// 수정 페이지 보기
-		Object result = QueryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = QueryFactory.getResult(ns, nsId, result);
-		List list = QueryFactory.toList(result);
+		Object result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
+		result = queryFactory.getResult(ns, nsId, result);
+		List list = queryFactory.toList(result);
 		if(list!=null && list.size()>0)
 			model.addAttribute("view", list.get(0));
 		if(StringUtils.equals(viewType, "view"))
 			return "board/call_assist_view";
 		return "board/call_assist_inner";
-	} 
+	}
 
-	// 추가,수정,삭제 처리 
+	// 추가,수정,삭제 처리
 	public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
 		String no = commandMap.getParam("no");
 		String iuFlag = commandMap.getParam("iuFlag");
@@ -108,7 +106,7 @@ public class CallAssistService extends AbstractService {
 			// --------------------------------------------------------
 			String resDate = commandMap.getParam("resDate");
 			String doneSts = commandMap.getParam("doneSts");
-			if(StringUtils.isEmpty(resDate) 
+			if(StringUtils.isEmpty(resDate)
 					&& !StringUtils.equals(doneSts, "접수")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				LocalDateTime datetime = LocalDateTime.now();
@@ -117,7 +115,7 @@ public class CallAssistService extends AbstractService {
 			}
 		}
 		if(StringUtils.equals(iuFlag, "D")) nsId = "deleteTblCallAssist";
-		Object result = QueryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
+		Object result = queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
 
 		String url = "redirect:/board/call_assist_view.do";
 		if(!StringUtils.isEmpty(no)) url+="?no="+no;

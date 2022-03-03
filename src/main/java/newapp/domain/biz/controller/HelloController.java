@@ -6,12 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CustomerReqDao;
 import newapp.domain.entity.CustomerReqEntity;
+import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,9 +35,6 @@ public class HelloController {
         String ns = "newapp.crud";
         String nsId = "select";
 
-//        Object result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
-//        result = queryFactory.getResult(ns, nsId, result);
-
         nsId = "insert";
         int r = sqlSession.insert(getStatement(ns, nsId), commandMap.getQueryMap());
         log.debug("{}", r);
@@ -55,16 +54,21 @@ public class HelloController {
         List<CustomerReqEntity> result2 = customerReqDao.selectTblCallAssist(param).fetch();
         log.debug("{}", result2);
 
-//        try {
-//            nsId = "delete";
-//            int r = sqlSession.delete(getStatement(ns, nsId), commandMap.getQueryMap());
-//            log.debug("{}", r);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        nsId = "selectMaxNo";
+        result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
+        result = queryFactory.getResult(ns, nsId, result);
+        Map<String, Object> map = queryFactory.toMap(result);
+        log.debug("{}", map);
 
+        nsId = "delete";
+        CaseInsensitiveMap params = new CaseInsensitiveMap();
+        params.put("no", map.get("maxNo"));
+        result = queryFactory.execute(ns, nsId, params);
+        result = queryFactory.getResult(ns, nsId, result);
+        r = queryFactory.toInt(result);
+        log.debug("{}", r);
 
-        return "이거왜이래";
+        return "index";
     }
 
     @GetMapping(value = {"/hello.do"})

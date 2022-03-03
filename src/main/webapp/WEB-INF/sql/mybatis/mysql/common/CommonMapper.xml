@@ -15,6 +15,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
         UPDATE t_crud SET f_data = #{data} WHERE f_no = #{no}
     </update>
 
+    <select id="selectMaxNo" parameterType="EgovMap" resultType="EgovMap">
+        SELECT max(f_no) as maxNo from t_crud
+    </select>
+
     <delete id="delete" parameterType="EgovMap" >
         DELETE FROM t_crud WHERE f_no = #{no}
     </delete>

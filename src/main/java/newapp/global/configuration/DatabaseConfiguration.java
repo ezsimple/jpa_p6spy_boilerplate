@@ -2,7 +2,6 @@ package newapp.global.configuration;
 
 import io.mkeasy.webapp.processor.MyBatisProcessor;
 import io.mkeasy.webapp.processor.ProcessorServiceFactory;
-import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -67,9 +66,5 @@ public class DatabaseConfiguration {
         return new ProcessorServiceFactory();
     }
 
-	@Bean
-	public QueryFactory queryFactory() {
-		return new QueryFactory();
-	}
 
 }

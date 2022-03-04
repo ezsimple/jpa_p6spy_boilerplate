@@ -63,7 +63,7 @@ public class HelloController {
 
         nsId = "selectMaxNo";
         result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
-        result = queryFactory.getResult(ns, nsId, result);
+        // result = queryFactory.getResult(ns, nsId, result);
         Map<String, Object> map = queryFactory.toMap(result);
         log.debug("{}", map);
 
@@ -71,7 +71,7 @@ public class HelloController {
         CaseInsensitiveMap params = new CaseInsensitiveMap(commandMap.getQueryMap());
         params.put("no", map.get("maxNo"));
         result = queryFactory.execute(ns, nsId, params);
-        result = queryFactory.getResult(ns, nsId, result);
+        // result = queryFactory.getResult(ns, nsId, result);
         r = queryFactory.toInt(result);
         log.debug("{}", r);
 

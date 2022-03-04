@@ -8,16 +8,17 @@ import newapp.domain.dao.CustomerReqDao;
 import newapp.domain.entity.CustomerReqEntity;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class HelloController {
 
     private final SqlSession sqlSession;
@@ -28,6 +29,12 @@ public class HelloController {
         return ns + "." + nsId;
     }
 
+    @GetMapping(value = {"/"})
+    public String index(ModelMap model, CommandMap commandMap) throws Exception {
+        commandMap.debugParams();
+        return "index";
+    }
+
     /**
      * Test : bash$  data=$(shuf -i 60-99 -n 1); curl -XGET "http://localhost:8000/?no=3&data=$data"
      * @param model
@@ -35,8 +42,9 @@ public class HelloController {
      * @return
      * @throws Exception
      */
-    @GetMapping(value = {"/"})
-    public String index(ModelMap model, CommandMap commandMap) throws Exception {
+    @ResponseBody
+    @GetMapping(value = {"/hello"})
+    public String hello(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
 
         String ns = "newapp.crud";
@@ -75,13 +83,8 @@ public class HelloController {
         r = queryFactory.toInt(result);
         log.debug("{}", r);
 
-        return "index";
-    }
-
-    @GetMapping(value = {"/hello.do"})
-    public String hello(ModelMap model, CommandMap commandMap) throws Exception {
-        commandMap.debugParams();
         return "hello";
     }
+
 
 }

@@ -5,6 +5,7 @@ import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.entity.CustomerReqEntity;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
@@ -67,7 +68,7 @@ public class HelloController {
         log.debug("{}", result);
 
         SearchDTO param = new SearchDTO();
-        List<CustomerReqEntity> result2 = customerReqDao.selectTblCallAssist(param).fetch();
+        List<CustomerReqDTO> result2 = customerReqDao.selectTblCallAssist(param).fetch();
         log.debug("{}", result2);
 
         nsId = "selectMaxNo";

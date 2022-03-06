@@ -9,9 +9,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>Pig Helper</title>
+<title>Project Management System</title>
 <!-- Font Awesome Icons -->
-<link rel="stylesheet" href="${_ctx }${_adminlte }/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="${_ctx }/static/fontawesome-free-6.0.0-web/css/all.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="${_ctx }${_adminlte }/dist/css/adminlte.min.css">
 <!-- Google Font: Source Sans Pro -->

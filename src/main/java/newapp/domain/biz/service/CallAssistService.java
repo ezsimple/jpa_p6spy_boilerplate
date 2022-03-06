@@ -6,6 +6,7 @@ import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.dto.StatDTO;
 import newapp.domain.entity.CustomerReqEntity;
@@ -56,7 +57,7 @@ public class CallAssistService extends AbstractService {
 
 		Map map = MapUtil.newMap();
 
-		List<CustomerReqEntity> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
+		List<CustomerReqDTO> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
 		map.put("rows", list);
 
 		StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
@@ -99,8 +100,8 @@ public class CallAssistService extends AbstractService {
 
 		SearchDTO searchDTO = new SearchDTO();
 		searchDTO.setSearchNo(Long.parseLong(no));
-		CustomerReqEntity customerReqEntity = customerReqDao.selectTblCallAssist(searchDTO).fetchFirst();
-		model.addAttribute("view", customerReqEntity);
+		CustomerReqDTO customerReqDTO = customerReqDao.selectTblCallAssist(searchDTO).fetchFirst();
+		model.addAttribute("view", customerReqDTO);
 
 		if(StringUtils.equals(viewType, "view"))
 			return "board/call_assist_view";

@@ -5,16 +5,17 @@ import io.mkeasy.utils.MapUtil;
 import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.dto.SearchDTO;
+import newapp.domain.dto.StatDTO;
+import newapp.domain.entity.CustomerReqEntity;
 import newapp.global.common.service.AbstractService;
-import newapp.global.util.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDateTime;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -23,70 +24,87 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CallAssistService extends AbstractService {
 	
-	@Resource
-	ApplicationContext ctx;
-
-	private final PropertiesUtil propertiesUtil;
 	private final QueryFactory queryFactory;
+	private final CustomerReqDao customerReqDao;
 
-	// 조회 및 검색 하기
-	public Map searchCallAssist(ModelMap model, CommandMap commandMap) throws Exception {
-		String ns = "oldegg.board";
-		String nsId = "selectTblCallAssist";
+	/**
+	 * 목록 조회 및 검색 하기
+	 * @param model
+	 * @param commandMap
+	 * @return
+	 */
+	public Map searchCallAssist(ModelMap model, CommandMap commandMap) {
 
-		// 날짜검색을 요청한 경우
+		SearchDTO searchDTO = new SearchDTO();
+
+		String searchNo = commandMap.getParam("searchNo");
+		if(!StringUtils.isEmpty(searchNo))
+			searchDTO.setSearchNo(Long.parseLong(searchNo));
+
 		String searchWord = commandMap.getParam("searchWord");
+		if(!StringUtils.isEmpty(searchWord))
+			searchDTO.setSearchWord(searchWord);
+
 		String dates = commandMap.getParam("dates");
 		if(!StringUtils.isEmpty(dates)) {
 			String[] day = StringUtils.split(dates, "~");
-			commandMap.put("startDt", day[0]);
-			commandMap.put("endDt", day[1]);
-		}
-
-		// 검색 요청인 경우 쿼리가 search 쿼리를 사용
-		if(!StringUtils.isEmpty(searchWord) || !StringUtils.isEmpty(dates)) {
-			nsId = "searchTblCallAssist";
+			LocalDateTime startDt = LocalDateTime.parse(day[0]);
+			LocalDateTime endDt = LocalDateTime.parse(day[1]);
+			searchDTO.setStartDt(startDt);
+			searchDTO.setEndDt(endDt);
 		}
 
 		Map map = MapUtil.newMap();
-		Object result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = queryFactory.getResult(ns, nsId, result);
-		List list = queryFactory.toList(result);
+
+		List<CustomerReqEntity> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
 		map.put("rows", list);
 
-		nsId = "statTblCallAssist";
-		result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = queryFactory.getResult(ns, nsId, result);
-		list = queryFactory.toList(result);
-		map.put("stat", list);
+		StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
+		Map stat = MapUtil.newMap();
+		stat.put("countTotal", statDTO.getCountTotal());
+		stat.put("countSearch", statDTO.getCountSearch());
+		stat.put("countDoneToday", statDTO.getCountDoneToday());
+		stat.put("countReqToday", statDTO.getCountReqToday());
+		stat.put("percentKind0", statDTO.getPercentKind0());
+		stat.put("percentKind1", statDTO.getPercentKind1());
+		stat.put("percentKind2", statDTO.getPercentKind2());
+		stat.put("percentKind3", statDTO.getPercentKind3());
+		stat.put("percentKind4", statDTO.getPercentKind4());
+		map.put("stat", stat);
 
 		return map;
 	}
 
+	/**
+	 * 신규/수정 페이지 보기
+	 * @param model
+	 * @param commandMap
+	 * @param viewType
+	 * @return
+	 * @throws Exception
+	 */
 	public String selectCallAssistView(ModelMap model, CommandMap commandMap, String viewType) throws Exception {
-		String ns = "oldegg.board";
-		String nsId = "selectTblCallAssist";
 		String no = commandMap.getParam("no");
 
 		// 신규등록 페이지 보기
 		if(StringUtils.isEmpty(no)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			LocalDateTime datetime = LocalDateTime.now();
-			String formated_date = sdf.format(datetime.toDate());
+			String regDate = sdf.format(datetime.now());
 			Map view = MapUtil.newMap();
-			view.put("reqDate", formated_date);
+			view.put("reqDate", regDate);
 			model.addAttribute("view", view);
 			return "board/call_assist_view";
 		}
 
-		// 수정 페이지 보기
-		Object result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
-		result = queryFactory.getResult(ns, nsId, result);
-		List list = queryFactory.toList(result);
-		if(list!=null && list.size()>0)
-			model.addAttribute("view", list.get(0));
+		SearchDTO searchDTO = new SearchDTO();
+		searchDTO.setSearchNo(Long.parseLong(no));
+		CustomerReqEntity customerReqEntity = customerReqDao.selectTblCallAssist(searchDTO).fetchFirst();
+		model.addAttribute("view", customerReqEntity);
+
 		if(StringUtils.equals(viewType, "view"))
 			return "board/call_assist_view";
+
 		return "board/call_assist_inner";
 	}
 
@@ -104,21 +122,23 @@ public class CallAssistService extends AbstractService {
 			// --------------------------------------------------------
 			// 완료여부만 변경하고, 처리일자를 입력하지 않는 사례 보완.
 			// --------------------------------------------------------
-			String resDate = commandMap.getParam("resDate");
-			String doneSts = commandMap.getParam("doneSts");
-			if(StringUtils.isEmpty(resDate)
-					&& !StringUtils.equals(doneSts, "접수")) {
+			String _resDate = commandMap.getParam("resDate");
+			String _doneSts = commandMap.getParam("doneSts");
+			if(StringUtils.isEmpty(_resDate)
+					&& !StringUtils.equals(_doneSts, "접수")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				LocalDateTime datetime = LocalDateTime.now();
-				String formated_date = sdf.format(datetime.toDate());
-				commandMap.put("resDate", formated_date);
+				String resDate = sdf.format(LocalDateTime.now());
+				commandMap.put("resDate", resDate);
 			}
 		}
+
 		if(StringUtils.equals(iuFlag, "D")) nsId = "deleteTblCallAssist";
-		Object result = queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
+
+		queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
 
 		String url = "redirect:/board/call_assist_view.do";
 		if(!StringUtils.isEmpty(no)) url+="?no="+no;
+
 		if(StringUtils.equals(iuFlag, "D")) url = "redirect:/board/call_assist.do";
 
 		return url;

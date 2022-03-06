@@ -20,11 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 class CallAssistController {
 	
-	@Resource 
-	ApplicationContext ctx;
-	
-	private final PropertiesUtil propertiesUtil;
-	
 	private final CallAssistService callAssistService;
 	
 	// 조회 및 검색 하기

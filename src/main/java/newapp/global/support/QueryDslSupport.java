@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ public class QueryDslSupport {
 	
 	@Autowired
 	protected JPAQueryFactory jpaQuery;
-	
 
     public BooleanExpression isNull(StringExpression stringPath) {
         return stringPath.isNull();
@@ -56,7 +56,6 @@ public class QueryDslSupport {
     public static BooleanExpression isAny(BooleanExpression b) {
         return b;
     }
-
 
     public static BooleanExpression isOpt(BooleanExpression b, boolean isAppend) {
         if(isAppend) {
@@ -91,7 +90,16 @@ public class QueryDslSupport {
     public static BooleanExpression eqAny(NumberPath<Long> numberPath, Long num) {
         return numberPath.eq(num);
     }
-    
+
+    public static BooleanExpression eqDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
+        if(kword == null) { return null; }
+        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        return stringExpression.eq(day);
+    }
+
+
+
     public static BooleanExpression eqOpt(StringExpression stringPath, String kword) {
         return eqOpt(stringPath, kword, true);
     }
@@ -119,9 +127,7 @@ public class QueryDslSupport {
         }
         return stringPath.containsIgnoreCase(kword);
     }
-    
-    
-    
+
     public static BooleanExpression eqOpt(NumberPath<Long> numberPath, Long num) {
         if(num == null) {
             return null;
@@ -136,6 +142,19 @@ public class QueryDslSupport {
         return eqAny(numberPath, num);
     }
 
+    public static BooleanExpression ltOpt(NumberPath<Long> numberPath, Long num) {
+        if(num == null) {
+            return null;
+        }
+        return numberPath.lt(num);
+    }
+
+    public static BooleanExpression gtOpt(NumberPath<Long> numberPath, Long num) {
+        if(num == null) {
+            return null;
+        }
+        return numberPath.gt(num);
+    }
 
     public BooleanExpression inAny(StringExpression stringPath, JPQLQuery<String> query) {
         return stringPath.in(query);
@@ -162,8 +181,6 @@ public class QueryDslSupport {
         }
         return null;
     }
-    
-    
 
     public BooleanExpression notInAny(StringExpression stringPath, String ...kword) {
         return stringPath.notIn(kword);
@@ -242,13 +259,16 @@ public class QueryDslSupport {
         return null;
     }
 
-
-
-
-
     // <=
     public BooleanExpression loeAny(StringExpression stringPath, String kword) {
         return stringPath.loe(kword);
+    }
+
+    public static BooleanExpression loeDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
+        if(kword == null) { return null; }
+        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        return stringExpression.loe(day);
     }
 
     public static BooleanExpression loeOpt(StringExpression stringPath, String kword) {
@@ -278,10 +298,21 @@ public class QueryDslSupport {
         }
         return expes.loe(kword);
     }
-    
+
+    public static BooleanExpression eqAny(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
+        return expes.eq(kword);
+    }
+
     // >=
     public BooleanExpression goeAny(StringExpression stringPath, String kword) {
         return stringPath.goe(kword);
+    }
+
+    public static BooleanExpression goeDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
+        if(kword == null) { return null; }
+        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        return stringExpression.goe(day);
     }
 
     public static BooleanExpression goeOpt(StringExpression stringPath, String kword) {
@@ -304,8 +335,8 @@ public class QueryDslSupport {
         }
         return expes.goe(kword);
     }
-    
-    
+
+
     public static BooleanExpression btnAny(StringExpression stringPath, String from, String to) {
         return stringPath.between(from, to);
     }
@@ -380,7 +411,6 @@ public class QueryDslSupport {
         return stringPath.gt(kword);
     }
 
-    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static OrderSpecifier<?> orderBy(String fieldName, String orderType) {
         Order order = Order.DESC;

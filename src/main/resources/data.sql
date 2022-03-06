@@ -9,12 +9,12 @@ INSERT INTO mhlee.t_project (f_proj_no, f_proj_nm, f_user_id, f_use_yn) VALUES (
 INSERT INTO mhlee.t_role (f_role_no, f_role_nm, f_user_id) VALUES (0, 'ADMIN', 'admin');
 INSERT INTO mhlee.t_role (f_role_no, f_role_nm, f_user_id) VALUES (1, 'USER', 'mhlee');
 
-INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '000', '000000', '문제', 'Y', 0);
+INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '000', '000000', '버거', 'Y', 0);
 INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '001', '000001', '개선', 'Y', 1);
-INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '002', '000002', '변경', 'Y', 2);
-INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '003', '000003', '요구', 'Y', 3);
-INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '004', '000004', '제안', 'Y', 4);
-INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '005', '000005', '문의', 'Y', 5);
+INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '002', '000002', '요구', 'Y', 2);
+INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '003', '000003', '문의', 'Y', 3);
+INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('000', '종류', '004', '000004', '기타', 'Y', 4);
+
 INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('001', '진행상황', '000', '001000', '대기', 'Y', 0);
 INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('001', '진행상황', '001', '001001', '접수', 'Y', 1);
 INSERT INTO mhlee.t_code (f_gid, f_gname, f_cid, f_cname, f_code6, f_use_yn, f_order_no) VALUES ('001', '진행상황', '002', '001002', '검토', 'Y', 2);

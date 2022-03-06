@@ -39,4 +39,9 @@ public class CustomerReqEntity extends BaseEntity {
     @JoinColumn(name = "F_USER_ID")
     private UserEntity userEntity;         // 접수자정보
 
+    @Column(name = "F_REQ")                // 요청내용
+    private String req;
+
+    @Column(name = "F_RES")                // 응답내용
+    private String res;
 }

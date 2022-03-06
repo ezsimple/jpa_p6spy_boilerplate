@@ -5,6 +5,7 @@ import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.dto.SearchDTO;
 import newapp.domain.entity.CustomerReqEntity;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.apache.ibatis.session.SqlSession;
@@ -65,7 +66,7 @@ public class HelloController {
         result = queryFactory.execute(ns, nsId, commandMap.getQueryMap());
         log.debug("{}", result);
 
-        CustomerReqEntity param = new CustomerReqEntity();
+        SearchDTO param = new SearchDTO();
         List<CustomerReqEntity> result2 = customerReqDao.selectTblCallAssist(param).fetch();
         log.debug("{}", result2);
 

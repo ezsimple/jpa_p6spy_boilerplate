@@ -9,11 +9,11 @@ public class StatDTO {
     Long countSearch = 0L;          // 검색건수
     Long countDoneToday = 0L;       // 당일완료건수
     Long countReqToday = 0L;        // 당일요청건수
-    Long countKind0 = 0L;           // 버거카운트
-    Long countKind1 = 0L;           // 개선카운트
-    Long countKind2 = 0L;           // 요구카운트
-    Long countKind3 = 0L;           // 문의카운트
-    Long countKind4 = 0L;           // 기타카운트
+    Long countKind0 = 0L;           // 버거건수
+    Long countKind1 = 0L;           // 개선건수
+    Long countKind2 = 0L;           // 요구건수
+    Long countKind3 = 0L;           // 문의건수
+    Long countKind4 = 0L;           // 기타건수
 
     /**
      * 버거비율

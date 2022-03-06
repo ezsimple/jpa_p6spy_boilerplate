@@ -22,18 +22,12 @@ public class CustomerReqEntity extends BaseEntity {
     @Column(name = "F_KIND_CD", length = 6)
     private String kindCd;                 // 분류코드
 
-    @Transient
-    private String kindNm;                 // 분류명
-
     @ManyToOne
     @JoinColumn(name = "F_CUSTOMER_NO")
     private CustomerEntity customerEntity; // 고객정보
 
     @Column(name = "F_PROGRESS_CD", length = 6)
     private String progressCd;             // 진행정보코드
-
-    @Transient
-    private String progressNm;             // 진행정보명
 
     @ManyToOne
     @JoinColumn(name = "F_USER_ID")

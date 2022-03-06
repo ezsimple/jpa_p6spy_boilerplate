@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import io.mkeasy.resolver.CommandMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.dto.StatDTO;
 import newapp.domain.entity.CustomerReqEntity;
@@ -38,11 +39,11 @@ public class CustomerReqDao {
      * @param searchDTO
      * @return
      */
-    public JPAQuery<CustomerReqEntity> selectTblCallAssist(SearchDTO searchDTO) {
+    public JPAQuery<CustomerReqDTO> selectTblCallAssist(SearchDTO searchDTO) {
 
-        JPAQuery<CustomerReqEntity> result = jpaQuery()
+        JPAQuery<CustomerReqDTO> result = jpaQuery()
                 .select(Projections.bean(
-                        CustomerReqEntity.class
+                        CustomerReqDTO.class
                         , qCustomerReqEntity.no
                         , as(select(qNavigatorEntity.no.max())
                                     .from(qNavigatorEntity)
@@ -125,7 +126,7 @@ public class CustomerReqDao {
                                             , inAny(qCustomerReqEntity.kindCd, "000000") /* 버거(000000) */
                                             .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
                                             .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-                                        ), "count_kind0")      // 버거건수
+                                        ), "count_kind0")   // 버거건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
@@ -157,7 +158,7 @@ public class CustomerReqDao {
                                             , inAny(qCustomerReqEntity.kindCd, "000004") /* 기타(000004) */
                                             .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
                                             .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-                                        ), "count_kind4")       // 기타건수
+                                        ), "count_kind4")   // 기타건수
                         )
                 )// .from(qCustomerReqEntity)
                 .fetchFirst();

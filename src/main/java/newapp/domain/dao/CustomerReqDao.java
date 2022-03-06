@@ -30,9 +30,14 @@ public class CustomerReqDao {
 
     private QCustomerReqEntity qCustomerReqEntity = QCustomerReqEntity.customerReqEntity;
     private QCustomerReqEntity qNavigatorEntity = new QCustomerReqEntity("navigatorEntity");
-    private QCodeEntity qKindEntity = QCodeEntity.codeEntity;
-    private QCodeEntity qProgressEntity = QCodeEntity.codeEntity;
+    private QCodeEntity qKindEntity = new QCodeEntity("kindEntity");
+    private QCodeEntity qProgressEntity = new QCodeEntity("progressEntity");
 
+    /**
+     * 검색 & 조회
+     * @param searchDTO
+     * @return
+     */
     public JPAQuery<CustomerReqEntity> selectTblCallAssist(SearchDTO searchDTO) {
 
         JPAQuery<CustomerReqEntity> result = jpaQuery()
@@ -76,6 +81,11 @@ public class CustomerReqDao {
         return result;
     }
 
+    /**
+     * 통계
+     * @param searchDTO
+     * @return
+     */
     public StatDTO statTblCallAssist2(SearchDTO searchDTO) {
         StatDTO result = jpaQuery().select(
                         Projections.bean(
@@ -149,198 +159,17 @@ public class CustomerReqDao {
                                             .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
                                         ), "count_kind4")       // 기타건수
                         )
-                ).from(qCustomerReqEntity)
+                )// .from(qCustomerReqEntity)
                 .fetchFirst();
 
         return result;
     }
 
     /**
-     * 통계정보
-     * @param searchDTO
+     * 파라미터를 customerEntity로 변환
+     * @param commandMap
      * @return
      */
-//    public StatDTO statTblCallAssist(SearchDTO searchDTO) {
-//        StatDTO statDTO = new StatDTO();
-//        statDTO.setCountTotal(getCountTotal(searchDTO));
-//        statDTO.setCountSearch(getCountSearch(searchDTO));
-//        statDTO.setCountDoneToday(getCountDoneToday(searchDTO));
-//        statDTO.setCountReqToday(getCountReqToday(searchDTO));
-//        statDTO.setCountKind0(getCountKind0(searchDTO));
-//        statDTO.setCountKind1(getCountKind1(searchDTO));
-//        statDTO.setCountKind2(getCountKind2(searchDTO));
-//        statDTO.setCountKind3(getCountKind3(searchDTO));
-//        statDTO.setCountKind4(getCountKind4(searchDTO));
-//        return statDTO;
-//    }
-
-    /**
-     * 전체건수
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountTotal(SearchDTO searchDTO) {
-//        Long totalCount = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                )
-//                .fetchFirst();
-//        return totalCount;
-//    }
-
-    /**
-     * 검색건수
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountSearch(SearchDTO searchDTO) {
-//        Long totalCount = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                        eqAny(qCustomerReqEntity.useYn, "Y")
-//                        .and(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                        .and(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//                        .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-//                        .or(eqOpt(qCustomerReqEntity.req, searchDTO.getSearchWord()))
-//                        .or(eqOpt(qCustomerReqEntity.res, searchDTO.getSearchWord()))
-//                )
-//                .fetchFirst();
-//        return totalCount;
-//    }
-
-    /**
-     * 당일완료건수
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountDoneToday(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , inAny(qCustomerReqEntity.progressCd, "001003", "001004", "001005") // 완료(001003), 보류(001004), 기각(001005)
-//                    , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now()) // LocalDateTime.parse("2022-03-05")
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 당일요청 건수
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountReqToday(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now())
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 버거 카운트
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountKind0(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                qCustomerReqEntity.no.count()
-//            ).from(qCustomerReqEntity)
-//            .where(
-//                eqAny(qCustomerReqEntity.useYn, "Y")
-//                , inAny(qCustomerReqEntity.kindCd, "000000") // 버거(000000)
-//                .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//            )
-//            .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 개선 카운트
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountKind1(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , inAny(qCustomerReqEntity.kindCd, "000001") // 개선(000001)
-//                    .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                    .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 요구 카운트
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountKind2(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , inAny(qCustomerReqEntity.kindCd, "000002") // 요구(000002)
-//                    .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                    .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 문의 카운트
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountKind3(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , inAny(qCustomerReqEntity.kindCd, "000003") // 문의(000003)
-//                    .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                    .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
-    /**
-     * 기타 카운트
-     * @param searchDTO
-     * @return
-     */
-//    private Long getCountKind4(SearchDTO searchDTO) {
-//        Long count = jpaQuery().select(
-//                    qCustomerReqEntity.no.count()
-//                ).from(qCustomerReqEntity)
-//                .where(
-//                    eqAny(qCustomerReqEntity.useYn, "Y")
-//                    , inAny(qCustomerReqEntity.kindCd, "000004") // 기타(000004)
-//                    .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-//                    .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-//                )
-//                .fetchFirst();
-//        return count;
-//    }
-
     public CustomerReqEntity toCustomerReqEntity(CommandMap commandMap) {
 
        CustomerReqEntity customerReqEntity = new CustomerReqEntity();

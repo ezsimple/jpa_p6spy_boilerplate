@@ -28,71 +28,64 @@
           <div class="col-sm-3">
             <h2 class="m-0 text-dark">프로젝트 관리</h2>
           </div><!-- /.col -->
+<%--          <div class="col-sm-3">--%>
+<%--			<div class="info-box bg-warning">--%>
+<%--			  <span class="info-box-icon"><i class="far fa-flag"></i></span>--%>
+<%--			  <div class="info-box-content">--%>
+<%--				  <div style="display:flex">--%>
+<%--					<div style="margin-right:10px">--%>
+<%--						<span class="info-box-text">금일(완료/접수)</span>--%>
+<%--						<span class="info-box-number" style="text-align:center" id="countDoneSts1Today">0/0</span>--%>
+<%--					</div>--%>
+<%--					<div style="margin-right:10px">--%>
+<%--						<span class="info-box-text">전일(지연/전체)</span>--%>
+<%--						<span class="info-box-number" style="text-align:center" id="doneSts1">0/0</span>--%>
+<%--					</div>--%>
+<%--					<div style="margin-right:10px">--%>
+<%--						<span class="info-box-text">완료</span>--%>
+<%--						<span class="info-box-number" style="text-align:center" id="doneSts2">0</span>--%>
+<%--					</div>--%>
+<%--				</div>--%>
+<%--				<div class="progress">--%>
+<%--				  <div class="progress-bar" id="doneStsProgress" style="width: 0%"></div>--%>
+<%--				</div>--%>
+<%--				<span id="doneStsMessage" class="progress-description">전체 0건중 0% 완료</span>--%>
+<%--			  </div>--%>
+<%--			  <!-- /.info-box-content -->--%>
+<%--			</div>--%>
+<%--			<!-- /.info-box -->--%>
+<%--          </div>--%>
+          <div class="col-sm-6"></div>
           <div class="col-sm-3">
-			<div class="info-box bg-warning">
-			  <span class="info-box-icon"><i class="far fa-flag"></i></span>
-			  <div class="info-box-content">
-				  <div style="display:flex">
-					<div style="margin-right:10px">
-						<span class="info-box-text">금일(완료/접수)</span>
-						<span class="info-box-number" style="text-align:center" id="countDoneSts1Today">0/0</span>
-					</div>
-					<div style="margin-right:10px">
-						<span class="info-box-text">전일(지연/전체)</span>
-						<span class="info-box-number" style="text-align:center" id="doneSts1">0/0</span>
-					</div>
-					<div style="margin-right:10px">
-						<span class="info-box-text">완료</span>
-						<span class="info-box-number" style="text-align:center" id="doneSts2">0</span>
-					</div>
-				</div>
-				<div class="progress">
-				  <div class="progress-bar" id="doneStsProgress" style="width: 0%"></div>
-				</div>
-				<span id="doneStsMessage" class="progress-description">전체 0건중 0% 완료</span>
-			  </div>
-			  <!-- /.info-box-content -->
-			</div>
-			<!-- /.info-box -->
-          </div>
-          <div class="col-sm-6">
 			<div class="info-box bg-danger">
 			  <span class="info-box-icon"><i class="far fa-star"></i></span>
 			  <div class="info-box-content">
 				  <div style="display:flex">
 					<div style="margin-right:15px">
-						<span class="info-box-text">오류 및 요청</span>
+						<span class="info-box-text">버거</span>
+						<span class="info-box-number" style="text-align:center" id="reqKind0">0%</span>
+					</div>
+					<div style="margin-right:15px">
+						<span class="info-box-text">개선</span>
 						<span class="info-box-number" style="text-align:center" id="reqKind1">0%</span>
 					</div>
 					<div style="margin-right:15px">
-						<span class="info-box-text">문의</span>
+						<span class="info-box-text">요구</span>
 						<span class="info-box-number" style="text-align:center" id="reqKind2">0%</span>
 					</div>
 					<div style="margin-right:15px">
-						<span class="info-box-text">데이터이관</span>
+						<span class="info-box-text">문의</span>
 						<span class="info-box-number" style="text-align:center" id="reqKind3">0%</span>
 					</div>
 					<div style="margin-right:15px">
-						<span class="info-box-text">보고서</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind4">0%</span>
-					</div>
-					<div style="margin-right:15px">
-						<span class="info-box-text">신규가입</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind5">0%</span>
-					</div>
-					<div style="margin-right:15px">
-						<span class="info-box-text">견적서</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind6">0%</span>
-					</div>
-					<div style="margin-right:15px">
 						<span class="info-box-text">기타</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind7">0%</span>
+						<span class="info-box-number" style="text-align:center" id="reqKind4">0%</span>
 					</div>
 				</div>
 				<div class="progress">
 				  <div class="progress-bar" id="reqKindProgress" style="width: 0%"></div>
 				</div>
-				<span class="progress-description" id="reqKindMessage">전체 0건중 0%오류 및 요청</span>
+				<span class="progress-description" id="reqKindMessage">전체 0건중 0% 버거,개선,요구 완료</span>
 			  </div>
 			  <!-- /.info-box-content -->
 			</div>
@@ -471,13 +464,11 @@
 		const percentKind6 = stat.percentKind6;
 		const percentKind7 = stat.percentKind7;
 
-		$('#reqKind1').text(percentKind1 + '%');
-		$('#reqKind2').text(percentKind2 + '%');
-		$('#reqKind3').text(percentKind3 + '%');
-		$('#reqKind4').text(percentKind4 + '%');
-		$('#reqKind5').text(percentKind5 + '%');
-		$('#reqKind6').text(percentKind6 + '%');
-		$('#reqKind7').text(percentKind7 + '%');
+		$('#reqKind0').text(percentKind1 + '%');
+		$('#reqKind1').text(percentKind2 + '%');
+		$('#reqKind2').text(percentKind3 + '%');
+		$('#reqKind3').text(percentKind4 + '%');
+		$('#reqKind4').text(percentKind5 + '%');
 		$('#reqKindProgress').attr('style', 'width:' + percentKind1 + '%');
 		$('#reqKindMessage').text(
 				'전체 ' + total + '건중 ' + percentKind1 + '% 오류 및 요청');

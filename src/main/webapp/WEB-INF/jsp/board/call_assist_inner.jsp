@@ -44,21 +44,21 @@
                     	  <div class="input-group-prepend" style="cursor:pointer" onClick="setUser('reqUser')">
                       		  <span class="input-group-text"><i class="far fa-user"></i></span>
                     	  </div>
-                          <input type="text" name="reqUser" value="${view.reqUser }" class="form-control" placeholder="상담자명" >
+                          <input type="text" name="reqUser" value="${view.reqUser }" class="form-control" placeholder="접수자명" >
                   		</div>
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>농장명</label>
-                        <input type="text" name="farmNm" value="${view.farmNm }" class="form-control" placeholder="농장명">
+                        <label>회사명</label>
+                        <input type="text" name="farmNm" value="${view.farmNm }" class="form-control" placeholder="회사명">
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>담당자명</label>
-                        <input type="text" name="farmUser" value="${view.farmUser }" class="form-control" placeholder="농장요청자명" >
+                        <label>요청자명</label>
+                        <input type="text" name="farmUser" value="${view.farmUser }" class="form-control" placeholder="요청자명" >
                       </div>
                     </div>
                   </div>
@@ -80,14 +80,11 @@
                       <div class="form-group">
                         <label>요청구분</label>
                         <select name="reqKind" class="form-control" }">
-                          <option value="기능오류 및 요청" <c:if test="${view.reqKind == null || view.reqKind == '기능오류 및 요청'}">selected</c:if> >기능오류 및 요청</option>
+                          <option value="버거" <c:if test="${view.reqKind == null || view.reqKind == '버거'}">selected</c:if> >버그</option>
+                          <option value="개선" <c:if test="${view.reqKind == '개선' }">selected</c:if> >개선</option>
+                          <option value="요구" <c:if test="${view.reqKind == '요구' }">selected</c:if> >요구</option>
                           <option value="문의" <c:if test="${view.reqKind == '문의' }">selected</c:if> >문의</option>
-                          <option value="데이터이관" <c:if test="${view.reqKind == '데이터이관' }">selected</c:if> >데이터이관</option>
-                          <option value="보고서" <c:if test="${view.reqKind == '보고서' }">selected</c:if> >보고서</option>
-                          <option value="신규가입" <c:if test="${view.reqKind == '신규가입' }">selected</c:if> >신규가입</option>
-                          <option value="견적서" <c:if test="${view.reqKind == '견적서' }">selected</c:if> >견적서</option>
                           <option value="기타" <c:if test="${view.reqKind == '기타' }">selected</c:if> >기타</option>
-
                         </select>
                       </div>
                     </div>
@@ -106,7 +103,9 @@
                       <div class="form-group">
                         <label>완료여부</label>
                         <select name="doneSts" class="form-control" >
-                          <option value="접수" <c:if test="${view.doneSts == '' || view.doneSts == '접수' }">selected</c:if> >접수</option>
+                          <option value="대기" <c:if test="${view.doneSts == '' || view.doneSts == '대기' }">selected</c:if> >대기</option>
+                          <option value="접수" <c:if test="${view.doneSts == '완료' }">selected</c:if> >접수</option>
+                          <option value="검토" <c:if test="${view.doneSts == '완료' }">selected</c:if> >검토</option>
                           <option value="완료" <c:if test="${view.doneSts == '완료' }">selected</c:if> >완료</option>
                           <option value="보류" <c:if test="${view.doneSts == '보류' }">selected</c:if> >보류</option>
                           <option value="기각" <c:if test="${view.doneSts == '기각' }">selected</c:if> >기각</option>

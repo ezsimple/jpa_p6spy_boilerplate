@@ -177,8 +177,8 @@
       },
       {headerName: "접수자", field: "reqUser", width: 100, editable: false},
       {headerName: "접수일자", field: "reqDate", width: 120, editable: false},
-      {headerName: "농장명", field: "farmNm",width:180},
-      {headerName: "담당자", field: "farmUser", width:100},
+      {headerName: "회사명", field: "farmNm",width:180},
+      {headerName: "요청자명", field: "farmUser", width:120},
       {headerName: "연락처", field: "farmPhoneNo", width:140},
       {headerName: "요청내용", field: "reqContent",width:275
     	  ,editable: false

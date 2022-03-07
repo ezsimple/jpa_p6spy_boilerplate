@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +92,7 @@ public class CallAssistService extends AbstractService {
 		if(StringUtils.isEmpty(no)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			LocalDateTime datetime = LocalDateTime.now();
-			String regDate = sdf.format(datetime.now());
+			String regDate = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			Map view = MapUtil.newMap();
 			view.put("reqDate", regDate);
 			model.addAttribute("view", view);

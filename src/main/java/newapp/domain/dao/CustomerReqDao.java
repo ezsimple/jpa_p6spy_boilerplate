@@ -183,9 +183,17 @@ public class CustomerReqDao {
        if(!StringUtils.isEmpty(kindCd))
            customerReqEntity.setKindCd(kindCd);                                     // 분류코드
 
-       String customerNo = commandMap.getParam("customerNo");
-       if(!StringUtils.isEmpty(customerNo))
-           customerReqEntity.getCustomerEntity().setNo(Long.parseLong(customerNo)); // 고객정보
+       String reqCompanyNm = commandMap.getParam("reqCompanyNm");
+       if(!StringUtils.isEmpty(reqCompanyNm))
+           customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqCompanyNm));// 요청회사명
+
+        String reqUserNm = commandMap.getParam("reqUserNm");
+        if(!StringUtils.isEmpty(reqUserNm))
+            customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqUserNm));// 요청자명
+
+        String reqUserPhoneNo = commandMap.getParam("reqUserPhoneNo");
+        if(!StringUtils.isEmpty(reqUserPhoneNo))
+            customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqUserPhoneNo));// 요청자연락처
 
        String progressCd = commandMap.getParam("progressCd");
        if(!StringUtils.isEmpty(progressCd))
@@ -193,15 +201,19 @@ public class CustomerReqDao {
 
        String userId = commandMap.getParam("userId");
        if(!StringUtils.isEmpty(userId))
-           customerReqEntity.getUserEntity().setUserId(userId);                     // 접수자정보
+           customerReqEntity.getUserEntity().setUserId(userId);                     // 상담자ID
 
-       String req = commandMap.getParam("req");
-       if(!StringUtils.isEmpty(req))
-           customerReqEntity.setReq(req);                                           // 요청내용
+        String consultUserNm = commandMap.getParam("consultUserNm");
+        if(!StringUtils.isEmpty(consultUserNm))
+            customerReqEntity.getUserEntity().setUserId(consultUserNm);             // 상담자명
 
-       String res = commandMap.getParam("res");
-       if(!StringUtils.isEmpty(res))
-           customerReqEntity.setRes(res);                                           // 응답내용
+       String reqContent = commandMap.getParam("reqContent");
+       if(!StringUtils.isEmpty(reqContent))
+           customerReqEntity.setReq(reqContent);                                    // 요청내용
+
+       String resContent = commandMap.getParam("resContent");
+       if(!StringUtils.isEmpty(resContent))
+           customerReqEntity.setRes(resContent);                                    // 응답내용
 
        return customerReqEntity;
    }

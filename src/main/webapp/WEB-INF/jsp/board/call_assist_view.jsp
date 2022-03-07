@@ -81,26 +81,26 @@
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>접수자</label>
+                        <label>상담자명</label>
                         <div class="input-group">
-                    	  <div class="input-group-prepend" style="cursor:pointer" onClick="setUser('reqUser')">
+                    	  <div class="input-group-prepend" style="cursor:pointer" onClick="setUser('consultUserNm')">
                       		  <span class="input-group-text"><i class="far fa-user"></i></span>
                     	  </div>
-                          <input type="text" name="reqUser" value="${view.reqUser }" class="form-control" placeholder="상담자명" >
+                          <input type="text" name="consultUserNm" value="${view.consultUserNm }" class="form-control" placeholder="상담자명" >
                   		</div>
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>회사명</label>
-                        <input type="text" name="farmNm" value="${view.farmNm }" class="form-control" placeholder="회사명">
+                        <label>요청회사명</label>
+                        <input type="text" name="reqCompanyNm" value="${view.reqCompanyNm }" class="form-control" placeholder="요청회사명">
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
                         <label>요청자명</label>
-                        <input type="text" name="farmUser" value="${view.farmUser }" class="form-control" placeholder="요청자명" >
+                        <input type="text" name="reqUserNm" value="${view.reqUserNm }" class="form-control" placeholder="요청자명" >
                       </div>
                     </div>
                   </div>
@@ -109,24 +109,24 @@
                     <div class="col-sm-3">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>연락처</label>
+                        <label>요청자연락처</label>
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                           </div>
-                          <input type="text" name="farmPhoneNo" value="${view.farmPhoneNo }" class="form-control phone" data-inputmask="'mask': ['99[9]-999[9]-9999', '010-999[9]-9999']" data-mask>
+                          <input type="text" name="reqUserPhoneNo" value="${view.reqUserPhoneNo }" class="form-control phone" data-inputmask="'mask': ['99[9]-999[9]-9999', '010-999[9]-9999']" data-mask>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
                         <label>요청구분</label>
-                        <select name="reqKind" class="form-control" }">
-                          <option value="버거" <c:if test="${view.reqKind == null || view.reqKind == '버거'}">selected</c:if> >버그</option>
-                          <option value="개선" <c:if test="${view.reqKind == '개선' }">selected</c:if> >개선</option>
-                          <option value="요구" <c:if test="${view.reqKind == '요구' }">selected</c:if> >요구</option>
-                          <option value="문의" <c:if test="${view.reqKind == '문의' }">selected</c:if> >문의</option>
-                          <option value="기타" <c:if test="${view.reqKind == '기타' }">selected</c:if> >기타</option>
+                        <select name="kindCd" class="form-control" }">
+                          <option value="버거" <c:if test="${view.kindCd == null || view.kindCd == '000000'}">selected</c:if> >버그</option>
+                          <option value="개선" <c:if test="${view.kindCd == '000001' }">selected</c:if> >개선</option>
+                          <option value="요구" <c:if test="${view.kindCd == '000002' }">selected</c:if> >요구</option>
+                          <option value="문의" <c:if test="${view.kindCd == '000003' }">selected</c:if> >문의</option>
+                          <option value="기타" <c:if test="${view.kindCd == '000004' }">selected</c:if> >기타</option>
                         </select>
                       </div>
                     </div>
@@ -143,14 +143,14 @@
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>완료여부</label>
-                        <select name="doneSts" class="form-control" >
-                          <option value="대기" <c:if test="${view.doneSts == '' || view.doneSts == '대기' }">selected</c:if> >대기</option>
-                          <option value="접수" <c:if test="${view.doneSts == '완료' }">selected</c:if> >접수</option>
-                          <option value="검토" <c:if test="${view.doneSts == '완료' }">selected</c:if> >검토</option>
-                          <option value="완료" <c:if test="${view.doneSts == '완료' }">selected</c:if> >완료</option>
-                          <option value="보류" <c:if test="${view.doneSts == '보류' }">selected</c:if> >보류</option>
-                          <option value="기각" <c:if test="${view.doneSts == '기각' }">selected</c:if> >기각</option>
+                        <label>진행상태</label>
+                        <select name="progressCd" class="form-control" >
+                          <option value="대기" <c:if test="${view.progressCd == '' || view.progressCd == '001000' }">selected</c:if> >대기</option>
+                          <option value="접수" <c:if test="${view.progressCd == '001001' }">selected</c:if> >접수</option>
+                          <option value="검토" <c:if test="${view.progressCd == '001002' }">selected</c:if> >검토</option>
+                          <option value="완료" <c:if test="${view.progressCd == '001003' }">selected</c:if> >완료</option>
+                          <option value="보류" <c:if test="${view.progressCd == '001004' }">selected</c:if> >보류</option>
+                          <option value="기각" <c:if test="${view.progressCd == '001005' }">selected</c:if> >기각</option>
                         </select>
                       </div>
                     </div>

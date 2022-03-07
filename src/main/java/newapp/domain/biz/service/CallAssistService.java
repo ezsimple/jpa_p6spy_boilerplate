@@ -136,7 +136,7 @@ public class CallAssistService extends AbstractService {
 
 		if(StringUtils.equals(iuFlag, "D")) nsId = "deleteTblCallAssist";
 
-		queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
+		// queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
 
 		String url = "redirect:/board/call_assist_view.do";
 		if(!StringUtils.isEmpty(no)) url+="?no="+no;

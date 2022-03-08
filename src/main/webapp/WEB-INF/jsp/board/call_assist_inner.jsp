@@ -80,11 +80,11 @@
                       <div class="form-group">
                         <label>요청구분</label>
                         <select name="kindCd" class="form-control" >
-                          <option value="버거" <c:if test="${view.kindCd == null || view.kindCd == '000000'}">selected</c:if> >버그</option>
-                          <option value="개선" <c:if test="${view.kindCd == '000001' }">selected</c:if> >개선</option>
-                          <option value="요구" <c:if test="${view.kindCd == '000002' }">selected</c:if> >요구</option>
-                          <option value="문의" <c:if test="${view.kindCd == '000003' }">selected</c:if> >문의</option>
-                          <option value="기타" <c:if test="${view.kindCd == '000004' }">selected</c:if> >기타</option>
+                          <option value="000000" <c:if test="${view.kindCd == null || view.kindCd == '000000'}">selected</c:if> >버그</option>
+                          <option value="000001" <c:if test="${view.kindCd == '000001' }">selected</c:if> >개선</option>
+                          <option value="000002" <c:if test="${view.kindCd == '000002' }">selected</c:if> >요구</option>
+                          <option value="000003" <c:if test="${view.kindCd == '000003' }">selected</c:if> >문의</option>
+                          <option value="000004" <c:if test="${view.kindCd == '000004' }">selected</c:if> >기타</option>
                         </select>
                       </div>
                     </div>
@@ -103,12 +103,12 @@
                       <div class="form-group">
                         <label>진행상태</label>
                         <select name="progressCd" class="form-control" >
-                          <option value="대기" <c:if test="${view.progressCd == '' || view.progressCd == '001000' }">selected</c:if> >대기</option>
-                          <option value="접수" <c:if test="${view.progressCd == '001001' }">selected</c:if> >접수</option>
-                          <option value="검토" <c:if test="${view.progressCd == '001002' }">selected</c:if> >검토</option>
-                          <option value="완료" <c:if test="${view.progressCd == '001003' }">selected</c:if> >완료</option>
-                          <option value="보류" <c:if test="${view.progressCd == '001004' }">selected</c:if> >보류</option>
-                          <option value="기각" <c:if test="${view.progressCd == '001005' }">selected</c:if> >기각</option>
+                          <option value="001000" <c:if test="${view.progressCd == '' || view.progressCd == '001000' }">selected</c:if> >대기</option>
+                          <option value="001001" <c:if test="${view.progressCd == '001001' }">selected</c:if> >접수</option>
+                          <option value="001002" <c:if test="${view.progressCd == '001002' }">selected</c:if> >검토</option>
+                          <option value="001003" <c:if test="${view.progressCd == '001003' }">selected</c:if> >완료</option>
+                          <option value="001004" <c:if test="${view.progressCd == '001004' }">selected</c:if> >보류</option>
+                          <option value="001005" <c:if test="${view.progressCd == '001005' }">selected</c:if> >기각</option>
                         </select>
                       </div>
                     </div>

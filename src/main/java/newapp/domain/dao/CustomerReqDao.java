@@ -61,9 +61,12 @@ public class CustomerReqDao {
                             ,"next_no")
                         , qCustomerReqEntity.kindCd
                         , qKindEntity.cname.as("kind_nm")
-                        , qCustomerReqEntity.customerEntity
+                        , qCustomerReqEntity.companyEntity
+                        , qCustomerReqEntity.reqUserNm.as("req_user_nm")
+                        , qCustomerReqEntity.reqUserPhoneNo.as("req_user_phone_no")
+                        , qCustomerReqEntity.reqUserEmail.as("req_user_email")
                         , qCustomerReqEntity.progressCd
-                        , qKindEntity.cname.as("progress_nm")
+                        , qProgressEntity.cname.as("progress_nm")
                         , qCustomerReqEntity.userEntity
                     ))
                 .from(qCustomerReqEntity)
@@ -72,8 +75,8 @@ public class CustomerReqDao {
                 .where(
                     qCustomerReqEntity.useYn.eq("Y")
                     .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-                    .or(eqOpt(qCustomerReqEntity.req, searchDTO.getSearchWord()))
-                    .or(eqOpt(qCustomerReqEntity.res, searchDTO.getSearchWord()))
+                    .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
+                    .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
                     .or(goeOpt(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
                     .or(loeOpt(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
                 )
@@ -103,8 +106,8 @@ public class CustomerReqDao {
                                             .and(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
                                             .and(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
                                             .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-                                            .or(eqOpt(qCustomerReqEntity.req, searchDTO.getSearchWord()))
-                                            .or(eqOpt(qCustomerReqEntity.res, searchDTO.getSearchWord()))
+                                            .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
+                                            .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
                                         ), "count_search")    // 검색건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
@@ -183,17 +186,17 @@ public class CustomerReqDao {
        if(!StringUtils.isEmpty(kindCd))
            customerReqEntity.setKindCd(kindCd);                                     // 분류코드
 
-       String reqCompanyNm = commandMap.getParam("reqCompanyNm");
-       if(!StringUtils.isEmpty(reqCompanyNm))
-           customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqCompanyNm));// 요청회사명
+       String reqCompanyNo = commandMap.getParam("reqCompanyNo");
+       if(!StringUtils.isEmpty(reqCompanyNo))
+           customerReqEntity.getCompanyEntity().setNo(Long.parseLong(reqCompanyNo));// 요청회사명
 
         String reqUserNm = commandMap.getParam("reqUserNm");
         if(!StringUtils.isEmpty(reqUserNm))
-            customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqUserNm));// 요청자명
+            customerReqEntity.setReqUserEmail(reqUserNm);                           // 요청자명
 
         String reqUserPhoneNo = commandMap.getParam("reqUserPhoneNo");
         if(!StringUtils.isEmpty(reqUserPhoneNo))
-            customerReqEntity.getCustomerEntity().setNo(Long.parseLong(reqUserPhoneNo));// 요청자연락처
+            customerReqEntity.setReqUserPhoneNo(reqUserPhoneNo);                    // 요청자연락처
 
        String progressCd = commandMap.getParam("progressCd");
        if(!StringUtils.isEmpty(progressCd))
@@ -209,11 +212,11 @@ public class CustomerReqDao {
 
        String reqContent = commandMap.getParam("reqContent");
        if(!StringUtils.isEmpty(reqContent))
-           customerReqEntity.setReq(reqContent);                                    // 요청내용
+           customerReqEntity.setReqContent(reqContent);                             // 요청내용
 
        String resContent = commandMap.getParam("resContent");
        if(!StringUtils.isEmpty(resContent))
-           customerReqEntity.setRes(resContent);                                    // 응답내용
+           customerReqEntity.setResContent(resContent);                             // 응답내용
 
        return customerReqEntity;
    }

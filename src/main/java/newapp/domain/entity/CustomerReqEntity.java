@@ -13,8 +13,6 @@ import javax.persistence.*;
 @Table(name = "T_CUSTOMER_REQ")
 public class CustomerReqEntity extends BaseEntity {
 
-    // 고객요청사항
-
     @Id
     @Column(name = "F_NO")
     private Long no;                       // 요청번호
@@ -26,16 +24,25 @@ public class CustomerReqEntity extends BaseEntity {
     private String progressCd;             // 진행정보코드
 
     @ManyToOne
-    @JoinColumn(name = "F_CUSTOMER_NO")
-    private CustomerEntity customerEntity; // 고객정보
+    @JoinColumn(name = "F_REQ_COMPANY_NO")
+    private CompanyEntity companyEntity;   //  요청업체정보
+
+    @Column(name = "F_REQ_USER_NM")
+    private String reqUserNm;              // 요청고객명
+
+    @Column(name = "F_REQ_USER_EMAIL")
+    private String reqUserEmail;           // 요청고객 이메일
+
+    @Column(name = "F_REQ_USER_PHONE_NO")
+    private String reqUserPhoneNo;         // 요청고객 전화번호
 
     @ManyToOne
     @JoinColumn(name = "F_USER_ID")
     private UserEntity userEntity;         // 접수자정보
 
     @Column(name = "F_REQ_CONTENT")        // 요청내용
-    private String req;
+    private String reqContent;
 
     @Column(name = "F_RES_CONTENT")        // 응답내용
-    private String res;
+    private String resContent;
 }

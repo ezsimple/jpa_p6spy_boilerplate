@@ -14,8 +14,6 @@ import javax.persistence.*;
 @Table(name = "T_COMPANY")
 public class CompanyEntity {
 
-    // 회사정보
-
     @Id
     @Column(name = "F_NO")
     private Long no;        // 회사번호
@@ -28,6 +26,6 @@ public class CompanyEntity {
 
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
-    private String useYn;        // 사용여부
+    private String useYn;   // 사용여부
 
 }

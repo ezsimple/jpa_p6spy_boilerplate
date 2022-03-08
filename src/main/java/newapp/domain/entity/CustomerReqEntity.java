@@ -22,20 +22,20 @@ public class CustomerReqEntity extends BaseEntity {
     @Column(name = "F_KIND_CD", length = 6)
     private String kindCd;                 // 분류코드
 
+    @Column(name = "F_PROGRESS_CD", length = 6)
+    private String progressCd;             // 진행정보코드
+
     @ManyToOne
     @JoinColumn(name = "F_CUSTOMER_NO")
     private CustomerEntity customerEntity; // 고객정보
-
-    @Column(name = "F_PROGRESS_CD", length = 6)
-    private String progressCd;             // 진행정보코드
 
     @ManyToOne
     @JoinColumn(name = "F_USER_ID")
     private UserEntity userEntity;         // 접수자정보
 
-    @Column(name = "F_REQ")                // 요청내용
+    @Column(name = "F_REQ_CONTENT")        // 요청내용
     private String req;
 
-    @Column(name = "F_RES")                // 응답내용
+    @Column(name = "F_RES_CONTENT")        // 응답내용
     private String res;
 }

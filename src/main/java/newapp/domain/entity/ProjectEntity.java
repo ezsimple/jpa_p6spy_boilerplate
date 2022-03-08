@@ -12,9 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "T_PROJECT")
-public class ProjectEntity {
-
-    // 프로젝트
+public class ProjectEntity extends BaseEntity {
 
     @Id
     @Column(name = "F_PROJ_NO")
@@ -27,7 +25,8 @@ public class ProjectEntity {
     @JoinColumn(name = "F_USER_ID")
     private UserEntity userEntity; // 프로젝트원
 
-    @NotNull
-    @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
-    private String useYn;        // 사용여부
+    @ManyToOne
+    @JoinColumn(name = "F_COMPANY_NO")
+    private CompanyEntity companyEntity; // 프로젝트 관련 업체
+
 }

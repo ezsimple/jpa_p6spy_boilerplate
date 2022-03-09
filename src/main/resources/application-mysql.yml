@@ -5,13 +5,15 @@ spring:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       jdbc-url: jdbc:log4jdbc:mysql://127.0.0.1:3306/mhlee?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=True
       auto-commit: false
+      username: mhlee
+      password: xxxx
 
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         default_batch_fetch_size: 1000

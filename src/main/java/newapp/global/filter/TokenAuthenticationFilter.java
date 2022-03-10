@@ -2,8 +2,8 @@ package newapp.global.filter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import newapp.global.oauth.token.AuthToken;
-import newapp.global.oauth.token.AuthTokenProvider;
+import newapp.global.oauth2.token.AuthToken;
+import newapp.global.oauth2.token.AuthTokenProvider;
 import newapp.global.util.HeaderUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import newapp.global.oauth.entity.ProviderType;
-import newapp.global.oauth.entity.RoleType;
+import newapp.global.oauth2.type.ProviderType;
+import newapp.global.oauth2.type.RoleType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

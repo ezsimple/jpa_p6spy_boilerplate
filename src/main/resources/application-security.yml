@@ -5,14 +5,14 @@ spring:
         google:
           clientId: 185474481210-ftpjansdu276d7778gm27dm7cocddv0h.apps.googleusercontent.com
           clientSecret: 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
-          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
           scope:
             - email
             - profile
         facebook:
           clientId: 1453562425061689
           clientSecret: 806eab24e4a1cdcc1c41865ec7dd1b6f
-          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
           scope:
             - email
             - public_profile
@@ -41,7 +41,7 @@ spring:
         github:
           clientId: d3e47fc2ddd966fa4352
           clientSecret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
-          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
           scope:
             - user:email
             - read:user
@@ -62,7 +62,7 @@ spring:
           userNameAttribute: id
 
 cors:
-    allowedOrigins: http://localhost:8000
+    allowedOrigins: http://localhost:3000
     allowed-methods: GET,POST,PUT,DELETE,OPTIONS
     allowed-headers: '*'
     max-age: 3600

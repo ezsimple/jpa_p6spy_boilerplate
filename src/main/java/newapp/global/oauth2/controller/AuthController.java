@@ -10,7 +10,7 @@ import newapp.global.oauth2.token.AuthToken;
 import newapp.global.oauth2.token.AuthTokenProvider;
 import newapp.global.oauth2.type.RoleType;
 import newapp.global.oauth2.type.UserPrincipal;
-import newapp.global.properties.AppProperties;
+import newapp.global.oauth2.properties.AppProperties;
 import newapp.global.util.CookieUtil;
 import newapp.global.util.HeaderUtil;
 import org.springframework.security.authentication.AuthenticationManager;

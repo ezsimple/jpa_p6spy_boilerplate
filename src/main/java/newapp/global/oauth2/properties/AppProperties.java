@@ -1,4 +1,4 @@
-package newapp.global.properties;
+package newapp.global.oauth2.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

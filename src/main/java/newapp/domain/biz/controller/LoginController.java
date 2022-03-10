@@ -45,6 +45,7 @@ public class LoginController {
 
     /**
      * Kakao OAuth2 redirect address
+     * email 정보가 민감정보라니 .... ㄷㄷ
      * @param model
      * @param commandMap
      * @return

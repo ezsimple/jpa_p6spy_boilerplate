@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.UserRefreshTokenEntity;
 import newapp.domain.repository.UserRefreshTokenRepository;
 import newapp.global.oauth2.dto.AuthReqDTO;
+import newapp.global.oauth2.properties.AppProperties;
 import newapp.global.oauth2.response.ApiResponse;
 import newapp.global.oauth2.token.AuthToken;
 import newapp.global.oauth2.token.AuthTokenProvider;
 import newapp.global.oauth2.type.RoleType;
 import newapp.global.oauth2.type.UserPrincipal;
-import newapp.global.oauth2.properties.AppProperties;
 import newapp.global.util.CookieUtil;
 import newapp.global.util.HeaderUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,10 +38,8 @@ public class AuthController {
     private final static String REFRESH_TOKEN = "refresh_token";
 
     @PostMapping("/login")
-    public ApiResponse login(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody AuthReqDTO authReqDto) {
+    public ApiResponse login(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthReqDTO authReqDto) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authReqDto.getId(),
@@ -84,7 +82,7 @@ public class AuthController {
     }
 
     @GetMapping("/refresh")
-    public ApiResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
         // access token 확인
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);

@@ -1,4 +1,4 @@
-package newapp.global.annotation;
+package newapp.global.common.annotation;
 
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;

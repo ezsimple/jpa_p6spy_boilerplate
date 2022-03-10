@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 
 import static com.querydsl.core.types.ExpressionUtils.as;
 import static com.querydsl.jpa.JPAExpressions.select;
-import static newapp.global.core.CoreResource.jpaQuery;
-import static newapp.global.support.QueryDslSupport.*;
+import static newapp.global.common.core.CoreResource.jpaQuery;
+import static newapp.global.common.support.QueryDslSupport.*;
 
 @Slf4j
 @RequiredArgsConstructor

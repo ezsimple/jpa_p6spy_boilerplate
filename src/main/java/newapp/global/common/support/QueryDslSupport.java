@@ -1,4 +1,4 @@
-package newapp.global.support;
+package newapp.global.common.support;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;

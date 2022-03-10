@@ -1,4 +1,4 @@
-package newapp.global.core;
+package newapp.global.common.core;
 
 import java.util.Arrays;
 import java.util.List;

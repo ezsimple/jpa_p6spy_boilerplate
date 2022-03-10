@@ -1,4 +1,4 @@
-package newapp.global.core;
+package newapp.global.common.core;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;

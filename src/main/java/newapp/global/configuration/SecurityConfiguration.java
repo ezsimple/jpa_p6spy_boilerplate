@@ -2,7 +2,7 @@ package newapp.global.configuration;
 
 import lombok.RequiredArgsConstructor;
 import newapp.domain.repository.UserRefreshTokenRepository;
-import newapp.global.filter.TokenAuthenticationFilter;
+import newapp.global.common.filter.TokenAuthenticationFilter;
 import newapp.global.oauth2.dao.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import newapp.global.oauth2.type.RoleType;
 import newapp.global.oauth2.exception.RestAuthenticationEntryPoint;

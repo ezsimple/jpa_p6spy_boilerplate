@@ -1,4 +1,4 @@
-package newapp.global.support;
+package newapp.global.common.support;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

@@ -1,4 +1,4 @@
-package newapp.global.filter;
+package newapp.global.common.filter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 spring:
   profiles:
     group:
-      local: local,mysql,social,property-local
+      local: local,mysql,security,property-local
   jpa:
     hibernate:
       ddl-auto: none

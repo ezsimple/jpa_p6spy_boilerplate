@@ -1,0 +1,81 @@
+spring:
+  security.oauth2:
+    client:
+      registration:
+        google:
+          clientId: 185474481210-ftpjansdu276d7778gm27dm7cocddv0h.apps.googleusercontent.com
+          clientSecret: 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
+          # redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          scope:
+            - email
+            - profile
+        facebook:
+          clientId: 1453562425061689
+          clientSecret: 806eab24e4a1cdcc1c41865ec7dd1b6f
+          # redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          scope:
+            - email
+            - public_profile
+        naver:
+          clientId: 806eab24e4a1cdcc1c41865ec7dd1b6f
+          clientSecret: cB9NZ5el5n
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          # redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - nickname
+            - email
+            - profile_image
+          clientName: Naver
+        kakao:
+          clientId: dfd9ff525d324060256d2be37712a47d
+          clientSecret: cFRg4B7IY6wAjoeLTLEQrZJLHWVcIAcq
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          # redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+        github:
+          clientId: d3e47fc2ddd966fa4352
+          clientSecret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
+          # redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          scope:
+            - user:email
+            - read:user
+      provider:
+        facebook:
+          authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+          tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+          userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+        naver:
+          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+          tokenUri: https://nid.naver.com/oauth2.0/token
+          userInfoUri: https://openapi.naver.com/v1/nid/me
+          userNameAttribute: response
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
+
+cors:
+    allowedOrigins: http://localhost:8000
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+    allowed-headers: '*'
+    max-age: 3600
+
+app:
+  auth:
+    tokenSecret: 4u3ZuWNJd9en46JKRYGrD9g25SoEw5Pik7Us8Nmv
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:8000/login/oauth2/redirect

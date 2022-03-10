@@ -1,36 +1,99 @@
 package newapp.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import newapp.global.oauth.entity.ProviderType;
+import newapp.global.oauth.entity.RoleType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "T_USER")
 public class UserEntity {
-
-    // 시스템 사용자 정보
-
+    @JsonIgnore
     @Id
-    @Column(name = "F_USER_ID")
-    private String userId; // 사용자ID
+    @Column(name = "F_NO")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long no;
 
-    @Column(name = "F_USER_PW")
-    private String userPw; // 암호
-
-    @Column(name = "F_USER_NM")
-    private String userNm;   // 사용자명
-
-    @Column(name = "F_USER_EMAIL")
-    private String userEmail;  // 이메일
-
+    @Column(name = "F_ID", length = 64, unique = true)
     @NotNull
-    @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
-    private String useYn;        // 사용여부
+    @Size(max = 64)
+    private String userId;
 
+    @Column(name = "F_NAME", length = 100)
+    @NotNull
+    @Size(max = 100)
+    private String username;
+
+    @JsonIgnore
+    @Column(name = "F_PASSWORD", length = 128)
+    @NotNull
+    @Size(max = 128)
+    private String password;
+
+    @Column(name = "F_EMAIL", length = 512, unique = true)
+    @NotNull
+    @Size(max = 512)
+    private String email;
+
+    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
+    @NotNull
+    @Size(min = 1, max = 1)
+    private String emailVerifiedYn;
+
+    @Column(name = "PROFILE_IMAGE_URL", length = 512)
+    @NotNull
+    @Size(max = 512)
+    private String profileImageUrl;
+
+    @Column(name = "F_PROVIDER_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ProviderType providerType;
+
+    @Column(name = "F_ROLE_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private RoleType roleType;
+
+    @Column(name = "F_REG_DT")
+    @NotNull
+    private LocalDateTime regDt;
+
+    @Column(name = "F_MOD_DT")
+    @NotNull
+    private LocalDateTime modDt;
+
+    public UserEntity (
+            @NotNull @Size(max = 64) String userId,
+            @NotNull @Size(max = 100) String username,
+            @NotNull @Size(max = 512) String email,
+            @NotNull @Size(max = 1) String emailVerifiedYn,
+            @NotNull @Size(max = 512) String profileImageUrl,
+            @NotNull ProviderType providerType,
+            @NotNull RoleType roleType,
+            @NotNull LocalDateTime regDt,
+            @NotNull LocalDateTime modDt ) {
+        this.userId = userId;
+        this.username = username;
+        this.password = "NO_PASS";
+        this.email = email != null ? email : "NO_EMAIL";
+        this.emailVerifiedYn = emailVerifiedYn;
+        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
+        this.providerType = providerType;
+        this.roleType = roleType;
+        this.regDt = regDt;
+        this.modDt = modDt;
+    }
 }

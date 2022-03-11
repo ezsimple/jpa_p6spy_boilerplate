@@ -1,14 +1,14 @@
 package newapp.domain.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import newapp.domain.entity.pk.CodeEntityPk;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
+/**
+ * JPA CRUD 테스트용 테이블
+ */
 @Getter
 @Setter
 @Entity

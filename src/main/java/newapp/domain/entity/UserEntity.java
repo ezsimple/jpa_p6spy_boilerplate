@@ -9,6 +9,7 @@ import lombok.Setter;
 import newapp.global.oauth2.type.ProviderType;
 import newapp.global.oauth2.type.RoleType;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -18,15 +19,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "T_USER")
+@Table(name = "T_USER"
+        , uniqueConstraints = {
+            @UniqueConstraint(columnNames = "F_EMAIL")
+        }
+)
 public class UserEntity {
-    @JsonIgnore
+
     @Id
     @Column(name = "F_NO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
-    @Column(name = "F_ID", length = 64, unique = true)
+    @Column(name = "F_ID", length = 64)
     @NotNull
     @Size(max = 64)
     private String userId;
@@ -42,28 +47,28 @@ public class UserEntity {
     @Size(max = 128)
     private String password;
 
-    @Column(name = "F_EMAIL", length = 512, unique = true)
+    @Column(name = "F_EMAIL", length = 512)
     @NotNull
     @Size(max = 512)
     private String email;
 
-    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
+    @Column(name = "F_EMAIL_VERIFIED_YN", length = 1)
     @NotNull
     @Size(min = 1, max = 1)
     private String emailVerifiedYn;
 
-    @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @NotNull
+    @Column(name = "F_PROFILE_IMAGE_URL", length = 512)
+    @Nullable
     @Size(max = 512)
     private String profileImageUrl;
 
     @Column(name = "F_PROVIDER_TYPE", length = 20)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //JPA로 데이터베이스로 저장할 때 Enum 값을 어떤 형태로 저장할지 결정
     @NotNull
     private ProviderType providerType;
 
     @Column(name = "F_ROLE_TYPE", length = 20)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //JPA로 데이터베이스로 저장할 때 Enum 값을 어떤 형태로 저장할지 결정
     @NotNull
     private RoleType roleType;
 
@@ -80,7 +85,7 @@ public class UserEntity {
             @NotNull @Size(max = 100) String username,
             @NotNull @Size(max = 512) String email,
             @NotNull @Size(max = 1) String emailVerifiedYn,
-            @NotNull @Size(max = 512) String profileImageUrl,
+            @Nullable @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
             @NotNull RoleType roleType,
             @NotNull LocalDateTime regDt,

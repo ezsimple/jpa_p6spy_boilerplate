@@ -2,18 +2,18 @@ package newapp.global.configuration;
 
 import lombok.RequiredArgsConstructor;
 import newapp.domain.repository.UserRefreshTokenRepository;
-import newapp.global.common.filter.TokenAuthenticationFilter;
 import newapp.global.oauth2.dao.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import newapp.global.oauth2.type.RoleType;
 import newapp.global.oauth2.exception.RestAuthenticationEntryPoint;
 import newapp.global.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import newapp.global.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import newapp.global.oauth2.handler.TokenAccessDeniedHandler;
+import newapp.global.oauth2.properties.AppProperties;
+import newapp.global.oauth2.properties.CorsProperties;
 import newapp.global.oauth2.service.CustomOAuth2UserService;
 import newapp.global.oauth2.service.CustomUserDetailsService;
 import newapp.global.oauth2.token.AuthTokenProvider;
-import newapp.global.oauth2.properties.AppProperties;
-import newapp.global.oauth2.properties.CorsProperties;
+import newapp.global.oauth2.type.RoleType;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -73,6 +72,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/", "/hello").permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                 .anyRequest().authenticated()
@@ -91,7 +91,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2AuthenticationSuccessHandler())
                 .failureHandler(oAuth2AuthenticationFailureHandler());
 
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /*
@@ -109,14 +109,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    /*
-     * 토큰 필터 설정
-     * */
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter(tokenProvider);
     }
 
     /*

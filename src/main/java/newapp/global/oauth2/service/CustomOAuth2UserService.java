@@ -1,14 +1,15 @@
 package newapp.global.oauth2.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import newapp.domain.dao.UserDao;
 import newapp.domain.entity.UserEntity;
-import newapp.domain.repository.UserRepository;
-import newapp.global.oauth2.type.ProviderType;
-import newapp.global.oauth2.type.RoleType;
-import newapp.global.oauth2.type.UserPrincipal;
 import newapp.global.oauth2.exception.OAuthProviderMissMatchException;
 import newapp.global.oauth2.info.OAuth2UserInfo;
 import newapp.global.oauth2.info.OAuth2UserInfoFactory;
+import newapp.global.oauth2.type.ProviderType;
+import newapp.global.oauth2.type.RoleType;
+import newapp.global.oauth2.type.UserPrincipal;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -19,11 +20,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    private final UserDao userDao;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -39,11 +41,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
+    public OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        UserEntity savedUser = userRepository.findByUserId(userInfo.getId());
+        UserEntity savedUser = userDao.getUser(userInfo.getId());
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
@@ -60,7 +62,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(savedUser, user.getAttributes());
     }
 
-    private UserEntity createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+    public UserEntity createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
         UserEntity user = new UserEntity(
                 userInfo.getId(),
@@ -73,11 +75,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 now,
                 now
         );
-
-        return userRepository.saveAndFlush(user);
+        return userDao.save(user);
     }
 
-    private UserEntity updateUser(UserEntity user, OAuth2UserInfo userInfo) {
+    public UserEntity updateUser(UserEntity user, OAuth2UserInfo userInfo) {
         if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
             user.setUsername(userInfo.getName());
         }
@@ -86,6 +87,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setProfileImageUrl(userInfo.getImageUrl());
         }
 
-        return user;
+        return userDao.save(user);
     }
 }

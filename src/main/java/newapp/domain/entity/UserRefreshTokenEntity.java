@@ -13,18 +13,16 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "F_USER_REFRESH_TOKEN")
 public class UserRefreshTokenEntity {
-    @JsonIgnore
+
     @Id
     @Column(name = "F_NO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
+    private Long no ;
 
-    @Column(name = "F_USER_ID", length = 64, unique = true)
-    @NotNull
+    @Column(name = "F_USER_ID", length = 64)
     @Size(max = 64)
     private String userId;
 

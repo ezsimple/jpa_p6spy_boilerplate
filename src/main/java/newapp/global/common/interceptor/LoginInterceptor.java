@@ -1,11 +1,15 @@
 package newapp.global.common.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import newapp.global.oauth2.token.AuthToken;
+import newapp.global.oauth2.token.AuthTokenProvider;
+import newapp.global.util.HeaderUtil;
 import newapp.global.util.PropertiesUtil;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +52,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter
         session.setAttribute("_year", _now.getYear());
         session.setAttribute("_ms", _ms);
 
-        return isIpAllowed();
+        return isIpAllowed(request);
     }
 
     private String getProfile() {
@@ -62,7 +66,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter
         return profiles[0];
     }
 
-    private boolean isIpAllowed() {
+    @Autowired
+    AuthTokenProvider authTokenProvider;
+
+    private boolean isIpAllowed(HttpServletRequest request) {
+
+        String tokenStr = HeaderUtil.getAccessToken(request);
+        AuthToken token = authTokenProvider.convertAuthToken(tokenStr);
+
+        if (token.validate()) {
+            Authentication authentication = authTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
 //        String clientIp = NetUtil.getClientIP();
 //        String env = getProfile();
 //
@@ -77,6 +93,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter
 //            log.warn("clientIp : {} is rejected", clientIp);
 //            return false;
 //        }
+
         return true;
     }
 

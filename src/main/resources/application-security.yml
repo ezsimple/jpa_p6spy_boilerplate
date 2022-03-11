@@ -5,14 +5,16 @@ spring:
         google:
           clientId: 185474481210-ftpjansdu276d7778gm27dm7cocddv0h.apps.googleusercontent.com
           clientSecret: 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
-          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+          loginUrl: https://accounts.google.com/o/oauth2/v2/auth
+          loginResponseUrl: "{baseUrl}/api/callback/login/google/response"
+          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
           scope:
             - email
             - profile
         facebook:
           clientId: 1453562425061689
           clientSecret: 806eab24e4a1cdcc1c41865ec7dd1b6f
-          redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
           scope:
             - email
             - public_profile
@@ -21,6 +23,8 @@ spring:
           clientSecret: cB9NZ5el5n
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
+          loginUrl: https://nid.naver.com/oauth2.0/authorize
+          # loginResponseUrl: "{baseUrl}/api/callback/login/naver/response"
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
           scope:
             - nickname
@@ -32,6 +36,8 @@ spring:
           clientSecret: cFRg4B7IY6wAjoeLTLEQrZJLHWVcIAcq
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
+          loginUrl: https://kauth.kakao.com/oauth/authorize
+          # loginResponseUrl: "{baseUrl}/api/callback/login/kakao/response"
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
           scope:
             - profile_nickname
@@ -80,4 +86,4 @@ app:
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
-      - http://localhost:8000/login/oauth2/redirect
+      - http://localhost:8000/oauth2/redirect

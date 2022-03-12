@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -207,28 +208,23 @@ public class HelloController {
         CompanyEntity company2 = companyDao.save(companyEntity);
 
         // 기본 사용자 추가
-        newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
-        newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
+        UserEntity user1 = newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
+        UserEntity user2 = newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
 
         // 프로젝트 초기화
-        Optional<UserEntity> userEntity = userDao.getUser("mhlee@in-soft.co.kr");
-        if(userEntity.isPresent()) {
-            ProjectEntity projectEntity = new ProjectEntity();
-            projectEntity.setUseYn("Y");
-            projectEntity.setDelYn("N");
-            projectEntity.setRegId("system");
-            projectEntity.setRegDt(now);
-            projectEntity.setModId("system");
-            projectEntity.setModDt(now);
-            projectEntity.setProjNo(0L);
-            projectEntity.setProjNm("ZMON");
-            projectEntity.setUserEntity(userEntity.get());
-            projectEntity.setCompanyEntity(company1);
-            projectDao.save(projectEntity);
-
-            projectEntity.setCompanyEntity(company2);
-            projectDao.save(projectEntity);
-        }
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setUseYn("Y");
+        projectEntity.setDelYn("N");
+        projectEntity.setRegId("system");
+        projectEntity.setRegDt(now);
+        projectEntity.setModId("system");
+        projectEntity.setModDt(now);
+        projectEntity.setProjNo(0L);
+        projectEntity.setProjNm("ZMON");
+        projectEntity.setUsers(Arrays.asList(user1, user2));
+        projectEntity.setCompanies(Arrays.asList(company1, company2));
+        projectEntity.setPickYn("Y");
+        projectDao.save(projectEntity);
 
         return "init finished";
     }

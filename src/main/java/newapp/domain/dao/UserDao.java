@@ -17,7 +17,7 @@ public class UserDao {
 
     private final UserRepository userRepository;
 
-    public Optional<UserEntity> getUser(String userId) {
+    public Optional<UserEntity> findByUserId(String userId) {
         return userRepository.findByUserId(userId);
     }
 

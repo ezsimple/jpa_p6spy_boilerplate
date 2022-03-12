@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-3">
-            <h2 class="m-0 text-dark">프로젝트 관리</h2>
+            <h2 class="m-0 text-dark">${projNm } Project</h2>
           </div><!-- /.col -->
 <%--          <div class="col-sm-3">--%>
 <%--			<div class="info-box bg-warning">--%>

@@ -3,7 +3,6 @@ package newapp.global.oauth2.service;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.dao.UserDao;
 import newapp.domain.entity.UserEntity;
-import newapp.domain.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> user = userDao.getUser(username);
+        Optional<UserEntity> user = userDao.findByUserId(username);
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("Can not find username.");
         }

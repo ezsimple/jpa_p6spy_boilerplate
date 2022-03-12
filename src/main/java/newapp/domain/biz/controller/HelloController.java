@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -246,7 +245,7 @@ public class HelloController {
                 .matches();
         assertTrue(matched);
 
-        Optional<UserEntity> entity = userDao.getUser(userEmail);
+        Optional<UserEntity> entity = userDao.findByUserId(userEmail);
         if (entity.isPresent())
             throw new Exception("Already exist userId : " + userEmail);
 

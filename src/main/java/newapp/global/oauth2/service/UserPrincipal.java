@@ -1,10 +1,12 @@
-package newapp.global.oauth2.type;
+package newapp.global.oauth2.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import newapp.domain.entity.UserEntity;
+import newapp.global.oauth2.type.ProviderType;
+import newapp.global.oauth2.type.RoleType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

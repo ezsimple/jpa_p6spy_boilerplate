@@ -3,7 +3,6 @@ package newapp.global.oauth2.service;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.UserEntity;
 import newapp.domain.repository.UserRepository;
-import newapp.global.oauth2.type.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

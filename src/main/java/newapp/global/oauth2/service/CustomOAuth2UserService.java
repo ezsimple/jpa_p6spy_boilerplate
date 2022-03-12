@@ -9,7 +9,6 @@ import newapp.global.oauth2.info.OAuth2UserInfo;
 import newapp.global.oauth2.info.OAuth2UserInfoFactory;
 import newapp.global.oauth2.type.ProviderType;
 import newapp.global.oauth2.type.RoleType;
-import newapp.global.oauth2.type.UserPrincipal;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

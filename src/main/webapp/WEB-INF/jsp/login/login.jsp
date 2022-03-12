@@ -72,9 +72,8 @@
 </body>
 </html>
 <script type="application/javascript">
-   // {"header":{"code":200,"message":"SUCCESS"},"body":{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBteXBtcy5pbyIsInJvbGUiOiJST0xFX1VTRVIiLCJleHAiOjE2NDcwNjgwMTd9.LimO1jrFK9AaQetAyOPQCX0sN9E8GR94SprQJTQLEB0"}}
-   const submit = $('#loginForm button[type=submit]');
-   submit.click(function(e){
+   const $submit = $('#loginForm button[type=submit]');
+   $submit.click(function(e){
        e.preventDefault();
 
        const username = $('input[name=username]').val();
@@ -83,11 +82,11 @@
 
        $.ajax({
            url: '/api/v1/auth/login',
-           data: data,
            type: "POST",
+           data: data,
            dataType: "json",
-           success: function(data){
-               const { token } = data.body;
+           success: function(res){
+               const { token } = res.body;
                if(token) {
                     sessionStorage.setItem('token', token);
                     location.href="/";

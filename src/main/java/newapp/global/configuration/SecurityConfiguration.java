@@ -45,14 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
-    /*
-     * UserDetailsService 설정
-     * */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -111,35 +103,51 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        // http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 //    }
 
-    /*
+    /**
+     * UserDetailsService 설정
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
+
+    /**
      * auth 매니저 설정
-     * */
+     * @return
+     * @throws Exception
+     */
     @Override
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
 
-    /*
+    /**
      * security 설정 시, 사용할 인코더 설정
-     * */
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /*
+    /**
      * 쿠키 기반 인가 Repository
      * 인가 응답을 연계 하고 검증할 때 사용.
-     * */
+     * @return
+     */
     @Bean
     public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
         return new OAuth2AuthorizationRequestBasedOnCookieRepository();
     }
 
-    /*
+    /**
      * Oauth 인증 성공 핸들러
-     * */
+     * @return
+     */
     @Bean
     public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
         return new OAuth2AuthenticationSuccessHandler(
@@ -150,17 +158,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         );
     }
 
-    /*
+    /**
      * Oauth 인증 실패 핸들러
-     * */
+     * @return
+     */
     @Bean
     public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
         return new OAuth2AuthenticationFailureHandler(oAuth2AuthorizationRequestBasedOnCookieRepository());
     }
 
-    /*
+    /**
      * Cors 설정
-     * */
+     * @return
+     */
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();

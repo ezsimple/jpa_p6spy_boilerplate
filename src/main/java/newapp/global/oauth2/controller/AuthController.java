@@ -1,23 +1,26 @@
 package newapp.global.oauth2.controller;
 
 import io.jsonwebtoken.Claims;
+import io.mkeasy.resolver.CommandMap;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.entity.UserRefreshTokenEntity;
 import newapp.domain.repository.UserRefreshTokenRepository;
-import newapp.global.oauth2.dto.AuthReqDTO;
 import newapp.global.oauth2.properties.AppProperties;
 import newapp.global.oauth2.response.ApiResponse;
+import newapp.global.oauth2.service.UserPrincipal;
 import newapp.global.oauth2.token.AuthToken;
 import newapp.global.oauth2.token.AuthTokenProvider;
 import newapp.global.oauth2.type.RoleType;
-import newapp.global.oauth2.service.UserPrincipal;
 import newapp.global.util.CookieUtil;
 import newapp.global.util.HeaderUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,16 +41,15 @@ public class AuthController {
     private final static String REFRESH_TOKEN = "refresh_token";
 
     @PostMapping("/login")
-    public ApiResponse login(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthReqDTO authReqDto) {
+    public ApiResponse login(HttpServletRequest request, HttpServletResponse response, CommandMap commandMap) {
+
+        String userId = commandMap.getParam("username");
+        String password = commandMap.getParam("password");
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authReqDto.getId(),
-                        authReqDto.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(userId, password)
         );
 
-        String userId = authReqDto.getId();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();

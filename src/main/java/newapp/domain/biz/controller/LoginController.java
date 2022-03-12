@@ -5,37 +5,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
 public class LoginController {
 
     /**
-     * provider OAuth2 redirect address
-     * providers : google, facebook, naver, kakao
+     * 주의) AuthController에서 /login, /refresh 처리를 합니다.
+     * @param model
      * @param commandMap
      * @return
      */
-    @GetMapping("/login/oauth2/code/{provider}")
-    public String redirect(@PathVariable("provider") String provider, CommandMap commandMap) {
-        return "login/"+provider;
+    @GetMapping("/login.do")
+    public String login(Model model, CommandMap commandMap) {
+        return "login/login";
     }
 
-    @GetMapping("/sign_in.do")
-    public String signIn(Model model, CommandMap commandMap) {
-        return "login/sign_in";
-    }
-
-    @PostMapping("/sign_ok.do")
-    public String signOk(Model model, CommandMap commandMap) {
-        return "login/sign_in";
-    }
-
-    @GetMapping("/sign_out.do")
-    public String signOut(Model model, CommandMap commandMap) {
-        return "login/sign_out";
+    @GetMapping("/logout.do")
+    public String logout(Model model, CommandMap commandMap) {
+        return "login/logout";
     }
 
 }

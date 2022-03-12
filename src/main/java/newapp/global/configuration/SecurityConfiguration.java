@@ -3,6 +3,7 @@ package newapp.global.configuration;
 import lombok.RequiredArgsConstructor;
 import newapp.domain.repository.UserRefreshTokenRepository;
 import newapp.global.oauth2.dao.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import newapp.global.oauth2.exception.RestAuthenticationEntryPoint;
 import newapp.global.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import newapp.global.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import newapp.global.oauth2.handler.TokenAccessDeniedHandler;
@@ -11,15 +12,19 @@ import newapp.global.oauth2.properties.CorsProperties;
 import newapp.global.oauth2.service.CustomOAuth2UserService;
 import newapp.global.oauth2.service.CustomUserDetailsService;
 import newapp.global.oauth2.token.AuthTokenProvider;
+import newapp.global.oauth2.type.RoleType;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -47,6 +52,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors()
+            .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling()
+            .and()
+                .authorizeRequests()
+                .antMatchers("/", "/**").permitAll()
+            ;
     }
 
 //    @Override

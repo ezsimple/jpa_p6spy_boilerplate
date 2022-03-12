@@ -107,6 +107,8 @@ public class HelloController {
     @GetMapping(value = {"/init"})
     public String init() throws Exception {
 
+        LocalDateTime now = LocalDateTime.now();
+
         // 다국어 초기화
         LangEntity langEntity = new LangEntity();
         langEntity.setLang("KO");
@@ -213,6 +215,11 @@ public class HelloController {
         if(userEntity.isPresent()) {
             ProjectEntity projectEntity = new ProjectEntity();
             projectEntity.setUseYn("Y");
+            projectEntity.setDelYn("N");
+            projectEntity.setRegId("system");
+            projectEntity.setRegDt(now);
+            projectEntity.setModId("system");
+            projectEntity.setModDt(now);
             projectEntity.setProjNo(0L);
             projectEntity.setProjNm("ZMON");
             projectEntity.setUserEntity(userEntity.get());

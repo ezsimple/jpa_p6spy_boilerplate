@@ -20,6 +20,10 @@ public class ProjectDao {
     }
 
     public ProjectEntity save(ProjectEntity projectEntity) {
+        if(findById(projectEntity.getProjNo()).isPresent()) {
+            log.warn("Already exist project : {}", projectEntity.getProjNm());
+            return projectEntity;
+        }
         return projectRepository.saveAndFlush(projectEntity);
     }
 }

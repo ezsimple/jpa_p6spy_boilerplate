@@ -105,7 +105,7 @@ public class HelloController {
 
     @ResponseBody
     @GetMapping(value = {"/init"})
-    public void init() throws Exception {
+    public String init() throws Exception {
 
         // 다국어 초기화
         LangEntity langEntity = new LangEntity();
@@ -223,6 +223,7 @@ public class HelloController {
             projectDao.save(projectEntity);
         }
 
+        return "init finished";
     }
 
     public UserEntity newUser(String userEmail, String userNm, String password, String role) throws Exception {

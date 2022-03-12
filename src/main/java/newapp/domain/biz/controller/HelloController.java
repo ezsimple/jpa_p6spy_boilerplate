@@ -4,12 +4,10 @@ import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import newapp.domain.dao.CustomerReqDao;
-import newapp.domain.dao.UserDao;
+import newapp.domain.dao.*;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
-import newapp.domain.entity.CustomerReqEntity;
-import newapp.domain.entity.UserEntity;
+import newapp.domain.entity.*;
 import newapp.global.oauth2.type.RoleType;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertTrue;
@@ -33,11 +32,15 @@ import static org.junit.Assert.assertTrue;
 public class HelloController {
 
     private final SqlSession sqlSession;
+    private final PasswordEncoder passwordEncoder;
+
     private final QueryFactory queryFactory;
     private final CustomerReqDao customerReqDao;
-
+    private final LangDao langDao;
+    private final CodeDao codeDao;
+    private final CompanyDao companyDao;
+    private final ProjectDao projectDao;
     private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
 
     private String getStatement(String ns, String nsId) {
         return ns + "." + nsId;
@@ -97,13 +100,132 @@ public class HelloController {
         r = queryFactory.toInt(result);
         log.debug("{}", r);
 
-        newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
-
         return "hello";
     }
 
+    @ResponseBody
+    @GetMapping(value = {"/init"})
+    public void init() throws Exception {
 
-    private void newUser(String userEmail, String userNm, String password, String role) throws Exception {
+        // 다국어 초기화
+        LangEntity langEntity = new LangEntity();
+        langEntity.setLang("KO");
+        langEntity.setName("한국어");
+        langDao.save(langEntity);
+
+        langEntity.setLang("EN");
+        langEntity.setName("영어");
+        langDao.save(langEntity);
+
+        // 코드 종류 : 000
+        CodeEntity codeEntity = new CodeEntity();
+        codeEntity.setUseYn("Y");
+        codeEntity.setGname("종류");
+        codeEntity.setGid("000");
+        codeEntity.setCname("버거");
+        codeEntity.setCid("000");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("개선");
+        codeEntity.setCid("001");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("요구");
+        codeEntity.setCid("002");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("문의");
+        codeEntity.setCid("003");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("기타");
+        codeEntity.setCid("004");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        // 코드 : 진행상황 : 001
+        codeEntity.setGname("진행상황");
+        codeEntity.setGid("001");
+        codeEntity.setCname("대기");
+        codeEntity.setCid("000");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("접수");
+        codeEntity.setCid("001");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("검토");
+        codeEntity.setCid("002");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("완료");
+        codeEntity.setCid("003");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("보류");
+        codeEntity.setCid("004");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        codeEntity.setCname("기각");
+        codeEntity.setCid("005");
+        codeEntity.setCode6(codeEntity.getGid()+codeEntity.getCid());
+        codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
+        codeDao.save(codeEntity);
+
+        // 회사정보
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setUseYn("Y");
+        companyEntity.setNo(0L);
+        companyEntity.setName("INSoft");
+        companyEntity.setMemo("아이엔소프트");
+        CompanyEntity company1 = companyDao.save(companyEntity);
+
+        companyEntity.setNo(1L);
+        companyEntity.setName("SK C&C");
+        companyEntity.setMemo("SK C&C");
+        CompanyEntity company2 = companyDao.save(companyEntity);
+
+        // 기본 사용자 추가
+        newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
+        newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
+
+        // 프로젝트 초기화
+        Optional<UserEntity> userEntity = userDao.getUser("mhlee@in-soft.co.kr");
+        if(userEntity.isPresent()) {
+            ProjectEntity projectEntity = new ProjectEntity();
+            projectEntity.setUseYn("Y");
+            projectEntity.setProjNo(0L);
+            projectEntity.setProjNm("ZMON");
+            projectEntity.setUserEntity(userEntity.get());
+            projectEntity.setCompanyEntity(company1);
+            projectDao.save(projectEntity);
+
+            projectEntity.setCompanyEntity(company2);
+            projectDao.save(projectEntity);
+        }
+
+    }
+
+    public UserEntity newUser(String userEmail, String userNm, String password, String role) throws Exception {
 
         /**
          * email Patter 검사
@@ -114,10 +236,11 @@ public class HelloController {
                 .matches();
         assertTrue(matched);
 
-        UserEntity userEntity = userDao.getUser(userEmail);
-        if(userEntity!=null)
+        Optional<UserEntity> entity = userDao.getUser(userEmail);
+        if (entity.isPresent())
             throw new Exception("Already exist userId : " + userEmail);
 
+        UserEntity userEntity = new UserEntity();
         userEntity = new UserEntity();
         userEntity.setUserId(userEmail);
         userEntity.setPassword(passwordEncoder.encode(password));
@@ -126,10 +249,10 @@ public class HelloController {
         userEntity.setEmailVerifiedYn("Y");
 
         RoleType roleType = RoleType.of("GUEST");
-        if(StringUtils.containsAnyIgnoreCase(role, "admin"))
+        if (StringUtils.containsAnyIgnoreCase(role, "admin"))
             roleType = RoleType.of("ROLE_ADMIN");
 
-        if(StringUtils.containsAnyIgnoreCase(role, "user"))
+        if (StringUtils.containsAnyIgnoreCase(role, "user"))
             roleType = RoleType.of("ROLE_USER");
 
         userEntity.setRoleType(roleType);
@@ -138,8 +261,7 @@ public class HelloController {
         userEntity.setRegDt(now);
         userEntity.setModDt(now);
 
-        userDao.save(userEntity);
-
+        return userDao.save(userEntity);
     }
 
 }

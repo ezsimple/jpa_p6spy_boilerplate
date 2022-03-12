@@ -27,12 +27,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id
-    @Column(name = "F_NO")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
-
     @Column(name = "F_ID", length = 64)
-    @NotNull
     @Size(max = 64)
     private String userId;
 

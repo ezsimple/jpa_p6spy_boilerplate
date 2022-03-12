@@ -7,6 +7,8 @@ import newapp.domain.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Repository
@@ -15,11 +17,13 @@ public class UserDao {
 
     private final UserRepository userRepository;
 
-    public UserEntity getUser(String userId) {
+    public Optional<UserEntity> getUser(String userId) {
         return userRepository.findByUserId(userId);
     }
 
     public UserEntity save(UserEntity user) {
         return userRepository.saveAndFlush(user);
     }
+
 }
+

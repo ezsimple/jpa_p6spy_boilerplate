@@ -24,6 +24,10 @@ public class CompanyEntity {
     @Column(name = "F_MEMO")
     private String memo;    // 설명
 
+    @ManyToOne
+    @JoinColumn(name = "F_PROJ_NO")
+    private ProjectEntity projectEntity;
+
     @NotNull
     @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
     private String useYn;   // 사용여부

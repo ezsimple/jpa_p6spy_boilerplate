@@ -194,23 +194,6 @@ public class HelloController {
         codeEntity.setOrderNo(Long.parseLong(codeEntity.getCid()));
         codeDao.save(codeEntity);
 
-        // 회사정보
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setUseYn("Y");
-        companyEntity.setNo(0L);
-        companyEntity.setName("INSoft");
-        companyEntity.setMemo("아이엔소프트");
-        CompanyEntity company1 = companyDao.save(companyEntity);
-
-        companyEntity.setNo(1L);
-        companyEntity.setName("SK C&C");
-        companyEntity.setMemo("SK C&C");
-        CompanyEntity company2 = companyDao.save(companyEntity);
-
-        // 기본 사용자 추가
-        UserEntity user1 = newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
-        UserEntity user2 = newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
-
         // 프로젝트 초기화
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setUseYn("Y");
@@ -221,10 +204,33 @@ public class HelloController {
         projectEntity.setModDt(now);
         projectEntity.setProjNo(0L);
         projectEntity.setProjNm("ZMON");
-        projectEntity.setUsers(Arrays.asList(user1, user2));
-        projectEntity.setCompanies(Arrays.asList(company1, company2));
         projectEntity.setPickYn("Y");
-        projectDao.save(projectEntity);
+        ProjectEntity proj1 = projectDao.save(projectEntity);
+
+        // 회사정보
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setUseYn("Y");
+        companyEntity.setNo(0L);
+        companyEntity.setName("INSoft");
+        companyEntity.setMemo("아이엔소프트");
+        companyEntity.setProjectEntity(proj1);
+        companyDao.save(companyEntity);
+
+        companyEntity.setNo(1L);
+        companyEntity.setName("SK C&C");
+        companyEntity.setMemo("SK C&C");
+        companyEntity.setProjectEntity(proj1);
+        companyDao.save(companyEntity);
+
+        // 기본 사용자 추가
+        UserEntity user1 = newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
+        UserEntity user2 = newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
+
+        user1.setProjectEntity(proj1);
+        userDao.save(user1);
+
+        user2.setProjectEntity(proj1);
+        userDao.save(user2);
 
         return "init finished";
     }

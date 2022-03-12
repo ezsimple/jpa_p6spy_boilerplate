@@ -75,6 +75,10 @@ public class UserEntity {
     @NotNull
     private LocalDateTime modDt;
 
+    @ManyToOne
+    @JoinColumn(name = "F_PROJ_NO")
+    private ProjectEntity projectEntity;
+
     public UserEntity (
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,

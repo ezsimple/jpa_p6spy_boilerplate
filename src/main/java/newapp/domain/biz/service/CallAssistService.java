@@ -9,8 +9,8 @@ import newapp.domain.dao.CustomerReqDao;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.dto.StatDTO;
-import newapp.domain.entity.CustomerReqEntity;
 import newapp.global.common.service.AbstractService;
+import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -28,6 +28,7 @@ public class CallAssistService extends AbstractService {
 	
 	private final QueryFactory queryFactory;
 	private final CustomerReqDao customerReqDao;
+	private final SessionUtil sessionUtil;
 
 	/**
 	 * 목록 조회 및 검색 하기
@@ -36,6 +37,8 @@ public class CallAssistService extends AbstractService {
 	 * @return
 	 */
 	public Map searchCallAssist(ModelMap model, CommandMap commandMap) {
+
+		getProjNm(model);
 
 		SearchDTO searchDTO = new SearchDTO();
 
@@ -86,7 +89,9 @@ public class CallAssistService extends AbstractService {
 	 * @throws Exception
 	 */
 	public String selectCallAssistView(ModelMap model, CommandMap commandMap, String viewType) throws Exception {
+
 		String no = commandMap.getParam("no");
+		getProjNm(model);
 
 		// 신규등록 페이지 보기
 		if(StringUtils.isEmpty(no)) {
@@ -114,6 +119,7 @@ public class CallAssistService extends AbstractService {
 	public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
 		String no = commandMap.getParam("no");
 		String iuFlag = commandMap.getParam("iuFlag");
+		getProjNm(model);
 
 		String ns = "oldegg.board";
 		String nsId = "insertTblCallAssist";
@@ -144,6 +150,15 @@ public class CallAssistService extends AbstractService {
 		if(StringUtils.equals(iuFlag, "D")) url = "redirect:/board/call_assist.do";
 
 		return url;
+	}
+
+	/**
+	 * 현재 사용자가 선택한` ProjNm 을 페이지로 전달
+	 * @param model
+	 */
+	private void getProjNm(ModelMap model) {
+		String projNm = sessionUtil.getUserProjectNm();
+		model.addAttribute("projNm", projNm);
 	}
 
 }

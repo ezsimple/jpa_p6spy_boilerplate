@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import newapp.domain.biz.service.CallAssistService;
 import newapp.domain.dao.ProjectDao;
 import newapp.domain.dao.UserDao;
-import newapp.domain.entity.ProjectEntity;
-import newapp.domain.entity.UserEntity;
 import newapp.global.util.SessionUtil;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -51,18 +48,12 @@ class CallAssistController {
     @GetMapping(value = {"/board/call_assist_view.do"})
     public String selectCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
-        // String userId = sessionUtil.getUserId();
-        String projNm = sessionUtil.getUserProjectNm();
-        model.addAttribute("projNm", projNm);
         return callAssistService.selectCallAssistView(model, commandMap, "view");
     }
 
     @GetMapping(value = {"/board/call_assist_inner.do"})
     public String selectCallAssistInner(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
-        // String userId = sessionUtil.getUserId();
-        String projNm = sessionUtil.getUserProjectNm();
-        model.addAttribute("projNm", projNm);
         return callAssistService.selectCallAssistView(model, commandMap, "inner");
     }
 
@@ -70,9 +61,6 @@ class CallAssistController {
     @PostMapping(value = {"/board/call_assist_view.do"})
     public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
-        // String userId = sessionUtil.getUserId();
-        String projNm = sessionUtil.getUserProjectNm();
-        model.addAttribute("projNm", projNm);
         return callAssistService.upsertCallAssistView(model, commandMap);
     }
 

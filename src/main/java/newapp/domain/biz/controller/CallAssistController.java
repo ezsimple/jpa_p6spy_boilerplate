@@ -9,6 +9,7 @@ import newapp.domain.dao.UserDao;
 import newapp.domain.entity.ProjectEntity;
 import newapp.domain.entity.UserEntity;
 import newapp.global.util.SessionUtil;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ class CallAssistController {
     private final CallAssistService callAssistService;
     private final ProjectDao projectDao;
     private final UserDao userDao;
+    private final SessionUtil sessionUtil;
 
     // 조회 및 검색 하기
     @ResponseBody
@@ -37,29 +39,30 @@ class CallAssistController {
 
     // 리스트 페이지 보기
     @GetMapping(value = {"/board/call_assist.do"})
-    public String listCallAssist(ModelMap model, CommandMap commandMap) throws Exception {
+    public String listCallAssist(Session session, ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
 
-        String userId = SessionUtil.getUserId();
-        Optional<UserEntity> entity = userDao.findByUserId(userId);
-        if (entity.isPresent()) {
-            Optional<ProjectEntity> proj = projectDao.findById(entity.get().getProjectEntity().getProjNo());
-            String projNm = proj.isPresent() ? proj.get().getProjNm() : "";
-            model.addAttribute("projNm", projNm);
-        }
-
+        // String userId = sessionUtil.getUserId();
+        String projNm = sessionUtil.getUserProjectNm();
+        model.addAttribute("projNm", projNm);
         return "board/call_assist";
     }
 
     @GetMapping(value = {"/board/call_assist_view.do"})
     public String selectCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
+        // String userId = sessionUtil.getUserId();
+        String projNm = sessionUtil.getUserProjectNm();
+        model.addAttribute("projNm", projNm);
         return callAssistService.selectCallAssistView(model, commandMap, "view");
     }
 
     @GetMapping(value = {"/board/call_assist_inner.do"})
     public String selectCallAssistInner(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
+        // String userId = sessionUtil.getUserId();
+        String projNm = sessionUtil.getUserProjectNm();
+        model.addAttribute("projNm", projNm);
         return callAssistService.selectCallAssistView(model, commandMap, "inner");
     }
 
@@ -67,6 +70,9 @@ class CallAssistController {
     @PostMapping(value = {"/board/call_assist_view.do"})
     public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
         commandMap.debugParams();
+        // String userId = sessionUtil.getUserId();
+        String projNm = sessionUtil.getUserProjectNm();
+        model.addAttribute("projNm", projNm);
         return callAssistService.upsertCallAssistView(model, commandMap);
     }
 

@@ -10,4 +10,5 @@ public class SearchDTO {
     String searchWord;      // 검색어
     LocalDateTime startDt;  // 검색시작일
     LocalDateTime endDt;    // 검색종료일
+    Long maxNo;             // 마지막번호
 }

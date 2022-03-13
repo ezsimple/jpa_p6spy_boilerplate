@@ -173,6 +173,19 @@ public class CustomerReqDao {
     }
 
     /**
+     * 최종 등록 번호 구하기
+     * @return
+     */
+    public Long getMaxNo() {
+        SearchDTO result = jpaQuery().select(Projections.bean(
+                        SearchDTO.class
+                        , qCustomerReqEntity.no.max().as("maxNo")
+                )).from(qCustomerReqEntity)
+                .fetchFirst();
+        return result.getMaxNo() == null ? 0L : result.getMaxNo();
+    }
+
+    /**
      * 파라미터를 customerEntity로 변환
      * @param commandMap
      * @return
@@ -183,9 +196,18 @@ public class CustomerReqDao {
         LocalDateTime now = LocalDateTime.now();
         CustomerReqEntity customerReqEntity = new CustomerReqEntity();
 
-        String no = commandMap.getParam("no");
-        if (!StringUtils.isEmpty(no))
-            customerReqEntity.setNo(Long.parseLong(no));                             // 요청번호
+        String iuFlag = commandMap.getParam("iuFlag");
+
+        if(StringUtils.equals(iuFlag, "I")) {
+            Long maxNo = getMaxNo();
+            customerReqEntity.setNo(maxNo + 1);
+        }
+
+        if(StringUtils.equals(iuFlag, "U")) {
+            String no = commandMap.getParam("no");
+            if (!StringUtils.isEmpty(no))
+                customerReqEntity.setNo(Long.parseLong(no));                         // 요청번호
+        }
 
         String kindCd = commandMap.getParam("kindCd");
         if (!StringUtils.isEmpty(kindCd))
@@ -201,7 +223,7 @@ public class CustomerReqDao {
 
         String reqUserNm = commandMap.getParam("reqUserNm");
         if (!StringUtils.isEmpty(reqUserNm))
-            customerReqEntity.setReqUserEmail(reqUserNm);                           // 요청자명
+            customerReqEntity.setReqUserNm(reqUserNm);                              // 요청자명
 
         String reqUserPhoneNo = commandMap.getParam("reqUserPhoneNo");
         if (!StringUtils.isEmpty(reqUserPhoneNo))
@@ -209,19 +231,20 @@ public class CustomerReqDao {
 
         String progressCd = commandMap.getParam("progressCd");
         if (!StringUtils.isEmpty(progressCd))
-            customerReqEntity.setProgressCd(progressCd);                             // 진행정보코드
+            customerReqEntity.setProgressCd(progressCd);                            // 진행정보코드
 
         Optional<UserEntity> userEntity = userDao.findByUserId(userId);
-        customerReqEntity.setUserEntity(userEntity.get());                           // 상담자명
+        customerReqEntity.setUserEntity(userEntity.get());                          // 상담자명
 
         String reqContent = commandMap.getParam("reqContent");
         if (!StringUtils.isEmpty(reqContent))
-            customerReqEntity.setReqContent(reqContent);                             // 요청내용
+            customerReqEntity.setReqContent(reqContent);                            // 요청내용
 
         String resContent = commandMap.getParam("resContent");
         if (!StringUtils.isEmpty(resContent))
-            customerReqEntity.setResContent(resContent);                             // 응답내용
+            customerReqEntity.setResContent(resContent);                            // 응답내용
 
+        customerReqEntity.setDelYn("N");
         customerReqEntity.setRegId(userId);
         customerReqEntity.setRegDt(now);
         customerReqEntity.setModId(userId);
@@ -236,7 +259,7 @@ public class CustomerReqDao {
      * @return
      */
     public CustomerReqEntity save(CustomerReqEntity customerReqEntity) {
-        return customerReqRepository.save(customerReqEntity);
+        return customerReqRepository.saveAndFlush(customerReqEntity);
     }
 
     /**

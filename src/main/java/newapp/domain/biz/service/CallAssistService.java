@@ -17,6 +17,7 @@ import newapp.global.common.service.AbstractService;
 import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.text.SimpleDateFormat;
@@ -126,6 +127,7 @@ public class CallAssistService extends AbstractService {
 	}
 
 	// 추가,수정,삭제 처리
+	@Transactional
 	public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
 		String no = commandMap.getParam("no");
 		String iuFlag = commandMap.getParam("iuFlag");
@@ -147,7 +149,8 @@ public class CallAssistService extends AbstractService {
 		CustomerReqEntity customerReqEntity = customerReqDao.toCustomerReqEntity(commandMap);
 
 		if(StringUtils.equals(iuFlag, "I") || StringUtils.equals(iuFlag, "U")) {
-			customerReqDao.save(customerReqEntity);
+			customerReqEntity = customerReqDao.save(customerReqEntity);
+			no = String.valueOf(customerReqEntity.getNo());
 		}
 
 		if(StringUtils.equals(iuFlag, "D")) {

@@ -59,7 +59,7 @@
 			<a href="${_ctx }/board/call_assist.do" class="nav-link ${act_9} }">
 <%--              <i class="nav-icon fa-solid fa-diagram-project"></i>--%>
               <i class="nav-icon fas fa-a"></i>
-			  <p>프로젝트 관리</p>
+			  <p>현재 프로젝트</p>
 			</a>
 		  </li>
         </ul>

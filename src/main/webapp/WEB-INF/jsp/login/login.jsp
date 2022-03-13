@@ -75,11 +75,9 @@
    const $submit = $('#loginForm button[type=submit]');
    $submit.click(function(e){
        e.preventDefault();
+       $submit.prop("disabled", true);
 
-       const username = $('input[name=username]').val();
-       const password = $('input[name=password]').val();
-       const data = { 'username': username, 'password' : password }
-
+       const data = $('#loginForm').serializeObject();
        $.ajax({
            url: '/api/v1/auth/login',
            type: "POST",
@@ -91,6 +89,9 @@
                     sessionStorage.setItem('token', token);
                     location.href="/";
                }
+           },
+           complete: function() {
+               $submit.prop("disabled", false);
            }
        });
    });

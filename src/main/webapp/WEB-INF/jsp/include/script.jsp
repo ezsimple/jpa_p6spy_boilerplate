@@ -47,4 +47,24 @@ function toast(title, body, delay) {
 	  body: (!body||body==''?thanksWords[Date.now()%thanksWords.length]:body)
   });
 }
+
+jQuery.fn.serializeObject = function () {
+    let result = {};
+    jQuery.each(this.serializeArray(), function (i, element) {
+        let node = result[element.name];
+        if (typeof node !== 'undefined' && node !== null) {
+            if (jQuery.isArray(node)) {
+                node.push(element.value);
+            } else {
+                result[element.name] = [node, element.value];
+            }
+        } else {
+            result[element.name] = element.value;
+        }
+    });
+    jQuery.each(this.find('input[type=checkbox]'), function (i, element) {
+        result[element.name] = $(element).prop('checked');
+    });
+    return result;
+};
 </script>

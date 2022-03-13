@@ -87,19 +87,19 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     }
 
     public static UserPrincipal create(UserEntity user) {
+        RoleType userRoleType = user.getRoleType();
         return new UserPrincipal(
                 user.getUserId(),
                 user.getPassword(),
                 user.getProviderType(),
-                RoleType.USER,
-                Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
+                userRoleType,
+                Collections.singletonList(new SimpleGrantedAuthority(userRoleType.getCode()))
         );
     }
 
     public static UserPrincipal create(UserEntity user, Map<String, Object> attributes) {
         UserPrincipal userPrincipal = create(user);
         userPrincipal.setAttributes(attributes);
-
         return userPrincipal;
     }
 }

@@ -2,6 +2,7 @@ package newapp.domain.biz.controller;
 
 import io.mkeasy.resolver.CommandMap;
 import lombok.extern.slf4j.Slf4j;
+import newapp.global.oauth2.type.RoleType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,12 @@ public class LoginController {
     @GetMapping("/logout.do")
     public String logout(Model model, CommandMap commandMap) {
         return "login/logout";
+    }
+
+    @GetMapping("/deny.do")
+    public String deny(Model model, CommandMap commandMap) {
+        log.debug("{}, {}", RoleType.ADMIN.getCode(), RoleType.ADMIN.name());
+        return "login/deny";
     }
 
 }

@@ -34,11 +34,20 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
+  <style>
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 300;
+      margin-left: 1rem;
+      margin-bottom: 0.9rem;
+      text-align: left;
+    }
+  </style>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="${_ctx }" class="brand-link">
       <img src="${_ctx }/static/images/insoft_logo_2.png" alt="아이엔 소프트" class="brand-image elevation-3" >
-      <span class="brand-text font-weight-light"><b>PMS</b></span>
+      <span class="brand-text font-weight-light nav-logo">my<b>PMS</b></span>
     </a>
 
     <!-- Sidebar -->

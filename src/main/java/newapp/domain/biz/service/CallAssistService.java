@@ -2,13 +2,17 @@ package newapp.domain.biz.service;
 
 import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.utils.MapUtil;
-import io.mkeasy.webapp.processor.QueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import newapp.domain.dao.CompanyDao;
 import newapp.domain.dao.CustomerReqDao;
+import newapp.domain.dao.UserDao;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.dto.StatDTO;
+import newapp.domain.entity.CompanyEntity;
+import newapp.domain.entity.CustomerReqEntity;
+import newapp.domain.entity.UserEntity;
 import newapp.global.common.service.AbstractService;
 import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -18,17 +22,20 @@ import org.springframework.ui.ModelMap;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CallAssistService extends AbstractService {
 	
-	private final QueryFactory queryFactory;
 	private final CustomerReqDao customerReqDao;
 	private final SessionUtil sessionUtil;
+	private final UserDao userDao;
+	private final CompanyDao companyDao;
 
 	/**
 	 * 목록 조회 및 검색 하기
@@ -90,8 +97,11 @@ public class CallAssistService extends AbstractService {
 	 */
 	public String selectCallAssistView(ModelMap model, CommandMap commandMap, String viewType) throws Exception {
 
-		String no = commandMap.getParam("no");
 		getProjNm(model);
+		getCompanies(model);
+		getConsultUserNm(model);
+
+		String no = commandMap.getParam("no");
 
 		// 신규등록 페이지 보기
 		if(StringUtils.isEmpty(no)) {
@@ -119,14 +129,8 @@ public class CallAssistService extends AbstractService {
 	public String upsertCallAssistView(ModelMap model, CommandMap commandMap) throws Exception {
 		String no = commandMap.getParam("no");
 		String iuFlag = commandMap.getParam("iuFlag");
-		getProjNm(model);
-
-		String ns = "oldegg.board";
-		String nsId = "insertTblCallAssist";
 
 		if(StringUtils.equals(iuFlag, "U")) { // 수정 처리시
-			nsId = "updateTblCallAssist";
-
 			// --------------------------------------------------------
 			// 완료여부만 변경하고, 처리일자를 입력하지 않는 사례 보완.
 			// --------------------------------------------------------
@@ -140,25 +144,56 @@ public class CallAssistService extends AbstractService {
 			}
 		}
 
-		if(StringUtils.equals(iuFlag, "D")) nsId = "deleteTblCallAssist";
+		CustomerReqEntity customerReqEntity = customerReqDao.toCustomerReqEntity(commandMap);
 
-		// queryFactory.executeTx(ns, nsId, commandMap.getQueryMap());
+		if(StringUtils.equals(iuFlag, "I") || StringUtils.equals(iuFlag, "U")) {
+			customerReqDao.save(customerReqEntity);
+		}
+
+		if(StringUtils.equals(iuFlag, "D")) {
+			customerReqDao.delete(customerReqEntity);
+		}
 
 		String url = "redirect:/board/call_assist_view.do";
 		if(!StringUtils.isEmpty(no)) url+="?no="+no;
-
 		if(StringUtils.equals(iuFlag, "D")) url = "redirect:/board/call_assist.do";
 
 		return url;
 	}
 
 	/**
-	 * 현재 사용자가 선택한` ProjNm 을 페이지로 전달
+	 * 현재 사용자가 선택한 ProjNm 을 페이지로 전달
 	 * @param model
 	 */
 	private void getProjNm(ModelMap model) {
 		String projNm = sessionUtil.getUserProjectNm();
 		model.addAttribute("projNm", projNm);
+	}
+
+	/**
+	 * 상담자 정보 표시
+	 * @param model
+	 */
+	private void getConsultUserNm(ModelMap model) {
+		model.addAttribute("consultUserNm", sessionUtil.getUserNm());
+	}
+
+	/**
+	 * 프로젝트 관련 회사목록
+	 * @param model
+	 * @return
+	 */
+	private List<CompanyEntity> getCompanies(ModelMap model) {
+		String userId = sessionUtil.getUserId();
+
+		Optional<UserEntity> userEntity = userDao.findByUserId(userId);
+		if(!userEntity.isPresent()) Collections.emptyList();
+
+		Long projNo = userEntity.get().getProjectEntity().getProjNo();
+		List<CompanyEntity> companies = companyDao.findByProjNo(projNo);
+		model.addAttribute("companies", companies);
+
+		return companies;
 	}
 
 }

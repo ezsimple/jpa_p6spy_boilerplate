@@ -38,7 +38,7 @@ public class CustomerReqEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "F_USER_ID")
-    private UserEntity userEntity;         // 접수자정보
+    private UserEntity userEntity;         // 접수자정보 (현사용자 정보)
 
     @Column(name = "F_REQ_CONTENT")        // 요청내용
     private String reqContent;

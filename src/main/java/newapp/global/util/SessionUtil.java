@@ -31,6 +31,13 @@ public class SessionUtil {
         return principal.toString();
     }
 
+    public String getUserNm() {
+        String userId = getUserId();
+        Optional<UserEntity> entity = userDao.findByUserId(userId);
+        if (!entity.isPresent()) return "";
+        return entity.get().getUsername();
+    }
+
     public String getUserProjectNm() {
         String userId = getUserId();
         Optional<UserEntity> entity = userDao.findByUserId(userId);

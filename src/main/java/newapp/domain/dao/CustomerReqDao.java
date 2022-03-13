@@ -8,14 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
 import newapp.domain.dto.StatDTO;
-import newapp.domain.entity.CustomerReqEntity;
-import newapp.domain.entity.QCodeEntity;
-import newapp.domain.entity.QCustomerReqEntity;
+import newapp.domain.entity.*;
 import newapp.domain.repository.CustomerReqRepository;
+import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.querydsl.core.types.ExpressionUtils.as;
 import static com.querydsl.jpa.JPAExpressions.select;
@@ -28,6 +28,9 @@ import static newapp.global.common.support.QueryDslSupport.*;
 public class CustomerReqDao {
 
     private final CustomerReqRepository customerReqRepository;
+    private final UserDao userDao;
+    private final CompanyDao companyDao;
+    private final SessionUtil sessionUtil;
 
     private QCustomerReqEntity qCustomerReqEntity = QCustomerReqEntity.customerReqEntity;
     private QCustomerReqEntity qNavigatorEntity = new QCustomerReqEntity("navigatorEntity");
@@ -176,50 +179,56 @@ public class CustomerReqDao {
      */
     public CustomerReqEntity toCustomerReqEntity(CommandMap commandMap) {
 
-       CustomerReqEntity customerReqEntity = new CustomerReqEntity();
+        String userId = sessionUtil.getUserId();
+        LocalDateTime now = LocalDateTime.now();
+        CustomerReqEntity customerReqEntity = new CustomerReqEntity();
 
-       String no = commandMap.getParam("no");
-       if(!StringUtils.isEmpty(no))
-           customerReqEntity.setNo(Long.parseLong(no));                             // 요청번호
+        String no = commandMap.getParam("no");
+        if (!StringUtils.isEmpty(no))
+            customerReqEntity.setNo(Long.parseLong(no));                             // 요청번호
 
-       String kindCd = commandMap.getParam("kindCd");
-       if(!StringUtils.isEmpty(kindCd))
-           customerReqEntity.setKindCd(kindCd);                                     // 분류코드
+        String kindCd = commandMap.getParam("kindCd");
+        if (!StringUtils.isEmpty(kindCd))
+            customerReqEntity.setKindCd(kindCd);                                     // 분류코드
 
-       String reqCompanyNo = commandMap.getParam("reqCompanyNo");
-       if(!StringUtils.isEmpty(reqCompanyNo))
-           customerReqEntity.getCompanyEntity().setNo(Long.parseLong(reqCompanyNo));// 요청회사명
+        String reqCompanyNo = commandMap.getParam("reqCompanyNo");
+        if (!StringUtils.isEmpty(reqCompanyNo)) {
+            Optional<CompanyEntity> companyEntity = companyDao.findById(Long.parseLong(reqCompanyNo));
+            if (companyEntity.isPresent()) {
+                customerReqEntity.setCompanyEntity(companyEntity.get());             // 요청회사명
+            }
+        }
 
         String reqUserNm = commandMap.getParam("reqUserNm");
-        if(!StringUtils.isEmpty(reqUserNm))
+        if (!StringUtils.isEmpty(reqUserNm))
             customerReqEntity.setReqUserEmail(reqUserNm);                           // 요청자명
 
         String reqUserPhoneNo = commandMap.getParam("reqUserPhoneNo");
-        if(!StringUtils.isEmpty(reqUserPhoneNo))
+        if (!StringUtils.isEmpty(reqUserPhoneNo))
             customerReqEntity.setReqUserPhoneNo(reqUserPhoneNo);                    // 요청자연락처
 
-       String progressCd = commandMap.getParam("progressCd");
-       if(!StringUtils.isEmpty(progressCd))
-           customerReqEntity.setProgressCd(progressCd);                             // 진행정보코드
+        String progressCd = commandMap.getParam("progressCd");
+        if (!StringUtils.isEmpty(progressCd))
+            customerReqEntity.setProgressCd(progressCd);                             // 진행정보코드
 
-       String userId = commandMap.getParam("userId");
-       if(!StringUtils.isEmpty(userId))
-           customerReqEntity.getUserEntity().setUserId(userId);                     // 상담자ID
+        Optional<UserEntity> userEntity = userDao.findByUserId(userId);
+        customerReqEntity.setUserEntity(userEntity.get());                           // 상담자명
 
-        String consultUserNm = commandMap.getParam("consultUserNm");
-        if(!StringUtils.isEmpty(consultUserNm))
-            customerReqEntity.getUserEntity().setUserId(consultUserNm);             // 상담자명
+        String reqContent = commandMap.getParam("reqContent");
+        if (!StringUtils.isEmpty(reqContent))
+            customerReqEntity.setReqContent(reqContent);                             // 요청내용
 
-       String reqContent = commandMap.getParam("reqContent");
-       if(!StringUtils.isEmpty(reqContent))
-           customerReqEntity.setReqContent(reqContent);                             // 요청내용
+        String resContent = commandMap.getParam("resContent");
+        if (!StringUtils.isEmpty(resContent))
+            customerReqEntity.setResContent(resContent);                             // 응답내용
 
-       String resContent = commandMap.getParam("resContent");
-       if(!StringUtils.isEmpty(resContent))
-           customerReqEntity.setResContent(resContent);                             // 응답내용
+        customerReqEntity.setRegId(userId);
+        customerReqEntity.setRegDt(now);
+        customerReqEntity.setModId(userId);
+        customerReqEntity.setModDt(now);
 
-       return customerReqEntity;
-   }
+        return customerReqEntity;
+    }
 
     /**
      * 등록/수정

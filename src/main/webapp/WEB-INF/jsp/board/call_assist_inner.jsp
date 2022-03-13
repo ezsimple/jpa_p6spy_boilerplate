@@ -44,15 +44,19 @@
                     	  <div class="input-group-prepend" style="cursor:pointer" onClick="setUser('consultUserNm')">
                       		  <span class="input-group-text"><i class="far fa-user"></i></span>
                     	  </div>
-                          <input type="text" name="consultUserNm" value="${view.consultUserNm }" class="form-control" placeholder="상담자명" >
+                          <input type="text" name="consultUserNm" value="${consultUserNm }" class="form-control" placeholder="상담자명" disabled>
                   		</div>
                       </div>
                     </div>
                     <div class="col-sm-3">
                       <!-- text input -->
                       <div class="form-group">
-                        <label>요청회사명</label>
-                        <input type="text" name="reqCompanyNm" value="${view.reqCompanyNm }" class="form-control" placeholder="요청회사명">
+                        <label>요청회사</label>
+                        <select name="reqCompanyNo" class="form-control" }">
+                        <c:forEach var="list" items="${companies}">
+                          <option value="${list.no}">${list.name}</option>
+                        </c:forEach>
+                        </select>
                       </div>
                     </div>
                     <div class="col-sm-3">

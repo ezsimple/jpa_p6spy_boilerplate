@@ -1,8 +1,10 @@
 package newapp.domain.biz.controller;
 
 import io.mkeasy.resolver.CommandMap;
+import io.mkeasy.utils.NetUtil;
 import lombok.extern.slf4j.Slf4j;
 import newapp.global.oauth2.type.RoleType;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,11 @@ public class LoginController {
      */
     @GetMapping("/login.do")
     public String login(Model model, CommandMap commandMap) {
+        String ip = NetUtil.getClientIP();
+        if(StringUtils.equals(ip, "127.0.0.1")) {
+            model.addAttribute("username", "admin@mypms.io");
+            model.addAttribute("password", "qwer1234");
+        }
         return "login/login";
     }
 

@@ -81,12 +81,12 @@
                     </div>
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>상담자명</label>
+                        <label>등록자명</label>
                         <div class="input-group">
                     	  <div class="input-group-prepend" style="cursor:pointer" >
                       		  <span class="input-group-text"><i class="far fa-user"></i></span>
                     	  </div>
-                          <input type="text" name="consultUserNm" value="${consultUserNm }" class="form-control" placeholder="상담자명" disabled>
+                          <input type="text" name="consultUserNm" value="${consultUserNm }" class="form-control" placeholder="등록자명" disabled>
                   		</div>
                       </div>
                     </div>

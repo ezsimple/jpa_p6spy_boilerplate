@@ -171,7 +171,8 @@
 </body>
 </html>
 
-<script src="https://unpkg.com/@ag-grid-enterprise/all-modules@25.0.0/dist/ag-grid-enterprise.min.js"></script>
+<%--<script src="https://unpkg.com/@ag-grid-enterprise/all-modules@25.0.0/dist/ag-grid-enterprise.min.js"></script>--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/25.0.1/ag-grid-community.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -185,9 +186,9 @@
           },
           editable: false
       },
-      {headerName: "접수자", field: "consultUserNm", width: 100, editable: false},
+      {headerName: "등록자", field: "consultUserNm", width: 100, editable: false},
       {headerName: "접수일자", field: "reqDate", width: 120, editable: false},
-      {headerName: "회사명", field: "reqCompanyNm",width:180},
+      {headerName: "요청회사", field: "reqCompanyNm",width:180},
       {headerName: "요청자명", field: "reqUserNm", width:120},
       {headerName: "연락처", field: "reqUserPhoneNo", width:140},
       {headerName: "요청내용", field: "reqContent",width:275

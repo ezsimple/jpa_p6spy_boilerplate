@@ -175,8 +175,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	// LicenseModuleManager.setLicenseKey(licenseKey);
-
     // specify the columns
     var columnDefs = [
       {headerName: "순번", 

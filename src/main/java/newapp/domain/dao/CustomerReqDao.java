@@ -244,6 +244,7 @@ public class CustomerReqDao {
         if (!StringUtils.isEmpty(resContent))
             customerReqEntity.setResContent(resContent);                            // 응답내용
 
+        customerReqEntity.setUseYn("Y");
         customerReqEntity.setDelYn("N");
         customerReqEntity.setRegId(userId);
         customerReqEntity.setRegDt(now);

@@ -9,7 +9,6 @@ import newapp.domain.dao.CustomerReqDao;
 import newapp.domain.dao.UserDao;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
-import newapp.domain.dto.StatDTO;
 import newapp.domain.entity.CompanyEntity;
 import newapp.domain.entity.CustomerReqEntity;
 import newapp.domain.entity.UserEntity;
@@ -67,25 +66,16 @@ public class CallAssistService extends AbstractService {
 			searchDTO.setEndDt(endDt);
 		}
 
-		Map map = MapUtil.newMap();
+		Map resultMap = MapUtil.newMap();
 
 		List<CustomerReqDTO> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
-		map.put("rows", list);
+		resultMap.put("rows", list);
+		log.debug("{}", list);
 
-		StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
-		Map stat = MapUtil.newMap();
-		stat.put("countTotal", statDTO.getCountTotal());
-		stat.put("countSearch", statDTO.getCountSearch());
-		stat.put("countDoneToday", statDTO.getCountDoneToday());
-		stat.put("countReqToday", statDTO.getCountReqToday());
-		stat.put("percentKind0", statDTO.getPercentKind0());
-		stat.put("percentKind1", statDTO.getPercentKind1());
-		stat.put("percentKind2", statDTO.getPercentKind2());
-		stat.put("percentKind3", statDTO.getPercentKind3());
-		stat.put("percentKind4", statDTO.getPercentKind4());
-		map.put("stat", stat);
+		// StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
+		// resultMap.put("stat", statDTO);
 
-		return map;
+		return resultMap;
 	}
 
 	/**

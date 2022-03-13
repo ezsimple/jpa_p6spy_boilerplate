@@ -187,11 +187,11 @@
           },
           editable: false
       },
-      {headerName: "접수자", field: "reqUser", width: 100, editable: false},
+      {headerName: "접수자", field: "consultUserNm", width: 100, editable: false},
       {headerName: "접수일자", field: "reqDate", width: 120, editable: false},
-      {headerName: "회사명", field: "farmNm",width:180},
-      {headerName: "요청자명", field: "farmUser", width:120},
-      {headerName: "연락처", field: "farmPhoneNo", width:140},
+      {headerName: "회사명", field: "reqCompanyNm",width:180},
+      {headerName: "요청자명", field: "reqUserNm", width:120},
+      {headerName: "연락처", field: "reqUserPhoneNo", width:140},
       {headerName: "요청내용", field: "reqContent",width:275
     	  ,editable: false
           ,cellEditor: 'agLargeTextCellEditor',
@@ -199,19 +199,19 @@
       {headerName: "처리내용", field: "resContent",width:275
           ,cellEditor: 'agLargeTextCellEditor',
       },
-      {headerName: "구분", field: "reqKind", width:120,
+      {headerName: "종류", field: "kindNm", width:120,
           cellEditor: 'agRichSelectCellEditor',
           cellEditorParams: {
               cellRenderer: 'genderCellRenderer',
-              values: ['기능오류 및 요청', '문의', '데이터이관', '보고서', '신규가입', '견적서', '기타']
+              values: ['버거', '개선', '요구', '문의', '기타']
           } 
       },
       {headerName: "처리일자", field: "resDate", width:120, cellEditor: 'datePicker'},
-      {headerName: "완료여부", field: "doneSts",width:120,
+      {headerName: "진행상태", field: "progressNm",width:120,
           cellEditor: 'agRichSelectCellEditor',
           cellEditorParams: {
               cellRenderer: 'genderCellRenderer',
-              values: ['접수','완료','보류','기각']
+              values: ['대기','접수','검토','완료','보류','기각']
           } 
       },
     ];
@@ -490,7 +490,7 @@
 	function redrawGridAndStat() {
 		const param = {};
 		$.post("/board/call_assist.do", param, function(data) {
-			// console.log(data);
+			console.log(data);
 			gridOptions.api.setRowData(data.rows);
 
 			// 통계 그래프 그리기

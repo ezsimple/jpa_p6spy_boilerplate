@@ -475,7 +475,7 @@
 		$('#messageProgress').text('전체 ' + total + '건중 ' + percentComplete + ' 조치율');
 
         $('#barKind').attr('style', 'width:' + percentRequest + '%');
-        $('#messageKind').text('전체 ' + total + '건중 ' + percentRequest + ' 수정율');
+        $('#messageKind').text('전체 ' + total + '건중 ' + percentRequest + ' 변경율');
 	}
 	
 	var tid = null, timeOut=1000*60*10; // 10분 주기 자동 갱신

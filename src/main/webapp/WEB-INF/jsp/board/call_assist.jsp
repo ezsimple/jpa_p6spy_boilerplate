@@ -75,23 +75,23 @@
 				  <div style="display:flex">
 					<div style="margin-right:15px">
 						<span class="info-box-text">버거</span>
-						<span class="info-box-number" style="text-align:center" id="percentKind0">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind0">0</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">개선</span>
-						<span class="info-box-number" style="text-align:center" id="percentKind1">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind1">0</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">요구</span>
-						<span class="info-box-number" style="text-align:center" id="percentKind2">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind2">0</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">문의</span>
-						<span class="info-box-number" style="text-align:center" id="percentKind3">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind3">0</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">기타</span>
-						<span class="info-box-number" style="text-align:center" id="percentKind4">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind4">0</span>
 					</div>
 				</div>
 				<div class="progress">
@@ -315,10 +315,8 @@
 		$.post('/board/call_assist_view.do',param,function() {
 			$.post("/board/call_assist.do", param, function(data) {
 				// 통계 그래프 갱신하기 
-				if (data.stat.length > 0) {
-					const stat = data.stat[0];
-					drawDashboard(stat);
-				}
+                const stat = data.stat;
+                drawDashboard(stat);
 			});
 		});
 	}
@@ -453,30 +451,12 @@
 
 	function drawDashboard(stat) {
         const {
-            countSearch,
-            countTotal,
-            countDoneToday,
-            countReqToday,
-            countKind0, countKind1, countKind2, countKind3, countKind4,
-            countProgress0, countProgress1, countProgress2, countProgress3, countProgress4, countProgress5,
+            total,
             percentKind0, percentKind1, percentKind2, percentKind3, percentKind4,
             percentProgress0, percentProgress1, percentProgress2, percentProgress3, percentProgress4, percentProgress5,
+            percentComplete, percentRequest,
         } = stat;
         console.log(stat);
-
-		// const total = stat.total;
-		// const countDoneSts1Today = stat.countDoneSts1Today;
-		// const totalDoneSts1Today = stat.totalDoneSts1Today;
-		// const countDoneSts1 = stat.countDoneSts1;
-		// const countDoneSts2 = stat.countDoneSts2;
-		// const countDoneSts3 = stat.countDoneSts3;
-		// const percentDoneSts2 = stat.percentDoneSts2;
-        //
-		// $('#countDoneSts1Today').text(countDoneSts1Today+'/'+totalDoneSts1Today);
-		// $('#doneSts1').text(countDoneSts3+'/'+total);
-		// $('#doneSts2').text(countDoneSts2);
-		// $('#doneStsProgress').attr('style', 'width:' + percentDoneSts2 + '%');
-		// $('#doneStsMessage').text('전체 ' + total + '건중 ' + percentDoneSts2 + '% 완료');
 
         $('#percentProgress0').text(percentProgress0);
         $('#percentProgress1').text(percentProgress1);
@@ -491,21 +471,11 @@
         $('#percentKind3').text(percentKind3);
         $('#percentKind4').text(percentKind4);
 
-		// const percentKind1 = stat.percentKind1;
-		// const percentKind2 = stat.percentKind2;
-		// const percentKind3 = stat.percentKind3;
-		// const percentKind4 = stat.percentKind4;
-		// const percentKind5 = stat.percentKind5;
-		// const percentKind6 = stat.percentKind6;
-		// const percentKind7 = stat.percentKind7;
+		$('#barProgress').attr('style', 'width:' + percentComplete);
+		$('#messageProgress').text('전체 ' + total + '건중 ' + percentComplete + ' 조치 완료');
 
-		// $('#reqKind0').text(percentKind1 + '%');
-		// $('#reqKind1').text(percentKind2 + '%');
-		// $('#reqKind2').text(percentKind3 + '%');
-		// $('#reqKind3').text(percentKind4 + '%');
-		// $('#reqKind4').text(percentKind5 + '%');
-		// $('#reqKindProgress').attr('style', 'width:' + percentKind1 + '%');
-		// $('#reqKindMessage').text('전체 ' + total + '건중 ' + percentKind1 + '% 오류 및 요청');
+        $('#barKind').attr('style', 'width:' + percentRequest + '%');
+        $('#messageKind').text('전체 ' + total + '건중 ' + percentRequest + ' 수정 필요');
 	}
 	
 	var tid = null, timeOut=1000*60*10; // 10분 주기 자동 갱신
@@ -516,10 +486,9 @@
 			gridOptions.api.setRowData(data.rows);
 
 			// 통계 그래프 그리기
-			if (data.stat.length > 0) {
-				const stat = data.stat[0];
-				drawDashboard(stat);
-			}
+            const stat = data.stat;
+            drawDashboard(stat);
+
 			if(tid) clearInterval(tid);
 			tid = setInterval(redrawGridAndStat,timeOut);
 		});

@@ -137,7 +137,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000000") /* 대기(000000) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001000") /* 대기(000000) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress0")   // 대기건수
@@ -145,7 +145,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000001") /* 접수(000001) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001001") /* 접수(000001) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress1")   // 접수건수
@@ -153,7 +153,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000002") /* 검토(000002) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001002") /* 검토(000002) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress2")   // 검토건수
@@ -161,7 +161,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000003") /* 완료(000003) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001003") /* 완료(000003) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress3")   // 완료건수
@@ -169,7 +169,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000004") /* 보류(000004) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001004") /* 보류(000004) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress4")   // 보류건수
@@ -177,7 +177,7 @@ public class CustomerReqDao {
                                         .from(qCustomerReqEntity)
                                         .where(
                                                 eqAny(qCustomerReqEntity.useYn, "Y")
-                                                , eqAny(qCustomerReqEntity.progressCd, "000005") /* 기각(000005) */
+                                                , eqAny(qCustomerReqEntity.progressCd, "001005") /* 기각(000005) */
                                                 , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
                                                 , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countProgress5")   // 대기건수

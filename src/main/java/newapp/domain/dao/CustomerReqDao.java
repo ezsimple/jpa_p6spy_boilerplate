@@ -65,15 +65,15 @@ public class CustomerReqDao {
                             ,"nextNo")
                         , qCustomerReqEntity.reqContent
                         , qCustomerReqEntity.resContent
-                        , qCustomerReqEntity.kindCd
+                        , qKindEntity.code6.as("kindCd")
                         , qKindEntity.cname.as("kindNm")
                         , qCustomerReqEntity.companyEntity.name.as("reqCompanyNm")
                         , qCustomerReqEntity.reqUserNm.as("reqUserNm")
                         , qCustomerReqEntity.reqUserPhoneNo.as("reqUserPhoneNo")
                         , qCustomerReqEntity.reqUserEmail.as("reqUserEmail")
-                        , qCustomerReqEntity.progressCd
+                        , qProgressEntity.code6.as("progressCd")
                         , qProgressEntity.cname.as("progressNm")
-                        , qCustomerReqEntity.userEntity.username.as("consultUserNm")
+                        , qCustomerReqEntity.userEntity.username.as("userNm")
                         , Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qCustomerReqEntity.regDt, "%Y-%m-%d").as("reqDate")
                         , Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qCustomerReqEntity.modDt, "%Y-%m-%d").as("resDate")
                     ))

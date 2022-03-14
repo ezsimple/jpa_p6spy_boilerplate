@@ -41,10 +41,10 @@
                       <div class="form-group">
                         <label>등록자명</label>
                         <div class="input-group">
-                    	  <div class="input-group-prepend" style="cursor:pointer" onClick="setUser('consultUserNm')">
+                    	  <div class="input-group-prepend" style="cursor:pointer">
                       		  <span class="input-group-text"><i class="far fa-user"></i></span>
                     	  </div>
-                          <input type="text" name="consultUserNm" value="${consultUserNm }" class="form-control" placeholder="등록자명" disabled>
+                          <input type="text" name="userNm" value="${userNm }" class="form-control" placeholder="등록자명" disabled>
                   		</div>
                       </div>
                     </div>
@@ -183,11 +183,6 @@
 <!-- /.modal -->
 
 <script type="text/javascript" charset="utf-8">
-function setUser(field) {
-	const consultant = '김민하';
-	$('input[name='+field+']').val(consultant );
-}
-
 function getToday() {
     var date = new Date();
     var year = date.getFullYear();

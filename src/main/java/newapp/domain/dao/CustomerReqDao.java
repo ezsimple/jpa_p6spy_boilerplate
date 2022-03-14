@@ -37,6 +37,7 @@ public class CustomerReqDao {
     private QCustomerReqEntity qNavigatorEntity = new QCustomerReqEntity("navigatorEntity");
     private QCodeEntity qKindEntity = new QCodeEntity("kindEntity");
     private QCodeEntity qProgressEntity = new QCodeEntity("progressEntity");
+    private QCompanyEntity qCompanyEntity = QCompanyEntity.companyEntity;
 
     /**
      * 검색 & 조회
@@ -66,13 +67,13 @@ public class CustomerReqDao {
                                 , "nextNo")
                         , qCustomerReqEntity.reqContent
                         , qCustomerReqEntity.resContent
-                        , qKindEntity.code6.as("kindCd")
+                        , qCustomerReqEntity.kindCd
                         , qKindEntity.cname.as("kindNm")
                         , qCustomerReqEntity.companyEntity.name.as("reqCompanyNm")
                         , qCustomerReqEntity.reqUserNm.as("reqUserNm")
                         , qCustomerReqEntity.reqUserPhoneNo.as("reqUserPhoneNo")
                         , qCustomerReqEntity.reqUserEmail.as("reqUserEmail")
-                        , qProgressEntity.code6.as("progressCd")
+                        , qCustomerReqEntity.progressCd
                         , qProgressEntity.cname.as("progressNm")
                         , qCustomerReqEntity.userEntity.username.as("userNm")
                         , Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qCustomerReqEntity.regDt, "%Y-%m-%d").as("reqDate")
@@ -83,11 +84,11 @@ public class CustomerReqDao {
                 .innerJoin(qProgressEntity).on(eqAny(qProgressEntity.code6, qCustomerReqEntity.progressCd))
                 .where(
                         eqAny(qCustomerReqEntity.useYn, "Y")
-                                .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-                                .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
-                                .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
-                                .or(goeOpt(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                .or(loeOpt(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                        , eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo())
+                        , eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord())
+                        , eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord())
+                        , goeOpt(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                        , loeOpt(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                 )
                 .orderBy(qCustomerReqEntity.no.desc());
 

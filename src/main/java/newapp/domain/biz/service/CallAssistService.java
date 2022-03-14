@@ -9,6 +9,7 @@ import newapp.domain.dao.CustomerReqDao;
 import newapp.domain.dao.UserDao;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
+import newapp.domain.dto.StatDTO;
 import newapp.domain.entity.CompanyEntity;
 import newapp.domain.entity.CustomerReqEntity;
 import newapp.domain.entity.UserEntity;
@@ -70,10 +71,9 @@ public class CallAssistService extends AbstractService {
 
 		List<CustomerReqDTO> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
 		resultMap.put("rows", list);
-		log.debug("{}", list);
 
-		// StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
-		// resultMap.put("stat", statDTO);
+		StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
+		resultMap.put("stat", statDTO);
 
 		return resultMap;
 	}

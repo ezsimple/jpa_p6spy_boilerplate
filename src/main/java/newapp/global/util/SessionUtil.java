@@ -7,7 +7,6 @@ import newapp.domain.entity.ProjectEntity;
 import newapp.domain.entity.UserEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,7 +17,6 @@ public class SessionUtil {
 
     private final UserDao userDao;
     private final ProjectDao projectDao;
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * SessionCreationPolicy.ALWAYS 상황에서만 유효합니다.
@@ -48,10 +46,6 @@ public class SessionUtil {
             return projNm;
         }
         return "";
-    }
-
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 
 }

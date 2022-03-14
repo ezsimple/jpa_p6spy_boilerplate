@@ -82,7 +82,6 @@ public class CustomerReqDao {
                 .innerJoin(qProgressEntity).on(eqAny(qProgressEntity.code6, qCustomerReqEntity.progressCd))
                 .where(
                     eqAny(qCustomerReqEntity.useYn, "Y")
-                    , eqAny(qCustomerReqEntity.delYn, "N")
                     .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
                     .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
                     .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
@@ -251,7 +250,6 @@ public class CustomerReqDao {
             customerReqEntity.setResContent(resContent);                            // 응답내용
 
         customerReqEntity.setUseYn("Y");
-        customerReqEntity.setDelYn("N");
         customerReqEntity.setRegId(userId);
         customerReqEntity.setRegDt(now);
         customerReqEntity.setModId(userId);

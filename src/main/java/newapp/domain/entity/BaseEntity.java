@@ -35,10 +35,6 @@ public abstract class BaseEntity implements Serializable {
   @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
   private String useYn;        // 사용여부
 
-  @NotNull
-  @Column(name = "F_DEL_YN", length = 1, columnDefinition = "char(1) default 'N'")
-  private String delYn;        // 삭제여부
-
   /** Audit 기능과 함께 연동합니다. */
   @CreatedBy
   @Column(name = "F_REG_ID", columnDefinition = "varchar(255) default 'system'")

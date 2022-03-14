@@ -13,13 +13,16 @@ import javax.persistence.*;
 @Setter
 @Entity
 @ToString(callSuper = true)
-@Table(name = "T_CODE")
+@Table(name = "T_CODE",
+  uniqueConstraints = {
+  @UniqueConstraint(columnNames = "F_CODE6")
+} )
 @IdClass(CodeEntityPk.class)
 public class CodeEntity {
 
   @Id
   @Column(name = "F_GID", length = 3)
-  private String gid; // groupId(3)
+  private String gid;   // groupId(3)
 
   @NotNull
   @Column(name = "F_GNAME")
@@ -27,7 +30,7 @@ public class CodeEntity {
 
   @Id
   @Column(name = "F_CID", length = 3)
-  private String cid; // codeId(3)
+  private String cid;   // codeId(3)
 
   @NotNull
   @Column(name = "F_CNAME")
@@ -40,10 +43,10 @@ public class CodeEntity {
   @NotNull
   @Column(name = "F_ORDER_NO")
   @ColumnDefault("0")
-  private Long orderNo;    // 정렬순서
+  private Long orderNo; // 정렬순서
 
   @NotNull
   @Column(name = "F_USE_YN", length = 1, columnDefinition = "char(1) default 'Y'")
-  private String useYn;        // 사용여부
+  private String useYn; // 사용여부
 
 }

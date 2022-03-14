@@ -196,7 +196,6 @@ public class HelloController {
         // 프로젝트 초기화
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setUseYn("Y");
-        projectEntity.setDelYn("N");
         projectEntity.setRegId("system");
         projectEntity.setRegDt(now);
         projectEntity.setModId("system");
@@ -222,55 +221,20 @@ public class HelloController {
         companyDao.save(companyEntity);
 
         // 기본 사용자 추가
-        UserEntity user1 = newUser("admin@mypms.io", "관리자", "qwer1234", "admin");
-        UserEntity user2 = newUser("mhlee@in-soft.co.kr", "이민호", "qwer1234", "user");
+        String password = passwordEncoder.encode("qwer1234");
+        UserEntity user1 = userDao.newUser("admin@mypms.io", "관리자", password, "admin");
+        UserEntity user2 = userDao.newUser("mhlee@in-soft.co.kr", "이민호", password, "user");
 
+        // 프로젝트 할당
         user1.setProjectEntity(proj1);
         userDao.save(user1);
 
+        // 프로젝트 할당
         user2.setProjectEntity(proj1);
         userDao.save(user2);
 
         return "init finished";
     }
 
-    public UserEntity newUser(String userEmail, String userNm, String password, String role) throws Exception {
-
-        /**
-         * email Patter 검사
-         */
-        String regexPattern = "^(.+)@(\\S+)$";
-        boolean matched = Pattern.compile(regexPattern)
-                .matcher(userEmail)
-                .matches();
-        assertTrue(matched);
-
-        Optional<UserEntity> entity = userDao.findByUserId(userEmail);
-        if (entity.isPresent())
-            throw new Exception("Already exist userId : " + userEmail);
-
-        UserEntity userEntity = new UserEntity();
-        userEntity = new UserEntity();
-        userEntity.setUserId(userEmail);
-        userEntity.setPassword(passwordEncoder.encode(password));
-        userEntity.setUsername(userNm);
-        userEntity.setEmail(userEmail);
-        userEntity.setEmailVerifiedYn("Y");
-
-        RoleType roleType = RoleType.of("GUEST");
-        if (StringUtils.containsAnyIgnoreCase(role, "admin"))
-            roleType = RoleType.of("ROLE_ADMIN");
-
-        if (StringUtils.containsAnyIgnoreCase(role, "user"))
-            roleType = RoleType.of("ROLE_USER");
-
-        userEntity.setRoleType(roleType);
-
-        LocalDateTime now = LocalDateTime.now();
-        userEntity.setRegDt(now);
-        userEntity.setModDt(now);
-
-        return userDao.save(userEntity);
-    }
 
 }

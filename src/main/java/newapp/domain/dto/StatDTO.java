@@ -23,8 +23,33 @@ public class StatDTO {
     Long countKind3 = 0L;           // 문의건수
     Long countKind4 = 0L;           // 기타건수
 
-    private Long getTotal() {
+    private Long getCountTotal() {
         return countSearch > 0 ? countSearch : countTotal == 0 ? 1 : countTotal;
+    }
+
+    public double getPrecentProgress0() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress0 / getCountTotal() * 100.0);
+    }
+    public double getPrecentProgress1() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress1 / getCountTotal() * 100.0);
+    }
+    public double getPrecentProgress2() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress2 / getCountTotal() * 100.0);
+    }
+    public double getPrecentProgress3() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress3 / getCountTotal() * 100.0);
+    }
+    public double getPrecentProgress4() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress4 / getCountTotal() * 100.0);
+    }
+    public double getPrecentProgress5() {
+        if (countSearch == 0L && countTotal == 0L) return 0.0;
+        return Math.round(countProgress5 / getCountTotal() * 100.0);
     }
 
     /**
@@ -34,7 +59,7 @@ public class StatDTO {
      */
     public double getPercentKind0() {
         if (countSearch == 0L && countTotal == 0L) return 0.0;
-        return Math.round(countKind0 / getTotal() * 100.0);
+        return Math.round(countKind0 / getCountTotal() * 100.0);
     }
 
 
@@ -45,7 +70,7 @@ public class StatDTO {
      */
     public double getPercentKind1() {
         if (countSearch == 0L && countTotal == 0L) return 0.0;
-        return Math.round(countKind1 / getTotal() * 100.0);
+        return Math.round(countKind1 / getCountTotal() * 100.0);
     }
 
     /**
@@ -55,7 +80,7 @@ public class StatDTO {
      */
     public double getPercentKind2() {
         if (countSearch == 0L && countTotal == 0L) return 0.0;
-        return Math.round(countKind2 / getTotal() * 100.0);
+        return Math.round(countKind2 / getCountTotal() * 100.0);
     }
 
     /**
@@ -65,7 +90,7 @@ public class StatDTO {
      */
     public double getPercentKind3() {
         if (countSearch == 0L && countTotal == 0L) return 0.0;
-        return Math.round(countKind3 / getTotal() * 100.0);
+        return Math.round(countKind3 / getCountTotal() * 100.0);
     }
 
     /**
@@ -75,7 +100,7 @@ public class StatDTO {
      */
     public double getPercentKind4() {
         if (countSearch == 0L && countTotal == 0L) return 0.0;
-        return Math.round(countKind4 / getTotal() * 100.0);
+        return Math.round(countKind4 / getCountTotal() * 100.0);
     }
 
 }

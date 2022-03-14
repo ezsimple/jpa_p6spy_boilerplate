@@ -1,5 +1,8 @@
 package newapp.domain.biz.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.utils.MapUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import newapp.domain.entity.UserEntity;
 import newapp.global.common.service.AbstractService;
 import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -37,6 +41,7 @@ public class CallAssistService extends AbstractService {
 	private final SessionUtil sessionUtil;
 	private final UserDao userDao;
 	private final CompanyDao companyDao;
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * 목록 조회 및 검색 하기
@@ -44,7 +49,7 @@ public class CallAssistService extends AbstractService {
 	 * @param commandMap
 	 * @return
 	 */
-	public Map searchCallAssist(ModelMap model, CommandMap commandMap) {
+	public Map searchCallAssist(ModelMap model, CommandMap commandMap) throws JsonProcessingException {
 
 		storeProjNm(model);
 
@@ -78,7 +83,7 @@ public class CallAssistService extends AbstractService {
 		resultMap.put("rows", list);
 
 		StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
-		resultMap.put("stat", statDTO);
+		resultMap.put("stat", new JSONObject(objectMapper.writeValueAsString(statDTO)).toMap());
 
 		return resultMap;
 	}

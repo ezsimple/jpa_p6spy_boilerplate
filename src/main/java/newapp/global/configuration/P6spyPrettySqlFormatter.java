@@ -75,7 +75,7 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
                 sql = FormatStyle.BASIC.getFormatter().format(sql);
                 // cast 연산시 as signed 같은 내용을 구분할 수 없습니다.
                 if (StringUtils.startsWith(tmpsql, "select")) {
-                    sql = sql.replaceAll(" as [fc].*_[0-9a-zA-Z].*_", "");
+                    // sql = sql.replaceAll(" as [fc].*_[0-9a-zA-Z].*_", "");
                 }
             }
             sql = "|\nHibernate:" + sql;

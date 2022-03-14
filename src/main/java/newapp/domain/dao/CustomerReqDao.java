@@ -40,6 +40,7 @@ public class CustomerReqDao {
 
     /**
      * 검색 & 조회
+     *
      * @param searchDTO
      * @return
      */
@@ -50,19 +51,19 @@ public class CustomerReqDao {
                         CustomerReqDTO.class
                         , qCustomerReqEntity.no
                         , as(select(qNavigatorEntity.no.max())
-                                    .from(qNavigatorEntity)
-                                    .where(
-                                        eqAny(qNavigatorEntity.useYn, "Y")
-                                        , ltOpt(qNavigatorEntity.no, searchDTO.getSearchNo())
-                                    )
-                            ,"prevNo")
+                                        .from(qNavigatorEntity)
+                                        .where(
+                                                eqAny(qNavigatorEntity.useYn, "Y")
+                                                , ltOpt(qNavigatorEntity.no, searchDTO.getSearchNo())
+                                        )
+                                , "prevNo")
                         , as(select(qNavigatorEntity.no.min())
-                                    .from(qNavigatorEntity)
-                                    .where(
-                                        eqAny(qNavigatorEntity.useYn, "Y")
-                                        , gtOpt(qNavigatorEntity.no, searchDTO.getSearchNo())
-                                    )
-                            ,"nextNo")
+                                        .from(qNavigatorEntity)
+                                        .where(
+                                                eqAny(qNavigatorEntity.useYn, "Y")
+                                                , gtOpt(qNavigatorEntity.no, searchDTO.getSearchNo())
+                                        )
+                                , "nextNo")
                         , qCustomerReqEntity.reqContent
                         , qCustomerReqEntity.resContent
                         , qKindEntity.code6.as("kindCd")
@@ -76,17 +77,17 @@ public class CustomerReqDao {
                         , qCustomerReqEntity.userEntity.username.as("userNm")
                         , Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qCustomerReqEntity.regDt, "%Y-%m-%d").as("reqDate")
                         , Expressions.stringTemplate("DATE_FORMAT({0}, {1})", qCustomerReqEntity.modDt, "%Y-%m-%d").as("resDate")
-                    ))
+                ))
                 .from(qCustomerReqEntity)
                 .innerJoin(qKindEntity).on(eqAny(qKindEntity.code6, qCustomerReqEntity.kindCd))
                 .innerJoin(qProgressEntity).on(eqAny(qProgressEntity.code6, qCustomerReqEntity.progressCd))
                 .where(
-                    eqAny(qCustomerReqEntity.useYn, "Y")
-                    .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-                    .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
-                    .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
-                    .or(goeOpt(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                    .or(loeOpt(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                        eqAny(qCustomerReqEntity.useYn, "Y")
+                                .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
+                                .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
+                                .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
+                                .or(goeOpt(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
+                                .or(loeOpt(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
                 )
                 .orderBy(qCustomerReqEntity.no.desc());
 
@@ -95,6 +96,7 @@ public class CustomerReqDao {
 
     /**
      * 통계
+     *
      * @param searchDTO
      * @return
      */
@@ -105,70 +107,119 @@ public class CustomerReqDao {
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
                                         ), "countTotal")        // 전체건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            .and(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .and(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
-                                            .or(eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo()))
-                                            .or(eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord()))
-                                            .or(eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                                , eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo())
+                                                , eqOpt(qCustomerReqEntity.reqContent, searchDTO.getSearchWord())
+                                                , eqOpt(qCustomerReqEntity.resContent, searchDTO.getSearchWord())
                                         ), "countSearch")    // 검색건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.progressCd, "001003", "001004", "001005") /* 완료(001003), 보류(001004), 기각(001005) */
-                                            , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now()) /* LocalDateTime.parse("2022-03-05") */
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , inAny(qCustomerReqEntity.progressCd, "001003", "001004", "001005") /* 완료(001003), 보류(001004), 기각(001005) */
+                                                , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now()) /* LocalDateTime.parse("2022-03-05") */
                                         ), "countDoneToday")    // 당일완료건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now())
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , inAny(qCustomerReqEntity.progressCd, "001000", "001001", "001002") /* 대기(001000), 접수(001001), 검토(001002) */
+                                                , eqDay(qCustomerReqEntity.regDt, LocalDateTime.now())
                                         ), "countReqToday")     // 당일요청건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.kindCd, "000000") /* 버거(000000) */
-                                            .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000000") /* 대기(000000) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress0")   // 대기건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000001") /* 접수(000001) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress1")   // 접수건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000002") /* 검토(000002) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress2")   // 검토건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000003") /* 완료(000003) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress3")   // 완료건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000004") /* 보류(000004) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress4")   // 보류건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.progressCd, "000005") /* 기각(000005) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
+                                        ), "countProgress5")   // 대기건수
+                                , as(select(qCustomerReqEntity.no.count())
+                                        .from(qCustomerReqEntity)
+                                        .where(
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.kindCd, "000000") /* 버거(000000) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countKind0")   // 버거건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.kindCd, "000001") /* 개선(000001) */
-                                            .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.kindCd, "000001") /* 개선(000001) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countKind1")   // 개선사항건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.kindCd, "000002") /* 요구(000002) */
-                                            .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.kindCd, "000002") /* 요구(000002) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countKind2")    // 요구건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.kindCd, "000003") /* 문의(000003) */
-                                            .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.kindCd, "000003") /* 문의(000003) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countKind3")   // 문의건수
                                 , as(select(qCustomerReqEntity.no.count())
                                         .from(qCustomerReqEntity)
                                         .where(
-                                            eqAny(qCustomerReqEntity.useYn, "Y")
-                                            , inAny(qCustomerReqEntity.kindCd, "000004") /* 기타(000004) */
-                                            .or(goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt()))
-                                            .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
+                                                eqAny(qCustomerReqEntity.useYn, "Y")
+                                                , eqAny(qCustomerReqEntity.kindCd, "000004") /* 기타(000004) */
+                                                , goeDay(qCustomerReqEntity.regDt, searchDTO.getStartDt())
+                                                , loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt())
                                         ), "countKind4")   // 기타건수
                         )
                 ).from(qCustomerReqEntity)
@@ -179,6 +230,7 @@ public class CustomerReqDao {
 
     /**
      * 최종 등록 번호 구하기
+     *
      * @return
      */
     public Long getMaxNo() {
@@ -192,6 +244,7 @@ public class CustomerReqDao {
 
     /**
      * 파라미터를 customerEntity로 변환
+     *
      * @param commandMap
      * @return
      */
@@ -203,12 +256,12 @@ public class CustomerReqDao {
 
         String iuFlag = commandMap.getParam("iuFlag");
 
-        if(StringUtils.equals(iuFlag, "I")) {
+        if (StringUtils.equals(iuFlag, "I")) {
             Long maxNo = getMaxNo();
             customerReqEntity.setNo(maxNo + 1);
         }
 
-        if(StringUtils.equals(iuFlag, "U")) {
+        if (StringUtils.equals(iuFlag, "U")) {
             String no = commandMap.getParam("no");
             if (!StringUtils.isEmpty(no))
                 customerReqEntity.setNo(Long.parseLong(no));                         // 요청번호
@@ -260,7 +313,8 @@ public class CustomerReqDao {
 
     /**
      * 등록/수정
-      * @param customerReqEntity
+     *
+     * @param customerReqEntity
      * @return
      */
     public CustomerReqEntity save(CustomerReqEntity customerReqEntity) {
@@ -269,10 +323,11 @@ public class CustomerReqDao {
 
     /**
      * 삭제
+     *
      * @param customerReqEntity
      */
     public void delete(CustomerReqEntity customerReqEntity) {
-       customerReqRepository.delete(customerReqEntity);
+        customerReqRepository.delete(customerReqEntity);
     }
 
     public LocalDateTime findFirstReqDt() {

@@ -35,33 +35,33 @@
 				  <div style="display:flex">
 					<div style="margin-right:10px">
 						<span class="info-box-text">대기</span>
-						<span class="info-box-number" style="text-align:center" id="countDoneSts1Today">0</span>
+						<span class="info-box-number" style="text-align:center" id="countProgress0">0</span>
 					</div>
 					<div style="margin-right:10px">
 						<span class="info-box-text">접수</span>
-						<span class="info-box-number" style="text-align:center" id="doneSts1">0</span>
+						<span class="info-box-number" style="text-align:center" id="countProgress1">0</span>
 					</div>
 					<div style="margin-right:10px">
 						<span class="info-box-text">검토</span>
-						<span class="info-box-number" style="text-align:center" id="doneSts2">0</span>
+						<span class="info-box-number" style="text-align:center" id="countProgress2">0</span>
 					</div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">완료</span>
-                        <span class="info-box-number" style="text-align:center" id="doneSts3">0</span>
+                        <span class="info-box-number" style="text-align:center" id="countProgress3">0</span>
                     </div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">보류</span>
-                        <span class="info-box-number" style="text-align:center" id="doneSts4">0</span>
+                        <span class="info-box-number" style="text-align:center" id="countProgress4">0</span>
                     </div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">기각</span>
-                        <span class="info-box-number" style="text-align:center" id="doneSts5">0</span>
+                        <span class="info-box-number" style="text-align:center" id="countProgress5">0</span>
                     </div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar" id="doneStsProgress" style="width: 0%"></div>
+				  <div class="progress-bar" id="barProgress" style="width: 0%"></div>
 				</div>
-				<span id="doneStsMessage" class="progress-description">전체 0건중 0% 완료</span>
+				<span id="messageProgress" class="progress-description">전체 0건중 0% 완료</span>
 			  </div>
 			  <!-- /.info-box-content -->
 			</div>
@@ -75,29 +75,29 @@
 				  <div style="display:flex">
 					<div style="margin-right:15px">
 						<span class="info-box-text">버거</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind0">0%</span>
+						<span class="info-box-number" style="text-align:center" id="countKind0">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">개선</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind1">0%</span>
+						<span class="info-box-number" style="text-align:center" id="countKind1">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">요구</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind2">0%</span>
+						<span class="info-box-number" style="text-align:center" id="countKind2">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">문의</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind3">0%</span>
+						<span class="info-box-number" style="text-align:center" id="countKind3">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">기타</span>
-						<span class="info-box-number" style="text-align:center" id="reqKind4">0%</span>
+						<span class="info-box-number" style="text-align:center" id="countKind4">0%</span>
 					</div>
 				</div>
 				<div class="progress">
-				  <div class="progress-bar" id="reqKindProgress" style="width: 0%"></div>
+				  <div class="progress-bar" id="barKind" style="width: 0%"></div>
 				</div>
-				<span class="progress-description" id="reqKindMessage">전체 0건중 0% 수정 요청</span>
+				<span class="progress-description" id="messageKind">전체 0건중 0% 수정 요청</span>
 			  </div>
 			  <!-- /.info-box-content -->
 			</div>
@@ -452,37 +452,46 @@
 	}
 
 	function drawDashboard(stat) {
-		const total = stat.total;
-		const countDoneSts1Today = stat.countDoneSts1Today;
-		const totalDoneSts1Today = stat.totalDoneSts1Today;
-		const countDoneSts1 = stat.countDoneSts1;
-		const countDoneSts2 = stat.countDoneSts2;
-		const countDoneSts3 = stat.countDoneSts3;
-		const percentDoneSts2 = stat.percentDoneSts2;
+        const {
+            countSearch,
+            countTotal,
+            countDoneToday,
+            countReqToday,
+            countKind0, countKind1, countKind2, countKind3, countKind4,
+            countProgress0, countProgress1, countProgress2, countProgress3, countProgress4, countProgress5,
+            percentKind0, percentKind1, percentKind2, percentKind3, percentKind4
+        } = stat;
+        console.log(stat);
 
-		$('#countDoneSts1Today').text(countDoneSts1Today+'/'+totalDoneSts1Today);
-		$('#doneSts1').text(countDoneSts3+'/'+total);
-		$('#doneSts2').text(countDoneSts2);
-		$('#doneStsProgress').attr('style', 'width:' + percentDoneSts2 + '%');
-		$('#doneStsMessage').text(
-				'전체 ' + total + '건중 ' + percentDoneSts2 + '% 완료');
+		// const total = stat.total;
+		// const countDoneSts1Today = stat.countDoneSts1Today;
+		// const totalDoneSts1Today = stat.totalDoneSts1Today;
+		// const countDoneSts1 = stat.countDoneSts1;
+		// const countDoneSts2 = stat.countDoneSts2;
+		// const countDoneSts3 = stat.countDoneSts3;
+		// const percentDoneSts2 = stat.percentDoneSts2;
+        //
+		// $('#countDoneSts1Today').text(countDoneSts1Today+'/'+totalDoneSts1Today);
+		// $('#doneSts1').text(countDoneSts3+'/'+total);
+		// $('#doneSts2').text(countDoneSts2);
+		// $('#doneStsProgress').attr('style', 'width:' + percentDoneSts2 + '%');
+		// $('#doneStsMessage').text('전체 ' + total + '건중 ' + percentDoneSts2 + '% 완료');
 
-		const percentKind1 = stat.percentKind1;
-		const percentKind2 = stat.percentKind2;
-		const percentKind3 = stat.percentKind3;
-		const percentKind4 = stat.percentKind4;
-		const percentKind5 = stat.percentKind5;
-		const percentKind6 = stat.percentKind6;
-		const percentKind7 = stat.percentKind7;
+		// const percentKind1 = stat.percentKind1;
+		// const percentKind2 = stat.percentKind2;
+		// const percentKind3 = stat.percentKind3;
+		// const percentKind4 = stat.percentKind4;
+		// const percentKind5 = stat.percentKind5;
+		// const percentKind6 = stat.percentKind6;
+		// const percentKind7 = stat.percentKind7;
 
-		$('#reqKind0').text(percentKind1 + '%');
-		$('#reqKind1').text(percentKind2 + '%');
-		$('#reqKind2').text(percentKind3 + '%');
-		$('#reqKind3').text(percentKind4 + '%');
-		$('#reqKind4').text(percentKind5 + '%');
-		$('#reqKindProgress').attr('style', 'width:' + percentKind1 + '%');
-		$('#reqKindMessage').text(
-				'전체 ' + total + '건중 ' + percentKind1 + '% 오류 및 요청');
+		// $('#reqKind0').text(percentKind1 + '%');
+		// $('#reqKind1').text(percentKind2 + '%');
+		// $('#reqKind2').text(percentKind3 + '%');
+		// $('#reqKind3').text(percentKind4 + '%');
+		// $('#reqKind4').text(percentKind5 + '%');
+		// $('#reqKindProgress').attr('style', 'width:' + percentKind1 + '%');
+		// $('#reqKindMessage').text('전체 ' + total + '건중 ' + percentKind1 + '% 오류 및 요청');
 	}
 	
 	var tid = null, timeOut=1000*60*10; // 10분 주기 자동 갱신

@@ -1,6 +1,7 @@
 package newapp.global.common.support;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -93,9 +94,9 @@ public class QueryDslSupport {
 
     public static BooleanExpression eqDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
         if(kword == null) { return null; }
-        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        StringTemplate formattedDate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", expes, ConstantImpl.create("%Y%m%d"));
         String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return stringExpression.eq(day);
+        return formattedDate.eq(day);
     }
 
 
@@ -266,9 +267,9 @@ public class QueryDslSupport {
 
     public static BooleanExpression loeDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
         if(kword == null) { return null; }
-        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        StringTemplate formattedDate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", expes, ConstantImpl.create("%Y%m%d"));
         String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return stringExpression.loe(day);
+        return formattedDate.loe(day);
     }
 
     public static BooleanExpression loeOpt(StringExpression stringPath, String kword) {
@@ -310,9 +311,9 @@ public class QueryDslSupport {
 
     public static BooleanExpression goeDay(DateTimePath<LocalDateTime> expes, LocalDateTime kword) {
         if(kword == null) { return null; }
-        StringExpression stringExpression = expes.year().stringValue().concat(expes.month().stringValue()).concat(expes.dayOfMonth().stringValue());
+        StringTemplate formattedDate = Expressions.stringTemplate("DATE_FORMAT({0}, {1})", expes, ConstantImpl.create("%Y%m%d"));
         String day = kword.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return stringExpression.goe(day);
+        return formattedDate.goe(day);
     }
 
     public static BooleanExpression goeOpt(StringExpression stringPath, String kword) {

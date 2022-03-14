@@ -35,27 +35,27 @@
 				  <div style="display:flex">
 					<div style="margin-right:10px">
 						<span class="info-box-text">대기</span>
-						<span class="info-box-number" style="text-align:center" id="countProgress0">0</span>
+						<span class="info-box-number" style="text-align:center" id="percentProgress0">0</span>
 					</div>
 					<div style="margin-right:10px">
 						<span class="info-box-text">접수</span>
-						<span class="info-box-number" style="text-align:center" id="countProgress1">0</span>
+						<span class="info-box-number" style="text-align:center" id="percentProgress1">0</span>
 					</div>
 					<div style="margin-right:10px">
 						<span class="info-box-text">검토</span>
-						<span class="info-box-number" style="text-align:center" id="countProgress2">0</span>
+						<span class="info-box-number" style="text-align:center" id="percentProgress2">0</span>
 					</div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">완료</span>
-                        <span class="info-box-number" style="text-align:center" id="countProgress3">0</span>
+                        <span class="info-box-number" style="text-align:center" id="percentProgress3">0</span>
                     </div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">보류</span>
-                        <span class="info-box-number" style="text-align:center" id="countProgress4">0</span>
+                        <span class="info-box-number" style="text-align:center" id="percentProgress4">0</span>
                     </div>
                     <div style="margin-right:10px">
                         <span class="info-box-text">기각</span>
-                        <span class="info-box-number" style="text-align:center" id="countProgress5">0</span>
+                        <span class="info-box-number" style="text-align:center" id="percentProgress5">0</span>
                     </div>
 				</div>
 				<div class="progress">
@@ -75,23 +75,23 @@
 				  <div style="display:flex">
 					<div style="margin-right:15px">
 						<span class="info-box-text">버거</span>
-						<span class="info-box-number" style="text-align:center" id="countKind0">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind0">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">개선</span>
-						<span class="info-box-number" style="text-align:center" id="countKind1">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind1">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">요구</span>
-						<span class="info-box-number" style="text-align:center" id="countKind2">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind2">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">문의</span>
-						<span class="info-box-number" style="text-align:center" id="countKind3">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind3">0%</span>
 					</div>
 					<div style="margin-right:15px">
 						<span class="info-box-text">기타</span>
-						<span class="info-box-number" style="text-align:center" id="countKind4">0%</span>
+						<span class="info-box-number" style="text-align:center" id="percentKind4">0%</span>
 					</div>
 				</div>
 				<div class="progress">
@@ -459,7 +459,8 @@
             countReqToday,
             countKind0, countKind1, countKind2, countKind3, countKind4,
             countProgress0, countProgress1, countProgress2, countProgress3, countProgress4, countProgress5,
-            percentKind0, percentKind1, percentKind2, percentKind3, percentKind4
+            percentKind0, percentKind1, percentKind2, percentKind3, percentKind4,
+            percentProgress0, percentProgress1, percentProgress2, percentProgress3, percentProgress4, percentProgress5,
         } = stat;
         console.log(stat);
 
@@ -476,6 +477,19 @@
 		// $('#doneSts2').text(countDoneSts2);
 		// $('#doneStsProgress').attr('style', 'width:' + percentDoneSts2 + '%');
 		// $('#doneStsMessage').text('전체 ' + total + '건중 ' + percentDoneSts2 + '% 완료');
+
+        $('#percentProgress0').text(percentProgress0);
+        $('#percentProgress1').text(percentProgress1);
+        $('#percentProgress2').text(percentProgress2);
+        $('#percentProgress3').text(percentProgress3);
+        $('#percentProgress4').text(percentProgress4);
+        $('#percentProgress5').text(percentProgress5);
+
+        $('#percentKind0').text(percentKind0);
+        $('#percentKind1').text(percentKind1);
+        $('#percentKind2').text(percentKind2);
+        $('#percentKind3').text(percentKind3);
+        $('#percentKind4').text(percentKind4);
 
 		// const percentKind1 = stat.percentKind1;
 		// const percentKind2 = stat.percentKind2;

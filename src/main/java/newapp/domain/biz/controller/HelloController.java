@@ -7,10 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.*;
 import newapp.domain.dto.CustomerReqDTO;
 import newapp.domain.dto.SearchDTO;
-import newapp.domain.entity.*;
-import newapp.global.oauth2.type.RoleType;
+import newapp.domain.entity.CodeEntity;
+import newapp.domain.entity.CompanyEntity;
+import newapp.domain.entity.ProjectEntity;
+import newapp.domain.entity.UserEntity;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertTrue;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +33,6 @@ public class HelloController {
 
     private final QueryFactory queryFactory;
     private final CustomerReqDao customerReqDao;
-    private final LangDao langDao;
     private final CodeDao codeDao;
     private final CompanyDao companyDao;
     private final ProjectDao projectDao;
@@ -108,16 +104,6 @@ public class HelloController {
     public String init() throws Exception {
 
         LocalDateTime now = LocalDateTime.now();
-
-        // 다국어 초기화
-        LangEntity langEntity = new LangEntity();
-        langEntity.setLang("KO");
-        langEntity.setName("한국어");
-        langDao.save(langEntity);
-
-        langEntity.setLang("EN");
-        langEntity.setName("영어");
-        langDao.save(langEntity);
 
         // 코드 종류 : 000
         CodeEntity codeEntity = new CodeEntity();

@@ -171,7 +171,7 @@ public class CustomerReqDao {
                                             .or(loeDay(qCustomerReqEntity.regDt, searchDTO.getEndDt()))
                                         ), "countKind4")   // 기타건수
                         )
-                )// .from(qCustomerReqEntity)
+                ).from(qCustomerReqEntity)
                 .fetchFirst();
 
         return result;

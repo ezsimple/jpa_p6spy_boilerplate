@@ -275,4 +275,12 @@ public class CustomerReqDao {
        customerReqRepository.delete(customerReqEntity);
     }
 
+    public LocalDateTime findFirstReqDt() {
+        SearchDTO result = jpaQuery().select(Projections.bean(
+                        SearchDTO.class
+                        , qCustomerReqEntity.regDt.min().as("minRegDt")
+                )).from(qCustomerReqEntity)
+                .fetchFirst();
+        return result.getMinRegDt();
+    }
 }

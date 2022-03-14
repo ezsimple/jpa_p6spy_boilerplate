@@ -11,4 +11,5 @@ public class SearchDTO {
     LocalDateTime startDt;  // 검색시작일
     LocalDateTime endDt;    // 검색종료일
     Long maxNo;             // 마지막번호
+    LocalDateTime minRegDt; // 최초등록일자
 }

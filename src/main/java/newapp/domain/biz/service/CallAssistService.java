@@ -59,6 +59,11 @@ public class CallAssistService extends AbstractService {
 			searchDTO.setSearchWord(searchWord);
 
 		String dates = commandMap.getParam("dates");
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime firstDt = customerReqDao.findFirstReqDt();
+		if(firstDt == null) firstDt = now;
+		searchDTO.setStartDt(firstDt);
+		searchDTO.setEndDt(now);
 		if(!StringUtils.isEmpty(dates)) {
 			String[] day = StringUtils.split(dates, "~");
 			LocalDateTime startDt = LocalDateTime.parse(day[0]);

@@ -45,7 +45,7 @@ public class CallAssistService extends AbstractService {
 	 */
 	public Map searchCallAssist(ModelMap model, CommandMap commandMap) {
 
-		getProjNm(model);
+		storeProjNm(model);
 
 		SearchDTO searchDTO = new SearchDTO();
 
@@ -88,9 +88,9 @@ public class CallAssistService extends AbstractService {
 	 */
 	public String selectCallAssistView(ModelMap model, CommandMap commandMap, String viewType) throws Exception {
 
-		getProjNm(model);
-		getCompanies(model);
-		getConsultUserNm(model);
+		storeProjNm(model);
+		storeCompanies(model);
+		storeUserNm(model);
 
 		String no = commandMap.getParam("no");
 
@@ -158,7 +158,7 @@ public class CallAssistService extends AbstractService {
 	 * 현재 사용자가 선택한 ProjNm 을 페이지로 전달
 	 * @param model
 	 */
-	private void getProjNm(ModelMap model) {
+	private void storeProjNm(ModelMap model) {
 		String projNm = sessionUtil.getUserProjectNm();
 		model.addAttribute("projNm", projNm);
 	}
@@ -167,8 +167,8 @@ public class CallAssistService extends AbstractService {
 	 * 상담자 정보 표시
 	 * @param model
 	 */
-	private void getConsultUserNm(ModelMap model) {
-		model.addAttribute("consultUserNm", sessionUtil.getUserNm());
+	private void storeUserNm(ModelMap model) {
+		model.addAttribute("userNm", sessionUtil.getUserNm());
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class CallAssistService extends AbstractService {
 	 * @param model
 	 * @return
 	 */
-	private List<CompanyEntity> getCompanies(ModelMap model) {
+	private List<CompanyEntity> storeCompanies(ModelMap model) {
 		String userId = sessionUtil.getUserId();
 
 		Optional<UserEntity> userEntity = userDao.findByUserId(userId);

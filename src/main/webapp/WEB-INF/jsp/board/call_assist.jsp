@@ -186,7 +186,7 @@
           },
           editable: false
       },
-      {headerName: "등록자", field: "consultUserNm", width: 100, editable: false},
+      {headerName: "등록자", field: "userNm", width: 100, editable: false},
       {headerName: "접수일자", field: "reqDate", width: 120, editable: false},
       {headerName: "요청회사", field: "reqCompanyNm",width:180},
       {headerName: "요청자명", field: "reqUserNm", width:120},

@@ -16,7 +16,7 @@ public class CustomerReqDTO {
     private String reqUserEmail;           // 요청자이메일
     private String progressCd;             // 진행정보코드
     private String progressNm;             // 진행정보명
-    private String consultUserNm;          // 접수자명
+    private String userNm;                 // 접수자명
     private String reqContent;             // 요청내용
     private String resContent;             // 응답내용
     private String reqDate;                // 접수일자

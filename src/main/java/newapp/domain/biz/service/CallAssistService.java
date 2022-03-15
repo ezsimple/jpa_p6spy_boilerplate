@@ -3,6 +3,7 @@ package newapp.domain.biz.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mkeasy.resolver.CommandMap;
+import io.mkeasy.utils.DateUtil;
 import io.mkeasy.utils.MapUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,11 +73,8 @@ public class CallAssistService extends AbstractService {
         searchDTO.setEndDt(now);
         if (!StringUtils.isEmpty(dates)) {
             String[] day = StringUtils.split(dates, "~");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate ld = LocalDate.parse(day[0], formatter);
-            LocalDateTime startDt = LocalDateTime.of(ld, LocalTime.of(0,0));
-            ld = LocalDate.parse(day[1], formatter);
-            LocalDateTime endDt = LocalDateTime.of(ld, LocalTime.of(0,0));
+            LocalDateTime startDt = DateUtil.toLocalDateTime(day[0], "yyyy-MM-dd");
+            LocalDateTime endDt = DateUtil.toLocalDateTime(day[1], "yyyy-MM-dd");
             searchDTO.setStartDt(startDt);
             searchDTO.setEndDt(endDt);
         }

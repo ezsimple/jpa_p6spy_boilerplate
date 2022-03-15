@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import io.mkeasy.resolver.CommandMap;
+import io.mkeasy.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dto.CustomerReqDTO;
@@ -336,11 +337,13 @@ public class CustomerReqDao {
     }
 
     public LocalDateTime findFirstReqDt() {
-        SearchDTO result = jpaQuery().select(Projections.bean(
-                        SearchDTO.class
-                        , qCustomerReqEntity.regDt.min().as("minRegDt")
-                )).from(qCustomerReqEntity)
-                .fetchFirst();
-        return result.getMinRegDt();
+        // SearchDTO result = jpaQuery().select(Projections.bean(
+        //                SearchDTO.class
+        //                , qCustomerReqEntity.regDt.min().as("minRegDt")
+        //        )).from(qCustomerReqEntity)
+        //        .fetchFirst();
+        // query를 실행할 필요가 없으므로..
+        LocalDateTime firstServiceDt = DateUtil.toLocalDateTime("2022-01-01", "yyyy-MM-dd");
+        return firstServiceDt;
     }
 }

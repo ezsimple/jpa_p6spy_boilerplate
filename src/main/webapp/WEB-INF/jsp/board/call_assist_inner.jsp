@@ -54,7 +54,7 @@
                         <label>요청회사</label>
                         <select name="reqCompanyNo" class="form-control" }">
                         <c:forEach var="list" items="${companies}">
-                          <option value="${list.no}">${list.name}</option>
+                          <option value="${list.no}" <c:if test="${view.reqCompanyNo == list.no }">selected</c:if>>${list.name}</option>
                         </c:forEach>
                         </select>
                       </div>

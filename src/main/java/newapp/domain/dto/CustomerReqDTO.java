@@ -10,6 +10,7 @@ public class CustomerReqDTO {
     private Long nextNo;                   // 다음번호
     private String kindCd;                 // 분류코드
     private String kindNm;                 // 분류명
+    private Long   reqCompanyNo;           // 요청회사번호
     private String reqCompanyNm;           // 요청회사명
     private String reqUserNm;              // 요청자명
     private String reqUserPhoneNo;         // 요청자연락처

@@ -375,10 +375,13 @@
 			})
 		}
 	}
+
     $(document).keyup(function(e) {
         if (e.keyCode == 27) { // ESC키 입력시
             $('#iframeService').children().remove();
             $('html, body').animate({scrollTop:0}, 'slow');
+            redrawGridAndStat(); // 목록 및 통계 초기화
+            initDateRangePicker(); // 데이트 피커 초기화
         }
     });
 

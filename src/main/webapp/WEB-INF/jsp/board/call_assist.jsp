@@ -160,6 +160,7 @@
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     <!-- /.content -->
 
   </div>
@@ -170,6 +171,28 @@
 <%@include file="../include/script.jsp" %>
 </body>
 </html>
+
+<style>
+    #myBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: red;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+    }
+
+    #myBtn:hover {
+        background-color: #555;
+    }
+</style>
 
 <%--<script src="https://unpkg.com/@ag-grid-enterprise/all-modules@25.0.0/dist/ag-grid-enterprise.min.js"></script>--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/25.0.1/ag-grid-community.min.js"></script>
@@ -504,6 +527,22 @@
 			tid = setInterval(redrawGridAndStat,timeOut);
 		});
 	}
+
+    const mybutton = document.getElementById("myBtn");
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
 
 	$(document).ready(function() {
 		redrawGridAndStat();

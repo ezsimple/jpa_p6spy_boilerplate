@@ -27,7 +27,7 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
         sql = formatSql(category, sql);
-        // if(StringUtils.isEmpty(sql)) return "";
+        if(StringUtils.isEmpty(sql)) return null; // stackTrace Overhead 줄이기
 
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -64,7 +64,7 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
     }
 
     private String formatSql(String category, String sql) {
-        if (sql == null || sql.trim().equals("")) return sql;
+        if (sql == null || sql.trim().equals("")) return null;
 
         // Only format Statement, distinguish DDL And DML
         if (Category.STATEMENT.getName().equals(category)) {

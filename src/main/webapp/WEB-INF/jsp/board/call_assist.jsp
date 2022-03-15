@@ -375,6 +375,12 @@
 			})
 		}
 	}
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) { // ESC키 입력시
+            $('#iframeService').children().remove();
+            $('html, body').animate({scrollTop:0}, 'slow');
+        }
+    });
 
 	$('#filter').on('input', function(e) {
 		const value = e.target.value;

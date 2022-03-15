@@ -1,10 +1,13 @@
 package newapp.domain.biz.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.utils.DateUtil;
+import io.mkeasy.utils.ListUtil;
 import io.mkeasy.utils.MapUtil;
+import io.mkeasy.webapp.processor.ExcelFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import newapp.domain.dao.CompanyDao;
@@ -19,19 +22,19 @@ import newapp.domain.entity.UserEntity;
 import newapp.global.common.service.AbstractService;
 import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -55,29 +58,7 @@ public class CallAssistService extends AbstractService {
 
         storeProjNm(model);
 
-        SearchDTO searchDTO = new SearchDTO();
-
-        String searchNo = commandMap.getParam("searchNo");
-        if (!StringUtils.isEmpty(searchNo))
-            searchDTO.setSearchNo(Long.parseLong(searchNo));
-
-        String searchWord = commandMap.getParam("searchWord");
-        if (!StringUtils.isEmpty(searchWord))
-            searchDTO.setSearchWord(searchWord);
-
-        String dates = commandMap.getParam("dates");
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime firstDt = customerReqDao.findFirstReqDt();
-        if (firstDt == null) firstDt = now;
-        searchDTO.setStartDt(firstDt);
-        searchDTO.setEndDt(now);
-        if (!StringUtils.isEmpty(dates)) {
-            String[] day = StringUtils.split(dates, "~");
-            LocalDateTime startDt = DateUtil.toLocalDateTime(day[0], "yyyy-MM-dd");
-            LocalDateTime endDt = DateUtil.toLocalDateTime(day[1], "yyyy-MM-dd");
-            searchDTO.setStartDt(startDt);
-            searchDTO.setEndDt(endDt);
-        }
+        SearchDTO searchDTO = getSearchDTO(commandMap);
 
         Map resultMap = MapUtil.newMap();
 
@@ -89,6 +70,7 @@ public class CallAssistService extends AbstractService {
 
         return resultMap;
     }
+
 
     /**
      * 신규/수정 페이지 보기
@@ -165,6 +147,88 @@ public class CallAssistService extends AbstractService {
         if (StringUtils.equals(iuFlag, "D")) url = "redirect:/board/call_assist.do";
 
         return url;
+    }
+
+    private final ExcelFactory excelFactory;
+
+	// 엑셀 다운로드
+	public String excelDownload(HttpServletRequest request, HttpServletResponse response
+            , ModelMap model, CommandMap commandMap) throws Exception {
+
+        String projNm = sessionUtil.getUserProjectNm();
+
+        SearchDTO searchDTO = getSearchDTO(commandMap);
+
+        List<CustomerReqDTO> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
+
+        String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+	    String downloadFileName = projNm + "-" + today +".xlsx";
+
+		List<String> headerNames = new ArrayList<String>();
+        headerNames.add("번호");
+        headerNames.add("분류명");
+        headerNames.add("요청회사");
+        headerNames.add("요청자명");
+        headerNames.add("요청자연락처");
+        headerNames.add("진행상태");
+        headerNames.add("등록자명");
+        headerNames.add("요청내용");
+        headerNames.add("응답내용");
+        headerNames.add("접수일자");
+        headerNames.add("처리일자");
+
+		List<String> fieldNames = new ArrayList<String>();
+        fieldNames.add("no");
+        fieldNames.add("kindNm");
+        fieldNames.add("reqCompanyNm");
+        fieldNames.add("reqUserNm");
+        fieldNames.add("reqUserPhoneNo");
+        fieldNames.add("progressNm");
+        fieldNames.add("userNm");
+        fieldNames.add("reqContent");
+        fieldNames.add("resContent");
+        fieldNames.add("reqDate");
+        fieldNames.add("resDate");
+
+        List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
+        list.forEach(o -> {
+            Map<String, Object> map = objectMapper.convertValue(o, new TypeReference<Map<String, Object>>() {});
+            params.add(map);
+        });
+
+	    excelFactory.download(request, response, downloadFileName, headerNames, fieldNames, params);
+
+		JSONObject res = new JSONObject();
+		res.put("success", true);
+		return  res.toString(2);
+	}
+
+    private SearchDTO getSearchDTO(CommandMap commandMap) {
+        SearchDTO searchDTO = new SearchDTO();
+
+        String searchNo = commandMap.getParam("searchNo");
+        if (!StringUtils.isEmpty(searchNo))
+            searchDTO.setSearchNo(Long.parseLong(searchNo));
+
+        String searchWord = commandMap.getParam("searchWord");
+        if (!StringUtils.isEmpty(searchWord))
+            searchDTO.setSearchWord(searchWord);
+
+        String dates = commandMap.getParam("dates");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstDt = customerReqDao.findFirstReqDt();
+        if (firstDt == null) firstDt = now;
+        searchDTO.setStartDt(firstDt);
+        searchDTO.setEndDt(now);
+        if (!StringUtils.isEmpty(dates)) {
+            String[] day = StringUtils.split(dates, "~");
+            LocalDateTime startDt = DateUtil.toLocalDateTime(day[0], "yyyy-MM-dd");
+            LocalDateTime endDt = DateUtil.toLocalDateTime(day[1], "yyyy-MM-dd");
+            searchDTO.setStartDt(startDt);
+            searchDTO.setEndDt(endDt);
+        }
+        return searchDTO;
     }
 
     /**

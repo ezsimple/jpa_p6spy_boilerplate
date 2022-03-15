@@ -437,16 +437,7 @@
 	}
 
 	$('#btnExcel').click(function(e) {
-	    const fileName = '피그플랜v3.0_고객대응-'+getToday()+".xlsx";
-	    const sheetName = 'Sheet';
-	    const params = {
-	        columnWidth: 120,
-	        fileName: fileName,
-	        sheetName: sheetName,
-	        suppressTextAsCDATA: true,
-	        rowHeight: 20,
-	    };
-		gridOptions.api.exportDataAsExcel(params);	
+        location.href = '/board/call_assist_excel.do';
 	});
 
 	$('#btnCreate').click(function(e) {

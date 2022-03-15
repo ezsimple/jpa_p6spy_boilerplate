@@ -23,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -70,8 +72,11 @@ public class CallAssistService extends AbstractService {
         searchDTO.setEndDt(now);
         if (!StringUtils.isEmpty(dates)) {
             String[] day = StringUtils.split(dates, "~");
-            LocalDateTime startDt = LocalDateTime.parse(day[0]);
-            LocalDateTime endDt = LocalDateTime.parse(day[1]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate ld = LocalDate.parse(day[0], formatter);
+            LocalDateTime startDt = LocalDateTime.of(ld, LocalTime.of(0,0));
+            ld = LocalDate.parse(day[1], formatter);
+            LocalDateTime endDt = LocalDateTime.of(ld, LocalTime.of(0,0));
             searchDTO.setStartDt(startDt);
             searchDTO.setEndDt(endDt);
         }

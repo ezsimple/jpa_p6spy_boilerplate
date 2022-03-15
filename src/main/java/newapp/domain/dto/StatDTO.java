@@ -26,24 +26,24 @@ public class StatDTO {
     Long countKind3 = 0L;           // 문의건수
     Long countKind4 = 0L;           // 기타건수
 
-    public static Map<String, Object> calcStat(StatDTO statDTO) {
+    public Map<String, Object> toCalcStat() {
 
-        Long countSearch = statDTO.getCountSearch();
-        Long countTotal = statDTO.getCountTotal();
+        Long countSearch = this.getCountSearch();
+        Long countTotal = this.getCountTotal();
         Long total = countSearch > 0 ? countSearch : countTotal == 0 ? 1 : countTotal;
 
-        Long countProgress0 = statDTO.getCountProgress0();
-        Long countProgress1 = statDTO.getCountProgress1();
-        Long countProgress2 = statDTO.getCountProgress2();
-        Long countProgress3 = statDTO.getCountProgress3();
-        Long countProgress4 = statDTO.getCountProgress4();
-        Long countProgress5 = statDTO.getCountProgress5();
+        Long countProgress0 = this.getCountProgress0();
+        Long countProgress1 = this.getCountProgress1();
+        Long countProgress2 = this.getCountProgress2();
+        Long countProgress3 = this.getCountProgress3();
+        Long countProgress4 = this.getCountProgress4();
+        Long countProgress5 = this.getCountProgress5();
 
-        Long countKind0 = statDTO.getCountKind0();
-        Long countKind1 = statDTO.getCountKind1();
-        Long countKind2 = statDTO.getCountKind2();
-        Long countKind3 = statDTO.getCountKind3();
-        Long countKind4 = statDTO.getCountKind4();
+        Long countKind0 = this.getCountKind0();
+        Long countKind1 = this.getCountKind1();
+        Long countKind2 = this.getCountKind2();
+        Long countKind3 = this.getCountKind3();
+        Long countKind4 = this.getCountKind4();
 
         Map map = MapUtil.newMap();
 

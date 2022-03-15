@@ -1,7 +1,6 @@
 package newapp.domain.biz.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mkeasy.resolver.CommandMap;
 import io.mkeasy.utils.MapUtil;
@@ -19,7 +18,6 @@ import newapp.domain.entity.UserEntity;
 import newapp.global.common.service.AbstractService;
 import newapp.global.util.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -83,8 +81,8 @@ public class CallAssistService extends AbstractService {
         List<CustomerReqDTO> list = customerReqDao.selectTblCallAssist(searchDTO).fetch();
         resultMap.put("rows", list);
 
-        StatDTO statDTO = customerReqDao.statTblCallAssist2(searchDTO);
-        resultMap.put("stat", StatDTO.calcStat(statDTO));
+        StatDTO statDTO = customerReqDao.statTblCallAssist(searchDTO);
+        resultMap.put("stat", statDTO.toCalcStat());
 
         return resultMap;
     }

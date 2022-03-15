@@ -38,6 +38,7 @@ public class CustomerReqDao {
     private QCodeEntity qKindEntity = new QCodeEntity("kindEntity");
     private QCodeEntity qProgressEntity = new QCodeEntity("progressEntity");
     private QCompanyEntity qCompanyEntity = QCompanyEntity.companyEntity;
+    private QUserEntity qUserEntity = QUserEntity.userEntity;
 
     /**
      * 검색 & 조회
@@ -82,6 +83,8 @@ public class CustomerReqDao {
                 .from(qCustomerReqEntity)
                 .innerJoin(qKindEntity).on(eqAny(qKindEntity.code6, qCustomerReqEntity.kindCd))
                 .innerJoin(qProgressEntity).on(eqAny(qProgressEntity.code6, qCustomerReqEntity.progressCd))
+                .innerJoin(qCustomerReqEntity.companyEntity, qCompanyEntity) // alias를 사용함으로써, cross join 방지
+                .innerJoin(qCustomerReqEntity.userEntity, qUserEntity)       // alias를 사용함으로써, cross join 방지
                 .where(
                         eqAny(qCustomerReqEntity.useYn, "Y")
                         , eqOpt(qCustomerReqEntity.no, searchDTO.getSearchNo())
@@ -101,7 +104,7 @@ public class CustomerReqDao {
      * @param searchDTO
      * @return
      */
-    public StatDTO statTblCallAssist2(SearchDTO searchDTO) {
+    public StatDTO statTblCallAssist(SearchDTO searchDTO) {
         StatDTO result = jpaQuery().select(
                         Projections.bean(
                                 StatDTO.class

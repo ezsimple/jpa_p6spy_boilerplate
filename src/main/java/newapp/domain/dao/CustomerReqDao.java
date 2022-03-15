@@ -254,7 +254,7 @@ public class CustomerReqDao {
      * @param commandMap
      * @return
      */
-    public CustomerReqEntity toCustomerReqEntity(CommandMap commandMap) {
+    public CustomerReqEntity toCustomerReqEntity(CommandMap commandMap) throws Exception {
 
         String userId = sessionUtil.getUserId();
         LocalDateTime now = LocalDateTime.now();
@@ -267,10 +267,11 @@ public class CustomerReqDao {
             customerReqEntity.setNo(maxNo + 1);
         }
 
-        if (StringUtils.equals(iuFlag, "U")) {
-            String no = commandMap.getParam("no");
-            if (!StringUtils.isEmpty(no))
-                customerReqEntity.setNo(Long.parseLong(no));                         // 요청번호
+        String no = commandMap.getParam("no");
+        if (StringUtils.equals(iuFlag, "U") || StringUtils.equals(iuFlag, "D")) {
+            if(StringUtils.isEmpty(no))
+                throw new Exception("no가 누락 되었습니다.");
+            customerReqEntity.setNo(Long.parseLong(no));                         // 요청번호
         }
 
         String kindCd = commandMap.getParam("kindCd");
@@ -333,7 +334,7 @@ public class CustomerReqDao {
      * @param customerReqEntity
      */
     public void delete(CustomerReqEntity customerReqEntity) {
-        customerReqRepository.delete(customerReqEntity);
+        customerReqRepository.deleteById(customerReqEntity.getNo());
     }
 
     public LocalDateTime findFirstReqDt() {

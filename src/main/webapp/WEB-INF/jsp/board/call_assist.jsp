@@ -372,6 +372,9 @@
 			$('#iframeService').children().remove();
 			$.get('/board/call_assist_inner.do?no='+no,function(html) {
 				$('#iframeService').append(html);
+                $('html, body').animate({
+                    scrollTop: $("#iframeService").offset().top
+                }, 300);
 			})
 		}
 	}
@@ -381,7 +384,6 @@
             $('#iframeService').children().remove();
             $('html, body').animate({scrollTop:0}, 'slow');
             redrawGridAndStat(); // 목록 및 통계 초기화
-            initDateRangePicker(); // 데이트 피커 초기화
         }
     });
 

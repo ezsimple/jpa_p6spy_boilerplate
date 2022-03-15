@@ -95,7 +95,6 @@
                       <div class="form-group">
                         <label>요청회사</label>
                         <select name="reqCompanyNo" class="form-control" }">
-                          <option value="001001" <c:if test="${view.progressCd == '001001' }">selected</c:if> >접수</option>
                           <c:forEach var="list" items="${companies}">
                             <option value="${list.no}" <c:if test="${view.reqCompanyNo == list.no }">selected</c:if>>${list.name}</option>
                           </c:forEach>

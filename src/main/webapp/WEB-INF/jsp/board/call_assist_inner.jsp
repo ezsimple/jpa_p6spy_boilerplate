@@ -17,6 +17,9 @@
                 No. ${view.no }
                 </c:if>
                 </h3>
+                <button id="innerBox" data-dismiss="alert" data-target="#closeablecard" type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -264,6 +267,12 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+    $('#innerBox').on('click', function(e) {
+        $('#innnerFrame').children().remove();
+        $('html, body').animate({scrollTop:0}, 'slow');
+        redrawGridAndStat(); // 목록 및 통계 초기화
+    })
 
 });
 </script>

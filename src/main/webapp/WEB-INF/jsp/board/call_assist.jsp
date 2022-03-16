@@ -136,7 +136,7 @@
           </div><!-- left column -->
         </div>
 
-        <div id="iframeService" class="row" style="padding-left:10px"></div> 
+        <div id="innnerFrame" class="row" style="padding-left:10px"></div>
 
           <div id="functionGuide" class="card card-default"> <!-- /.card-div start -->
               <div class="card-header">
@@ -392,11 +392,11 @@
 		const selectedRows = gridOptions.api.getSelectedRows();
 		if (selectedRows.length === 1) {
 			const no = selectedRows[0].no;
-			$('#iframeService').children().remove();
+			$('#innnerFrame').children().remove();
 			$.get('/board/call_assist_inner.do?no='+no,function(html) {
-				$('#iframeService').append(html);
+				$('#innnerFrame').append(html);
                 $('html, body').animate({
-                    scrollTop: $("#iframeService").offset().top
+                    scrollTop: $("#innnerFrame").offset().top
                 }, 300);
 			})
 		}
@@ -404,11 +404,12 @@
 
     $(document).keyup(function(e) {
         if (e.keyCode == 27) { // ESC키 입력시
-            $('#iframeService').children().remove();
+            $('#innnerFrame').children().remove();
             $('html, body').animate({scrollTop:0}, 'slow');
             redrawGridAndStat(); // 목록 및 통계 초기화
         }
     });
+
 
 	$('#filter').on('input', function(e) {
 		const value = e.target.value;

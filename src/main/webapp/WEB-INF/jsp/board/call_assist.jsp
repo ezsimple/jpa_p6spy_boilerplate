@@ -482,7 +482,7 @@
             percentProgress0, percentProgress1, percentProgress2, percentProgress3, percentProgress4, percentProgress5,
             percentComplete, percentRequest,
         } = stat;
-        console.log(stat);
+        // console.log(stat);
 
         $('#percentProgress0').text(percentProgress0);
         $('#percentProgress1').text(percentProgress1);
@@ -508,11 +508,11 @@
 	function redrawGridAndStat() {
 		const param = {};
 		$.post("/board/call_assist.do", param, function(data) {
-			console.log(data);
-			gridOptions.api.setRowData(data.rows);
+            const { rows, stat } = data;
+			// console.log(data);
+			gridOptions.api.setRowData(rows);
 
 			// 통계 그래프 그리기
-            const stat = data.stat;
             drawDashboard(stat);
 
 			if(tid) clearInterval(tid);

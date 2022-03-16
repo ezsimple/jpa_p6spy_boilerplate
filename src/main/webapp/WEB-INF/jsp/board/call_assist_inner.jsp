@@ -273,7 +273,6 @@ $(document).ready(function() {
     $('#innerBox').on('click', function(e) {
         $('#innnerFrame').children().remove();
         $('html, body').animate({scrollTop:0}, 'slow');
-        redrawGridAndStat(); // 목록 및 통계 초기화
     })
 
 });

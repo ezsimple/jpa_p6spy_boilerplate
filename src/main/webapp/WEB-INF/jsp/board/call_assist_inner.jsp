@@ -238,8 +238,9 @@ $(document).ready(function() {
 	    const target = $form.attr('action');
         const param = $form.serialize();
         $.post(target,param,function(data){
-		  redrawGridAndStat();
-		  $('#iframeService').children().remove();
+          $('#innnerFrame').children().remove();
+          $('html, body').animate({scrollTop:0}, 'slow');
+          redrawGridAndStat(); // 목록 및 통계 초기화
         });
 	});
 
@@ -268,6 +269,7 @@ $(document).ready(function() {
 		}
 	});
 
+    // close 버튼 클릭시 upper 함수 호출
     $('#innerBox').on('click', function(e) {
         $('#innnerFrame').children().remove();
         $('html, body').animate({scrollTop:0}, 'slow');

@@ -212,8 +212,9 @@ $(document).ready(function() {
 
 	// 조치사항 수정이므로, 조치내용에 로딩시 포커싱을 준다
 	// 단 textarea의 경우 글이 먼저 선택하여 포커싱을 맞춘다
-	const v = $('textarea[name=resContent]').val();
-	$('textarea[name=resContent]').select().val(v + '');
+    // - 조치내용에 자동 포커싱 처리하지 않도록 한다
+	// const v = $('textarea[name=resContent]').val();
+	// $('textarea[name=resContent]').select().val(v + '');
 
 	$('#btnSave').click(function(e) {
         e.preventDefault();

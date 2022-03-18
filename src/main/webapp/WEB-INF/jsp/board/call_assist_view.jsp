@@ -347,5 +347,11 @@ $(document).ready(function() {
       e.preventDefault();
 	  location.href='/board/call_assist.do';
 	});
+
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) { // ESC키 입력시
+            $('#btnList').trigger('click');
+        }
+    });
 });
 </script>

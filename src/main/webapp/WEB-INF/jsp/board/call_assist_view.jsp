@@ -277,7 +277,7 @@ function preventDoubleClick() {
 $(document).ready(function() {
 	$('.datemask').inputmask('yyyy-mm-dd', { 'placeholder': 'yyyy-mm-dd' })
 	$('[data-mask]').inputmask();
-	$('input[name="reqDate"]').focus();
+	// $('input[name="reqDate"]').focus();
 
 	$('#btnSave').click(function(e) {
         e.preventDefault();

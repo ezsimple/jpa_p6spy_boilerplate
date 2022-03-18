@@ -5,3 +5,6 @@ IMAGE_ID=$(docker images | grep my_pms | gawk '{ print $3 }')
 
 IMAGE=mkeasy/my_pms:v0.1 
 docker build -f Dockerfile -t ${IMAGE} .
+
+# docker run with env
+# docker run --env-file ./env.local mkeasy/my_pms:v0.1 env

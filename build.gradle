@@ -90,7 +90,7 @@ dependencies {
   runtimeOnly 'com.h2database:h2' // 서버모드로 사용하기 위해서는 runtimeOnly 를 compile 로 변경해야 합니다.
   runtimeOnly 'mysql:mysql-connector-java'
 
-  compileOnly 'org.json:json:20180813'
+  implementation 'org.json:json:20200518'
   implementation 'org.springframework.boot:spring-boot-starter-json'
 
   implementation 'org.mybatis:mybatis:3.5.2'

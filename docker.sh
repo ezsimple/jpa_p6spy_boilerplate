@@ -7,4 +7,5 @@ IMAGE=mkeasy/my_pms:v0.1
 docker build -f Dockerfile -t ${IMAGE} .
 
 # docker run with env
-# docker run --env-file ./env.local mkeasy/my_pms:v0.1 env
+# docker build -f Dockerfile -t mkeasy/my_pms:latest .
+# docker run --name my_pms -p 8000:8000 --env-file ./env.local mkeasy/my_pms:latest env

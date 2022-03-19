@@ -2,7 +2,7 @@
 <Configuration status="WARN" monitorInterval="30">
   <Properties>
     <Property name="LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%X{sessionID}] %-40.40c{2.} :%4.4L   %m%n</Property>
-    <Property name="BASE_DIR">/demo3/log</Property>
+    <Property name="BASE_DIR">/var/log</Property>
   </Properties>
 
   <Appenders>
